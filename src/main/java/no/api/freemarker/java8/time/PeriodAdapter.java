@@ -9,6 +9,11 @@ import freemarker.template.TemplateScalarModel;
 
 import java.time.Period;
 
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_DAYS;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_MONTHS;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_YEARS;
+
 public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
@@ -19,14 +24,14 @@ public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTem
 
     @Override
     public TemplateModel get(String s) throws TemplateModelException {
-        if ("days".equalsIgnoreCase(s)) {
+        if (METHOD_DAYS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getDays());
-        } else if ("months".equalsIgnoreCase(s)) {
+        } else if (METHOD_MONTHS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getMonths());
-        } else if ("years".equalsIgnoreCase(s)) {
+        } else if (METHOD_YEARS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getYears());
         }
-        throw new TemplateModelException("Unknown method call: " + s);
+        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
 }

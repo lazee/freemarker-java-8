@@ -5,7 +5,8 @@ import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.WrappingTemplateModel;
 
-public abstract class AbstractAdapter<E> extends WrappingTemplateModel
+public abstract class AbstractAdapter<E>
+        extends WrappingTemplateModel
         implements AdapterTemplateModel, TemplateHashModel {
 
     private E obj;

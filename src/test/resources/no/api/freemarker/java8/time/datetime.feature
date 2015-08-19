@@ -17,6 +17,15 @@ Feature: Test the date time functionality
         And Duration object for "PT15M"
         Then expect the template to return "PT15M"
 
+    Scenario: Test nano Duration use in template
+        Given a template "${obj.nano}"
+        And Duration object for "PT15M"
+        Then expect the template to return "0"
+
+    Scenario: Test seconds Duration use in template
+        Given a template "${obj.seconds}"
+        And Duration object for "PT15M"
+        Then expect the template to return "900"
 
     ### Instant ###
     Scenario: Test basic Instant use in template
@@ -72,6 +81,21 @@ Feature: Test the date time functionality
         Given a template "${obj}"
         And Period object for "P1Y2M3D"
         Then expect the template to return "P1Y2M3D"
+
+    Scenario: Test days Period use in template
+        Given a template "${obj.days}"
+        And Period object for "P1Y2M3D"
+        Then expect the template to return "3"
+
+    Scenario: Test moths Period use in template
+        Given a template "${obj.months}"
+        And Period object for "P1Y2M3D"
+        Then expect the template to return "2"
+
+    Scenario: Test years Period use in template
+        Given a template "${obj.years}"
+        And Period object for "P1Y2M3D"
+        Then expect the template to return "1"
 
     ### Year ###
     Scenario: Test basic Year use in template

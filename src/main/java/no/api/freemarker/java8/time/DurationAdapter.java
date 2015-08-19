@@ -9,6 +9,10 @@ import freemarker.template.TemplateScalarModel;
 
 import java.time.Duration;
 
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_NANO;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_SECONDS;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
+
 public class DurationAdapter extends AbstractAdapter<Duration> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
@@ -18,12 +22,12 @@ public class DurationAdapter extends AbstractAdapter<Duration> implements Adapte
 
     @Override
     public TemplateModel get(String s) throws TemplateModelException {
-        if ("nano".equalsIgnoreCase(s)) {
+        if (METHOD_NANO.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getNano());
-        } else if ("seconds".equalsIgnoreCase(s)) {
+        } else if (METHOD_SECONDS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getSeconds());
         }
-        throw new TemplateModelException("Unknown method call: " + s);
+        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
 }

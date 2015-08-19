@@ -12,6 +12,12 @@ import java.util.List;
 public final class DateTimeTools {
 
     public static final String METHOD_FORMAT = "format";
+    public static final String METHOD_DAYS = "days";
+    public static final String METHOD_MONTHS = "months";
+    public static final String METHOD_YEARS = "years";
+    public static final String METHOD_NANO = "nano";
+    public static final String METHOD_SECONDS = "seconds";
+
 
     public static final String METHOD_UNKNOWN_MSG = "Unknown method call: ";
     public static final String ILLEGAL_ZONE_ID_MSG = "Illegal Zone ID";

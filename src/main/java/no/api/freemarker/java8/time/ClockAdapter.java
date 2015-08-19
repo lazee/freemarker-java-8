@@ -13,9 +13,6 @@ import java.util.List;
 import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
 import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 
-/*
-    https://docs.oracle.com/javase/8/docs/api/java/time/Clock.html
- */
 public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
