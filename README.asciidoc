@@ -1,6 +1,6 @@
 # freemarker-java-8
 
-This is a tiny Java library that adds basic support the new Java 8 date/time api to FreeMarker.
+This is a tiny Java library that adds basic support for the new Java 8 date/time api to FreeMarker.
 Unfortunately FreeMarker doesn't support this, and there are no current plans for adding this either.
 Hopefully we will se this support soon, but in the meantime we need to find pragmatic ways around it.
  
