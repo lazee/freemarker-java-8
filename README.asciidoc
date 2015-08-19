@@ -12,3 +12,5 @@ anyone is interested. Please create an issue if you would like to contribute or 
 The library has basic support for all classes in the java.time api introduced in Java 8. This means that you are able
 to print their values within a template, and also format the output for those classes that supports formatting with the
 new +java.time.format.DateTimeFormatter+
+
+More documentation will be added soon.
