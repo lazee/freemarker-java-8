@@ -35,7 +35,7 @@ public class ZoneIdAdapter extends AbstractAdapter<ZoneId>
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
-    private class ZoneIdFormatter extends AbstractTextStyleLocaleFormatter<ZoneId> implements TemplateMethodModelEx {
+    public class ZoneIdFormatter extends AbstractTextStyleLocaleFormatter<ZoneId> implements TemplateMethodModelEx {
 
         public ZoneIdFormatter(ZoneId obj) {
             super(obj);

@@ -29,7 +29,7 @@ public class YearMonthAdapter extends AbstractAdapter<YearMonth> implements Adap
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
-    private class YearMonthFormatter extends AbstractFormatter<YearMonth> implements TemplateMethodModelEx {
+    public class YearMonthFormatter extends AbstractFormatter<YearMonth> implements TemplateMethodModelEx {
 
         public YearMonthFormatter(YearMonth obj) {
             super(obj);

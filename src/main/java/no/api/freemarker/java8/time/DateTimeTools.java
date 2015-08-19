@@ -14,6 +14,7 @@ public final class DateTimeTools {
     public static final String METHOD_FORMAT = "format";
 
     public static final String METHOD_UNKNOWN_MSG = "Unknown method call: ";
+    public static final String ILLEGAL_ZONE_ID_MSG = "Illegal Zone ID";
 
     private DateTimeTools() {
         throw new UnsupportedOperationException();
@@ -28,24 +29,22 @@ public final class DateTimeTools {
 
     public static DateTimeFormatter createDateTimeFormatter(List list, int index, final String defaultPattern) {
         return DateTimeFormatter.ofPattern(
-                list.size() > 0
+                list.size() > (index - 1)
                         ? ((SimpleScalar) list.get(index)).getAsString()
                         : defaultPattern);
     }
 
     public static ZoneId zoneIdLookup(List list, int index) throws TemplateModelException {
         ZoneId zoneId = Environment.getCurrentEnvironment().getTimeZone().toZoneId();
-        if (list.size() > 1) {
+        if (list.size() > (index - 1)) {
             String zoneIdString = ((SimpleScalar) list.get(index)).getAsString();
             try {
                 zoneId = ZoneId.of(zoneIdString);
             } catch (ZoneRulesException e) {
-                throw new TemplateModelException("Illegal Zone ID", e);
+                throw new TemplateModelException(ILLEGAL_ZONE_ID_MSG, e);
             }
         }
         return zoneId;
     }
-
-
 
 }

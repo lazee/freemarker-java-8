@@ -15,6 +15,7 @@ import no.api.freemarker.java8.time.OffsetDateTimeAdapter;
 import no.api.freemarker.java8.time.OffsetTimeAdapter;
 import no.api.freemarker.java8.time.PeriodAdapter;
 import no.api.freemarker.java8.time.YearAdapter;
+import no.api.freemarker.java8.time.YearMonthAdapter;
 import no.api.freemarker.java8.time.ZoneIdAdapter;
 import no.api.freemarker.java8.time.ZoneOffsetAdapter;
 import no.api.freemarker.java8.time.ZonedDateTimeAdapter;
@@ -30,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.Year;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -67,6 +69,8 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
             return new PeriodAdapter((Period) obj);
         } else if (obj instanceof Year) {
             return new YearAdapter((Year) obj);
+        } else if (obj instanceof YearMonth) {
+            return new YearMonthAdapter((YearMonth) obj);
         } else if (obj instanceof ZonedDateTime) {
             return new ZonedDateTimeAdapter((ZonedDateTime) obj);
         } else if (obj instanceof ZoneId) {
