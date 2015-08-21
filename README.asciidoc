@@ -1,11 +1,12 @@
 # freemarker-java-8
 
 This is a tiny Java library that adds basic support for the new Java 8 date/time api in FreeMarker.
-Unfortunately FreeMarker doesn't support formatting the output of these classes, and there are no current plans for adding this at the moment (http://freemarker.org/contribute.html).
+Unfortunately FreeMarker doesn't support formatting the output of these classes, and there are no current plans for
+adding this at the moment (http://freemarker.org/contribute.html).
 But hopefully we will se this support soon, but in the meantime we need to find pragmatic ways around it.
  
-If any intereset, we can make the library available in the Central Maven Repository. But this will only be done if 
-anyone is interested. Please create an issue if you would like to contribute or use the package.
+If anybody is interested, we can make the library available in the Central Maven Repository.
+But this will only be done upon request. Please create an issue if you would like to contribute or use the package.
  
 ## java.time support
 
