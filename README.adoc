@@ -1,4 +1,4 @@
-# freemarker-java8
+# freemarker-java-8
 
 This is a tiny Java library that adds basic format support for the new Java 8 date/time api in FreeMarker.
 Unfortunately FreeMarker doesn't support formatting these classes, and there are no implementations being worked on at the moment (http://freemarker.org/contribute.html).
@@ -24,7 +24,7 @@ like this:
 ----
 <dependency>
     <groupId>no.api.freemarker</groupId>
-    <artifactId>freemarker-java8</artifactId>
+    <artifactId>freemarker-java-8</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 </dependency>
 ----
