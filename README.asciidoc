@@ -49,8 +49,7 @@ to our date.time classes. Therefore you will see that the syntax we are using di
 All format methods uses the https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]
 for formatting.
 
-:valign: top
-
+[cols="^,^,^,^", options="header"]
 .java.time template methods
 |===
 | java.time class | methods | comment | example
