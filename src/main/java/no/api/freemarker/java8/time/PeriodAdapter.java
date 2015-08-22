@@ -33,11 +33,6 @@ import static no.api.freemarker.java8.time.DateTimeTools.METHOD_YEARS;
 /**
  * PeriodAdapter gives access to the days, months and years values in the wrapped {@link Period} object in FreeMarker
  * templates.
- *
- * <pre>
- *     I have a ${periodObject} with days ${periodObject.days()}, months ${periodObject.months()} and years
- * ${periodObject.years()}
- * </pre>
  */
 public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
