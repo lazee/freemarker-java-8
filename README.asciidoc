@@ -47,19 +47,82 @@ Since we are not allowed to add extra built in methods to FreeMarker we have to 
 to our date.time classes. Therefore you will see that the syntax we are using differs from the standard.
 
 
-.Table java.time template methods
+.java.time template methods
 |===
-| java.time class | methods | example
+| java.time class | methods | comment | example
 
-|Column 1, row 1
-|Column 2, row 1
-|Column 3, row 1
+|Clock
+|format()
+|This is a simple implementation where format just prints the toString() value of the object.
+|${myclock.format()}
 
-|Column 1, row 2
-|Column 2, row 2
-|Column 3, row 2
+|Duration
+|
+|This class works perfectly fine out of the box with FreeMarker since it doesn't have any format methods.
+|${myduration.seconds} ${myduration.nano}
 
-|Column 1, row 3
-|Column 2, row 3
-|Column 3, row 3
+|Instant
+|
+|
+|
+
+|LocalDate
+|
+|
+|
+
+|LocalDateTime
+|
+|
+|
+
+|LocalTime
+|
+|
+|
+
+|MonthDay
+|
+|
+|
+
+|OffsetDateTime
+|
+|
+|
+
+|OffsetTime
+|
+|
+|
+
+|Period
+|
+|
+|
+
+|Year
+|
+|
+|
+
+|YearMonth
+|
+|
+|
+
+|ZonedDateTime
+|
+|
+|
+
+|ZoneId
+|
+|
+|
+
+|ZoneOffset
+|
+|
+|
 |===
