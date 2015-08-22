@@ -1,17 +1,65 @@
-# freemarker-java-8
+# freemarker-java8
 
 This is a tiny Java library that adds basic support for the new Java 8 date/time api in FreeMarker.
 Unfortunately FreeMarker doesn't support formatting the output of these classes, and there are no current plans for
 adding this at the moment (http://freemarker.org/contribute.html).
 But hopefully we will se this support soon, but in the meantime we need to find pragmatic ways around it.
- 
-If anybody is interested, we can make the library available in the Central Maven Repository.
-But this will only be done upon request. Please create an issue if you would like to contribute or use the package.
- 
+
+The library has basic formatting support for all classes in the java.time api introduced in Java 8, using the
+new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter].
+
+## Requirements
+
+freemarker-java8 reqiures Java 8 or higher.
+
+## Installation
+
+freemarker-java-8 is not deployed to the Maven Central Repository. This can be done if anyone wants to use it. Just
+add a request in an issue, then we will do it within a reasonable amount of time.
+
+In the meantime, just clone the repo and run a ´mvn clean install´. Then you can include the package in your Maven POM
+like this:
+
+[source, xml]
+----
+<dependency>
+    <groupId>no.api.freemarker</groupId>
+    <artifactId>freemarker-java8</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+</dependency>
+----
+
+Make sure to replace the version with the current version found in the pom.
+
+## Usage
+
+You need to tell FreeMarker about this package by adding the Java8ObjectWrapper to the FreeMarker configuration.
+
+[source, java]
+----
+this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
+this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
+----
+
 ## java.time support
 
-The library has basic support for all classes in the java.time api introduced in Java 8. This means that you are able
-to print their values within a template, and also format the output for those classes that supports formatting with the
-new +java.time.format.DateTimeFormatter+
+Since we are not allowed to add extra built in methods to FreeMarker we have to cheat a little bit to add format methods
+to our date.time classes. Therefore you will see that the syntax we are using differs from the standard.
 
-More documentation will be added soon.
+
+.Table java.time template methods
+|===
+| java.time class | methods | example
+
+|Column 1, row 1
+|Column 2, row 1
+|Column 3, row 1
+
+|Column 1, row 2
+|Column 2, row 2
+|Column 3, row 2
+
+|Column 1, row 3
+|Column 2, row 3
+|Column 3, row 3
+|===
