@@ -6,9 +6,11 @@ Unfortunately FreeMarker doesn't support formatting these classes, and there are
 The library has basic formatting support for all classes in the java.time api introduced in Java 8, using the
 new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter].
 
+This is not a perfect solution as we cannot add built-ins to FreeMarker from outside code. But its the best we can do until FreeMarker adds full support in the future.
+
 ## Requirements
 
-freemarker-java8 reqiures Java 8 or higher.
+Java 8 or higher.
 
 ## Installation
 
