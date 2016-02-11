@@ -1,3 +1,10 @@
+---
+Team: Devops
+Stack: Java
+
+---
+<!--(Maintained Duplo labels above. Read more on http://info.api.no/handbook/guidelines/GitHub-guidelines.html)-->
+
 # freemarker-java-8
 
 This is a tiny Java library that adds basic format support for the new Java 8 date/time api in FreeMarker.
