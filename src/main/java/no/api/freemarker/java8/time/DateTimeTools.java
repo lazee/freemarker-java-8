@@ -60,7 +60,7 @@ public final class DateTimeTools {
                                                             int index,
                                                             final DateTimeFormatter defaultFormatter) {
         if (list.size() > 0) {
-            return DateTimeFormatter.ofPattern(((SimpleScalar) list.get(index)).getAsString());
+            return DateTimeFormatter.ofPattern(((SimpleScalar) list.get(index)).getAsString(), Environment.getCurrentEnvironment().getConfiguration().getLocale());
         }
         return defaultFormatter;
     }
@@ -83,7 +83,7 @@ public final class DateTimeTools {
         return DateTimeFormatter.ofPattern(
                 list.size() > index
                         ? ((SimpleScalar) list.get(index)).getAsString()
-                        : defaultPattern);
+                        : defaultPattern, Environment.getCurrentEnvironment().getConfiguration().getLocale());
     }
 
     /**
