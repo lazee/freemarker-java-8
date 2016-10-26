@@ -1,9 +1,3 @@
----
-Team: Devops
-Stack: Java
-Technology: v3-super-pom
----
-<!--(Maintained Duplo labels above. Read more on http://info.api.no/handbook/guidelines/GitHub-guidelines.html)-->
 
 # freemarker-java-8
 
