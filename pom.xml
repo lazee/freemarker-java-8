@@ -22,7 +22,7 @@
     <packaging>jar</packaging>
     <groupId>no.api.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>freemarker-java8</name>
     <description>This is a tiny Java library that adds basic format support for the new Java 8 date/time api in FreeMarker.</description>
     <url>http://github.com/amedia/freemarker-java-8</url>
