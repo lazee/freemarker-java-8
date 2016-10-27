@@ -4,8 +4,8 @@ You also need to configure a special settings.xml when releasing. Also ask Jakob
 
 Releasing Meteo:
 
-* mvn release:prepare
-* mvn release:perform
+* mvn -DperformRelease=true release:prepare
+* mvn -DperformRelease=true release:perform
 * Go to https://oss.sonatype.org/ and log in.
 * Click on staging repositories and find your release.
 * Click on the release and hit the close button, then the release button.
