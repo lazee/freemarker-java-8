@@ -12,6 +12,7 @@ This is not a perfect solution as we cannot add built-ins to FreeMarker from out
 ## Requirements
 
 Java 8 or higher.
+Tested on Freemarker 2.3.23, but should at least work fine for all 2.3.x versions. Please file an issue if you have problems with other versions.
 
 ## Installation
 
