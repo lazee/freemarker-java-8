@@ -17,7 +17,7 @@ Tested on Freemarker 2.3.23, but should at least work fine for all 2.3.x version
 ## Installation
 
 freemarker-java-8 is deployed to the Maven Central Repository. You can include the package in your Maven POM
-like this:
+like this :
 
 [source, xml]
 ----
