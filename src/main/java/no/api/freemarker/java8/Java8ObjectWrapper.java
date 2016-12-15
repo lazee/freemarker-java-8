@@ -89,10 +89,10 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
             return new YearMonthAdapter((YearMonth) obj);
         } else if (obj instanceof ZonedDateTime) {
             return new ZonedDateTimeAdapter((ZonedDateTime) obj);
-        } else if (obj instanceof ZoneId) {
-            return new ZoneIdAdapter((ZoneId) obj);
         } else if (obj instanceof ZoneOffset) {
             return new ZoneOffsetAdapter((ZoneOffset) obj);
+        } else if (obj instanceof ZoneId) {
+            return new ZoneIdAdapter((ZoneId) obj);
         }
         return super.handleUnknownType(obj);
     }
