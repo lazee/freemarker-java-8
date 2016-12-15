@@ -1,4 +1,4 @@
-In order to release this package you need a Sonatype account connected to the  roject. Contact Jakob for help on this.
+In order to release this package you need a Sonatype account connected to the project. Contact Jakob for help on this.
 
 You also need to configure a special settings.xml when releasing. Also ask Jakob about this.
 
