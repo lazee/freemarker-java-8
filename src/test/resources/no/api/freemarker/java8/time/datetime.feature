@@ -10,7 +10,6 @@ Feature: Test the date time functionality
         And Clock object for "2007-12-03T10:15:30.00Z"
         Then expect the template to return "FixedClock[2007-12-03T10:15:30Z,Europe/Oslo]"
 
-
     ### Duration ###
     Scenario: Test basic Duration use in template
         Given a template "${obj}"
@@ -33,13 +32,28 @@ Feature: Test the date time functionality
         And Instant object for "2007-12-03T10:15:30.00Z"
         Then expect the template to return "2007-12-03T10:15:30Z"
 
-
     ### LocalDate ###
     Scenario: Test basic LocalDate use in template
         Given a template "${obj}"
         And LocalDate object for "2007-12-03"
         Then expect the template to return "2007-12-03"
 
+    Scenario: Test LocalDate use in template with custom pattern
+        Given a template "${obj.format('EEEE d MMMM yyyy')}"
+        And LocalDate object for "2007-12-03"
+        Then expect the template to return "mandag 3 desember 2007"
+
+    Scenario: Test LocalDate use in template with custom pattern and german locale
+        Given an freemarker environment with locale set to "de-DE"
+        Given a template "${obj.format('EEEE d MMMM yyyy')}"
+        And LocalDate object for "2007-12-03"
+        Then expect the template to return "Montag 3 Dezember 2007"
+
+    Scenario: Test LocalDate use in template with custom pattern and arabic locale
+        Given an freemarker environment with locale set to "ar-DZ"
+        Given a template "${obj.format('EEEE d MMMM yyyy')}"
+        And LocalDate object for "2007-12-03"
+        Then expect the template to return "الاثنين 3 ديسمبر 2007"
 
     ### LocalDateTime ###
     Scenario: Test basic LocalDateTime use in template
@@ -47,6 +61,16 @@ Feature: Test the date time functionality
         And LocalDateTime object for "2007-12-03T10:15:30"
         Then expect the template to return "2007-12-03T10:15:30"
 
+    Scenario: Test basic LocalDateTime use in template with custom pattern
+        Given a template "${obj.format('EEEE d MMMM yyyy HH:mm:ss')}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "mandag 3 desember 2007 10:15:30"
+
+    Scenario: Test basic LocalDateTime use in template with custom pattern and romanian locale
+        Given an freemarker environment with locale set to "ro-RO"
+        Given a template "${obj.format('EEEE d MMMM yyyy HH:mm:ss')}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "luni 3 decembrie 2007 10:15:30"
 
     ### LocalTime ###
     Scenario: Test basic LocalTime use in template
@@ -54,13 +78,22 @@ Feature: Test the date time functionality
         And LocalTime object for "23:44"
         Then expect the template to return "23:44"
 
-
     ### MonthDay ###
     Scenario: Test basic MonthDay use in template
         Given a template "${obj}"
-        And MonthDay object for "--03-14"
-        Then expect the template to return "--03-14"
+        And MonthDay object for "--10-14"
+        Then expect the template to return "--10-14"
 
+    Scenario: Test basic MonthDay use in template with custom pattern
+        Given a template "${obj.format('MMMM')}"
+        And MonthDay object for "--10-14"
+        Then expect the template to return "oktober"
+
+    Scenario: Test basic MonthDay use in template with custom pattern and french locale
+        Given an freemarker environment with locale set to "fr-FR"
+        Given a template "${obj.format('MMMM')}"
+        And MonthDay object for "--10-14"
+        Then expect the template to return "octobre"
 
     ### OffsetDateTime ###
     Scenario: Test basic OffsetDateTime use in template
@@ -68,13 +101,22 @@ Feature: Test the date time functionality
         And OffsetDateTime object for "2007-12-03T10:15:30+01:00"
         Then expect the template to return "2007-12-03T10:15:30+01:00"
 
+    Scenario: Test basic OffsetDateTime use in template with custom pattern
+        Given a template "${obj.format('YYYY MMMM EEEE d HH:mm:ss Z')}"
+        And OffsetDateTime object for "2007-12-03T10:15:30+01:00"
+        Then expect the template to return "2007 desember mandag 3 10:15:30 +0100"
+
+    Scenario: Test basic OffsetDateTime use in template with custom pattern and finnish locale
+        Given an freemarker environment with locale set to "fi-FI"
+        Given a template "${obj.format('YYYY MMMM EEEE d HH:mm:ss Z')}"
+        And OffsetDateTime object for "2007-12-03T10:15:30+01:00"
+        Then expect the template to return "2007 joulukuuta maanantai 3 10:15:30 +0100"
 
     ### OffsetTime ###
     Scenario: Test basic OffsetTime use in template
         Given a template "${obj}"
         And OffsetTime object for "23:44+01:00"
         Then expect the template to return "23:44+01:00"
-
 
     ### Period ###
     Scenario: Test basic Period use in template
@@ -124,7 +166,6 @@ Feature: Test the date time functionality
         Then expect the template to return "2007 - 11"
 
     ### ZonedDateTime ###
-
     Scenario: Test basic ZonedDateTime use in template.
         Given a template "${obj}"
         And ZonedDateTime object for "2007-12-03T10:15:30+01:00[Europe/Paris]"
@@ -140,8 +181,13 @@ Feature: Test the date time functionality
         And ZonedDateTime object for "2007-12-03T16:15:30+07:00[Asia/Bangkok]"
         Then expect the template to return "2007-12-03 +0900"
 
-    ### ZoneId ###
+    Scenario: Test that using a preset ZonedDateTime inside a template will return the default time zone when a pattern and zone id is given and german locale
+        Given an freemarker environment with locale set to "de-DE"
+        Given a template "${obj.format('yyyy MMMM EEEE Z', 'Asia/Seoul')}"
+        And ZonedDateTime object for "2007-12-03T16:15:30+07:00[Asia/Bangkok]"
+        Then expect the template to return "2007 Dezember Montag +0900"
 
+    ### ZoneId ###
     Scenario: Test basic ZoneId use in template
         Given a template "${obj}"
         And a ZoneId object for 'Europe/Oslo'
@@ -154,7 +200,6 @@ Feature: Test the date time functionality
 
 
     ### ZoneOffset ###
-
     Scenario: Test basic ZoneOffset use in template
         Given a template "${obj}"
         And ZoneOffset object for "2"

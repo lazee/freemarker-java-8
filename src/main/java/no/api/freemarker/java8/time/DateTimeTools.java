@@ -24,6 +24,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.zone.ZoneRulesException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Helper methods and constants in use by the adapters.
@@ -60,9 +61,9 @@ public final class DateTimeTools {
                                                             int index,
                                                             final DateTimeFormatter defaultFormatter) {
         if (list.size() > 0) {
-            return DateTimeFormatter.ofPattern(((SimpleScalar) list.get(index)).getAsString());
+            return DateTimeFormatter.ofPattern(((SimpleScalar) list.get(index)).getAsString(), getLocale());
         }
-        return defaultFormatter;
+        return defaultFormatter.withLocale(getLocale());
     }
 
     /**
@@ -83,7 +84,7 @@ public final class DateTimeTools {
         return DateTimeFormatter.ofPattern(
                 list.size() > index
                         ? ((SimpleScalar) list.get(index)).getAsString()
-                        : defaultPattern);
+                        : defaultPattern, getLocale());
     }
 
     /**
@@ -111,6 +112,14 @@ public final class DateTimeTools {
             }
         }
         return zoneId;
+    }
+
+    private static Locale getLocale() {
+        if (Environment.getCurrentEnvironment() != null) {
+            return Environment.getCurrentEnvironment().getConfiguration().getLocale();
+        } else {
+            return Locale.getDefault();
+        }
     }
 
 }
