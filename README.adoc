@@ -9,7 +9,7 @@ new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter
 
 This is not a perfect solution as we cannot add built-ins to FreeMarker from outside code. But its the best we can do until FreeMarker adds full support in the future.
 
-Out Cucumber feature test spec will hopefully explain how it all works : https://github.com/amedia/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/datetime.feature
+Our Cucumber feature test spec will hopefully explain how it all works : https://github.com/amedia/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/datetime.feature
 
 ## Requirements
 
