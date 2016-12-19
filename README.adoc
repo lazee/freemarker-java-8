@@ -29,7 +29,7 @@ like this :
 ----
 
 Make sure to replace the version with the current version found in the pom.
-
+`
 ## Usage
 
 You need to tell FreeMarker about this package by adding the Java8ObjectWrapper to the FreeMarker configuration.
@@ -54,78 +54,78 @@ for formatting.
 | java.time class | methods | comment | example
 
 |Clock
-|format()
+|`format()`
 |This is a simple implementation where format just prints the toString() value of the object.
-|${myclock.format()}
+|`${myclock.format()}`
 
 |Duration
-|nano(), seconds()
+|`nano(), seconds()`
 |Gives access to the Duration values
-|${myduration.seconds}, ${myduration.nano}
+|`${myduration.seconds}, ${myduration.nano}`
 
 |Instant
-|format()
+|`format()`
 |This is a simple implementation where format just prints the toString() value of the object.
-|${myinstant.format()}
+|`${myinstant.format()}`
 
 |LocalDate
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a LocalDate on a default pattern or by providing a custom pattern.
-|${mylocaldate.format()} or ${mylocaldate.format('yyyy MM dd')}
+|`${mylocaldate.format()}` or `${mylocaldate.format('yyyy MM dd')}`
 
 |LocalDateTime
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a LocalDateTime on a default pattern or by providing a custom pattern.
-|${mylocaldatetime.format()} or ${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}
+|`${mylocaldatetime.format()}` or `${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}`
 
 |LocalTime
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a LocalTime on a default pattern or by providing a custom pattern.
-|${mylocaltime.format()} or ${mylocaltime.format('HH : mm : ss')}
+|`${mylocaltime.format()}` or `${mylocaltime.format('HH : mm : ss')}`
 
 |MonthDay
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a MonthDay on a default pattern or by providing a custom pattern.
-|${mymonthday.format()} or ${mymonthday.format('MM dd')}
+|`${mymonthday.format()}` or `${mymonthday.format('MM dd')}`
 
 |OffsetDateTime
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a OffsetDateTime on a default pattern or by providing a custom pattern.
-|${myoffsetdatetime.format()} or ${myoffsetdatetime.format('yyyy MM dd HH mm ss')}
+|`${myoffsetdatetime.format()}` or `${myoffsetdatetime.format('yyyy MM dd HH mm ss')}`
 
 |OffsetTime
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a OffsetTime on a default pattern or by providing a custom pattern.
-|${myoffsettime.format()} or ${myoffsettime.format('HH mm ss')}
+|`${myoffsettime.format()}` or `${myoffsettime.format('HH mm ss')}`
 
 |Period
-|days(), months(), years()
+|`days(), months(), years()`
 |Gives access to the values of the Period object.
-|${myperiod.days}, ${myperiod.months}, ${myperiod.years}
+|`${myperiod.days}, ${myperiod.months}, ${myperiod.years}`
 
 |Year
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a Year on a default pattern or by providing a custom pattern.
-|${myyear.format()} or ${myyear.format('yyyy')}
+|`${myyear.format()}` or `${myyear.format('yyyy')}`
 
 |YearMonth
-|format(), format(pattern)
+|`format(), format(pattern)`
 |Allows you to print a YearMonth on a default pattern or by providing a custom pattern.
-|${myyear.format()} or ${myyear.format('yyyy MM')}
+|`${myyear.format()}` or `${myyear.format('yyyy MM')}`
 
 |ZonedDateTime
-|format(), format(pattern), format(pattern, zoneId)
+|`format(), format(pattern), format(pattern, zoneId)`
 |Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern and timezone.
-|${myzoneddatetime.format()} or ${myzoneddatetime.format('yyyy-MM-dd Z')} or ${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}
+|`${myzoneddatetime.format()}` or `${myzoneddatetime.format('yyyy-MM-dd Z')}` or `${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}`
 
 |ZoneId
-|format(), format(textStyle), format(textstyle, locale)
+|`format(), format(textStyle), format(textstyle, locale)`
 |Prints the ZoneId display name. You can override the textstyle with one of these values
 [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
-|${myzoneid.format()} or ${myzoneid.format('short')} or ${myzoneid.format('short', 'no-NO')}
+|`${myzoneid.format()}` or `${myzoneid.format('short')}` or `${myzoneid.format('short', 'no-NO')}`
 
 |ZoneOffset
-|Prints the ZoneOffset display name. You can override the textstyle with one of these values
-[FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
-|${myzoneoffset.format()} or ${myzoneoffset.format('short')} or ${myzoneoffset.format('short', 'no-NO')}
+|`format(), format(textStyle)`
+|Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
+|${myzoneoffset.format()}` or `${myzoneoffset.format('short')}` or `${myzoneoffset.format('short', 'no-NO')}
 |===
