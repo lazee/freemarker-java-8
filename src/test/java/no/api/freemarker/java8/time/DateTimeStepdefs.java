@@ -32,6 +32,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import static freemarker.template.Configuration.*;
+
 public class DateTimeStepdefs {
 
     private final Configuration configuration;
@@ -41,8 +43,8 @@ public class DateTimeStepdefs {
     private Object obj;
 
     public DateTimeStepdefs() {
-        this.configuration = new Configuration();
-        this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
+        this.configuration = new Configuration(VERSION_2_3_23);
+        this.configuration.setObjectWrapper(new Java8ObjectWrapper(VERSION_2_3_23));
     }
 
     @Given("^ZonedDateTime object for \"([^\"]*)\"$")
