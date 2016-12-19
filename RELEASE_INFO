@@ -4,6 +4,8 @@ You also need to configure a special settings.xml when releasing. Also ask Jakob
 
 Releasing Meteo:
 
+* mvn -DperformRelease=true release:prepare -DdryRun=true
+* Check that the packages are signed (look for asm-files)
 * mvn -DperformRelease=true release:prepare
 * mvn -DperformRelease=true release:perform
 * Go to https://oss.sonatype.org/ and log in.
