@@ -2,7 +2,7 @@ In order to release this package you need a Sonatype account connected to the pr
 
 You also need to configure a special settings.xml when releasing. Also ask Jakob about this.
 
-Releasing Meteo:
+Release package:
 
 * mvn release:prepare
 * mvn release:perform
