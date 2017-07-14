@@ -31,6 +31,9 @@ import java.util.Locale;
  */
 public final class DateTimeTools {
 
+    public static final String METHOD_EQUALS = "isEqual";
+    public static final String METHOD_BEFORE = "isBefore";
+    public static final String METHOD_AFTER = "isAfter";
     public static final String METHOD_FORMAT = "format";
     public static final String METHOD_DAYS = "days";
     public static final String METHOD_MONTHS = "months";
