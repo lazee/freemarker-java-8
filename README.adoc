@@ -9,7 +9,7 @@ new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter
 
 This is not a perfect solution as we cannot add built-ins to FreeMarker from outside code. But its the best we can do until FreeMarker adds full support in the future.
 
-Out Cucumber feature test spec will hopefully explain how it all works : https://github.com/amedia/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/datetime.feature
+Out Cucumber feature test spec will hopefully explain how it all works : https://github.com/amedia/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/
 
 ## Requirements
 
@@ -131,3 +131,23 @@ for formatting.
 |Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
 |${myzoneoffset.format()}` or `${myzoneoffset.format('short')}` or `${myzoneoffset.format('short', 'no-NO')}
 |===
+
+[cols="^,^,^,^", options="header"]
+.java.time comparison methods
+|===
+| java.time class | methods | comment | example
+
+|LocalDate
+|`isEqual(<LocalDate object>), isAfter(<LocalDate object>), isBefore(<LocalDate object>)`
+|Can compare two LocalDate objects for equality.
+|`${localDate.isEqual(anotherlocalDate)} or ${localDate.isAfter(anotherlocalDate)} or ${localDate.isBefore(anotherlocalDate)}`
+
+|LocalDateTime
+|`isEqual(<LocalDateTime object>), isAfter(<LocalDateTime object>), isBefore(<LocalDateTime object>)`
+|Can compare two LocalDateTime objects for equality.
+|`${localDateTime.isEqual(anotherlocalDateTime)} or ${localDateTime.isAfter(anotherlocalDateTime)} or ${localDateTime.isBefore(anotherlocalDateTime)}`
+
+|LocalTime
+|`isEqual(<LocalTime object>), isAfter(<LocalTime object>), isBefore(<LocalTime object>)`
+|Can compare two LocalTime objects for equality.
+|`${localTime.isEqual(anotherlocalTime)} or ${localTime.isAfter(anotherlocalTime)} or ${localTime.isBefore(anotherlocalTime)}`

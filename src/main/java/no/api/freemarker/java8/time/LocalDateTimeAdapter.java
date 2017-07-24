@@ -70,6 +70,7 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
             this.method = method;
         }
 
+        @SuppressWarnings("Duplicates")
         @Override
         public Object exec(List list) throws TemplateModelException {
             LocalDateTimeAdapter adapter = (LocalDateTimeAdapter) list.get(0);

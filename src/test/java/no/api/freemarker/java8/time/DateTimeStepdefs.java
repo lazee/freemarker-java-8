@@ -42,6 +42,8 @@ public class DateTimeStepdefs {
 
     private Object obj;
 
+    private Object obj2;
+
     public DateTimeStepdefs() {
         this.configuration = new Configuration(VERSION_2_3_23);
         this.configuration.setObjectWrapper(new Java8ObjectWrapper(VERSION_2_3_23));
@@ -89,9 +91,28 @@ public class DateTimeStepdefs {
         }
     }
 
+    @Then("^expect the template to return true$")
+    public void expect_the_template_to_true() throws Throwable {
+        Writer out = process("true");
+        if (!"true".equals(out.toString())) {
+            Assert.fail("Expected 'true', but got '" + out.toString());
+        }
+    }
+
+    @Then("^expect the template to return false$")
+    public void expect_the_template_to_false() throws Throwable {
+        Writer out = process("false");
+        if (!"false".equals(out.toString())) {
+            Assert.fail("Expected 'false', but got '" + out.toString());
+        }
+    }
+
     private Writer process(String res) throws IOException, TemplateException {
         Map<String, Object> map = new HashMap<>();
         map.put("obj", obj);
+        if (obj2 != null) {
+            map.put("obj2", obj2);
+        }
         Template t = new Template("name", new StringReader(template), configuration);
         Writer out = new StringWriter();
         t.process(map, out);
@@ -137,14 +158,29 @@ public class DateTimeStepdefs {
         obj = LocalDate.parse(arg1);
     }
 
+    @Given("^LocalDate object2 for \"([^\"]*)\"$")
+    public void localdate_object2_for(String arg1) throws Throwable {
+        obj2 = LocalDate.parse(arg1);
+    }
+
     @Given("^LocalDateTime object for \"([^\"]*)\"$")
     public void localdatetime_object_for(String arg1) throws Throwable {
         obj = LocalDateTime.parse(arg1);
     }
 
+    @Given("^LocalDateTime object2 for \"([^\"]*)\"$")
+    public void localdatetime_object2_for(String arg1) throws Throwable {
+        obj2 = LocalDateTime.parse(arg1);
+    }
+
     @Given("^LocalTime object for \"([^\"]*)\"$")
     public void localtime_object_for(String arg1) throws Throwable {
         obj = LocalTime.parse(arg1);
+    }
+
+    @Given("^LocalTime object2 for \"([^\"]*)\"$")
+    public void localtime_object2_for(String arg1) throws Throwable {
+        obj2 = LocalTime.parse(arg1);
     }
 
     @Given("^MonthDay object for \"([^\"]*)\"$")
