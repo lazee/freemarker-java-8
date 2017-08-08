@@ -1,5 +1,10 @@
 # Change Log
 
+## [freemarker-java8-1.1.6](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.1.6) (2017-07-24)
+[Full Changelog](https://github.com/amedia/freemarker-java-8/compare/freemarker-java8-1.1.5...freemarker-java8-1.1.6)
+
+- Added isEqual, isAfter and isBefore methods to adapters for LocalDate, LocalDateTime and Localtime (Code contributed by @kingmaoam)
+
 ## [freemarker-java8-1.1.5](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.1.5) (2016-12-19)
 [Full Changelog](https://github.com/amedia/freemarker-java-8/compare/freemarker-java8-1.1.4...freemarker-java8-1.1.5)
 

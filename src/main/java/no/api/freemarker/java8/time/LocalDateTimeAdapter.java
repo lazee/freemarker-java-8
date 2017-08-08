@@ -27,9 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter;
+import static no.api.freemarker.java8.time.DateTimeTools.*;
 
 /**
  * LocalDateTimeAdapter adds basic format support for {@link LocalDateTime} too FreeMarker 2.3.23 and above.
@@ -46,6 +44,8 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
     public TemplateModel get(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new LocalDateTimeFormatter(getObject());
+        } else if(METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
+            return new LocalDateTimeChecker(getObject(), s);
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
@@ -59,6 +59,30 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
         @Override
         public Object exec(List list) throws TemplateModelException {
             return getObject().format(createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        }
+    }
+
+    public class LocalDateTimeChecker extends AbstractChecker<LocalDateTime> implements TemplateMethodModelEx {
+        private String method;
+
+        public LocalDateTimeChecker(LocalDateTime obj, String method) {
+            super(obj);
+            this.method = method;
+        }
+
+        @SuppressWarnings("Duplicates")
+        @Override
+        public Object exec(List list) throws TemplateModelException {
+            LocalDateTimeAdapter adapter = (LocalDateTimeAdapter) list.get(0);
+            switch(method) {
+                case METHOD_EQUALS:
+                    return getObject().isEqual(adapter.getObject());
+                case METHOD_AFTER:
+                    return getObject().isAfter(adapter.getObject());
+                case METHOD_BEFORE:
+                    return getObject().isBefore(adapter.getObject());
+            }
+            throw new TemplateModelException("method not implemented");
         }
     }
 }
