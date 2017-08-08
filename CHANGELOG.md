@@ -1,5 +1,12 @@
 # Change Log
 
+## [freemarker-java8-1.2.0](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.2.0) (2017-08-08)
+[Full Changelog](https://github.com/amedia/freemarker-java-8/compare/freemarker-java8-1.1.6...freemarker-java8-1.2.0)
+
+- Fixed formatter bug reported and fixed by @tifoha (https://github.com/amedia/freemarker-java-8/commit/92d1e7d6f0310d946b516cb008479e5de427dca6)
+- Added support for isEqual, isAfter and isBefore as suggested by @kingmaoam. (https://github.com/amedia/freemarker-java-8/pull/10/files)
+
+
 ## [freemarker-java8-1.1.6](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.1.6) (2017-07-24)
 [Full Changelog](https://github.com/amedia/freemarker-java-8/compare/freemarker-java8-1.1.5...freemarker-java8-1.1.6)
 
