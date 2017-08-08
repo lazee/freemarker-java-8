@@ -58,7 +58,7 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
 
         @Override
         public Object exec(List list) throws TemplateModelException {
-            return getObject().format(createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+            return getObject().format(createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
     }
 
