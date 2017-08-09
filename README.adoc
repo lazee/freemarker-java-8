@@ -34,7 +34,7 @@ Make sure to replace the version with the current version found in the pom.
 
 ## Usage
 
-You need to tell FreeMarker about this package by adding the Java8ObjectWrapper to the FreeMarker configuration.
+You need to configure FreeMarker with our package by adding the `Java8ObjectWrapper`.
 
 [source, java]
 ----
