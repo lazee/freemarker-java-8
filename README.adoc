@@ -42,6 +42,34 @@ this.configuration = new Configuration(); // Or get the configuration from your 
 this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
 ----
 
+### Usage within Spring
+
+An example on how to do the configuration within your Spring configuration class:
+
+[source, java]
+----
+import no.api.freemarker.java8.Java8ObjectWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
+
+@Configuration
+public class FreemarkerConfig extends FreeMarkerAutoConfiguration.FreeMarkerWebConfiguration {
+
+    @Autowired
+    private freemarker.template.Configuration configuration;
+
+    @PostConstruct
+    public void postConstruct() {
+        configuration.setObjectWrapper(
+                new Java8ObjectWrapper(freemarker.template.Configuration.getVersion())); // VERSION_2_3_26
+    }
+
+}
+----
+
 ## java.time support
 
 Since we are not allowed to add extra built in methods to FreeMarker we have to cheat a little bit to add format methods
