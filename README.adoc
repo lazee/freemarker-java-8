@@ -44,7 +44,7 @@ this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION
 
 ### Usage within Spring
 
-An example on how to do the configuration within your Spring configuration class:
+Within a Spring project you can add this configuration class to your project:
 
 [source, java]
 ----
