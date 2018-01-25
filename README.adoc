@@ -1,14 +1,11 @@
 
 # Java8 Date/Time Support For FreeMarker image:https://travis-ci.org/amedia/freemarker-java-8.svg?branch=master["Build Status", link="https://travis-ci.org/amedia/freemarker-java-8"]
 
-This is a tiny Java library that adds basic support for the new Java 8 date/time api to FreeMarker.
-Unfortunately FreeMarker doesn't support formatting these classes, and there's no implementations being worked on at the moment (http://freemarker.org/contribute.html).
+This is a tiny Java library that adds basic support for the new Java 8 date/time api to FreeMarker. Its not a perfect solution as we cannot add built-ins to FreeMarker from external code. Hopefully FreeMarker will add native support in the future, but there are no implementation being worked on at the moment (http://freemarker.org/contribute.html).
 
 The library has basic formatting support for all classes in the java.time api introduced in Java 8, using the
 new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]. We have also introduced som comparison methods.
-
-Its not a perfect solution as we cannot add built-ins to FreeMarker from external code. But its the best we can do until FreeMarker adds full support in the future.
-
+ 
 Take a look at our feature test spec too see how it all works : https://github.com/amedia/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/
 
 ## Requirements
@@ -72,8 +69,7 @@ public class FreemarkerConfig extends FreeMarkerAutoConfiguration.FreeMarkerWebC
 
 ## java.time support
 
-Since we are not allowed to add extra built in methods to FreeMarker we have to cheat a little bit to add format methods
-to our date.time classes. Therefore you will see that the syntax we are using differs from the standard.
+We had to cheat a little bit to add format methods to our date.time classes. This is why you will see that our syntax differs from the default FreeMarker built-ins.
 
 All format methods uses the https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]
 for formatting.
