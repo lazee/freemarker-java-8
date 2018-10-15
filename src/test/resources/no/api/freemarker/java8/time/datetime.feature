@@ -82,6 +82,27 @@ Feature: Test the date time functionality
         And LocalDateTime object for "2007-12-03T10:15:30"
         Then expect the template to return "mandag 3 desember 2007 10:15:30"
 
+    Scenario: Test basic LocalDateTime use in template with LONG_DATE
+        Given an freemarker environment with locale set to "no-No"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.format('LONG_DATE')}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "3. desember 2007"
+
+    Scenario: Test basic LocalDateTime use in template with MEDIUM_DATETIME
+        Given an freemarker environment with locale set to "no-No"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.format('MEDIUM_DATETIME')}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "03.des.2007 10:15:30"
+
+    Scenario: Test basic LocalDateTime use in template with SHORT_TIME
+        Given an freemarker environment with locale set to "no-No"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.format('SHORT_TIME')}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "10:15"
+
     Scenario: Test basic LocalDateTime use in template with custom pattern and romanian locale
         Given an freemarker environment with locale set to "ro-RO"
         And timezone set to "Europe/Oslo"

@@ -96,18 +96,18 @@ for formatting.
 
 |LocalDate
 |`format(), format(pattern)`
-|Allows you to print a LocalDate on a default pattern or by providing a custom pattern.
-|`${mylocaldate.format()}` or `${mylocaldate.format('yyyy MM dd')}`
+|Allows you to print a LocalDate on a default pattern, by providing a custom pattern or a builtin format style.
+|`${mylocaldate.format()}`, `${mylocaldate.format('yyyy MM dd')}` or `${mylocaldate.format('FULL_DATE')}`
 
 |LocalDateTime
 |`format(), format(pattern)`
-|Allows you to print a LocalDateTime on a default pattern or by providing a custom pattern.
-|`${mylocaldatetime.format()}` or `${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}`
+|Allows you to print a LocalDateTime on a default pattern, by providing a custom pattern or a builtin format style.
+|`${mylocaldatetime.format()}`, `${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}` or `${mylocaldatetime.format('MEDIUM_DATETIME')}`
 
 |LocalTime
 |`format(), format(pattern)`
-|Allows you to print a LocalTime on a default pattern or by providing a custom pattern.
-|`${mylocaltime.format()}` or `${mylocaltime.format('HH : mm : ss')}`
+|Allows you to print a LocalTime on a default pattern, by providing a custom pattern or a builtin format style.
+|`${mylocaltime.format()}`, `${mylocaltime.format('HH : mm : ss')}` or `${mylocaltime.format('SHORT_TIME')}`
 
 |MonthDay
 |`format(), format(pattern)`
@@ -116,13 +116,13 @@ for formatting.
 
 |OffsetDateTime
 |`format(), format(pattern)`
-|Allows you to print a OffsetDateTime on a default pattern or by providing a custom pattern.
-|`${myoffsetdatetime.format()}` or `${myoffsetdatetime.format('yyyy MM dd HH mm ss')}`
+|Allows you to print a OffsetDateTime on a default pattern, by providing a custom pattern or a builtin format style.
+|`${myoffsetdatetime.format()}`, `${myoffsetdatetime.format('yyyy MM dd HH mm ss')}` or `${myoffsetdatetime.format('FULL_DATETIME')}`
 
 |OffsetTime
 |`format(), format(pattern)`
-|Allows you to print a OffsetTime on a default pattern or by providing a custom pattern.
-|`${myoffsettime.format()}` or `${myoffsettime.format('HH mm ss')}`
+|Allows you to print a OffsetTime on a default pattern, by providing a custom pattern or a builtin format style.
+|`${myoffsettime.format()}`, `${myoffsettime.format('HH mm ss')}` or `${myoffsettime.format('MEDIUM_TIME')}`
 
 |Period
 |`days(), months(), years()`
@@ -141,7 +141,7 @@ for formatting.
 
 |ZonedDateTime
 |`format(), format(pattern), format(pattern, zoneId)`
-|Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern and timezone.
+|Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern.
 |`${myzoneddatetime.format()}` or `${myzoneddatetime.format('yyyy-MM-dd Z')}` or `${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}`
 
 |ZoneId

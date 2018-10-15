@@ -64,7 +64,22 @@ public final class DateTimeTools {
                                                             int index,
                                                             final DateTimeFormatter defaultFormatter) {
         if (list.size() > 0) {
-            return DateTimeFormatter.ofPattern(((SimpleScalar) list.get(index)).getAsString(), getLocale());
+            String format = ((SimpleScalar) list.get(index)).getAsString();
+            ExtFormatStyle style = getFormatStyle(format);
+
+            if(style == null) {
+                return DateTimeFormatter.ofPattern(format, getLocale());
+            } else {
+                DateTimeFormatter formatter;
+                if(style.withDate && style.withTime) {
+                    formatter = DateTimeFormatter.ofLocalizedDateTime(style.javaFormatStyle);
+                } else if(style.withDate) {
+                    formatter = DateTimeFormatter.ofLocalizedDate(style.javaFormatStyle);
+                } else {
+                    formatter = DateTimeFormatter.ofLocalizedTime(style.javaFormatStyle);
+                }
+                return formatter.withLocale(getLocale());
+            }
         }
         return defaultFormatter.withLocale(getLocale());
     }
@@ -122,6 +137,14 @@ public final class DateTimeTools {
             return Environment.getCurrentEnvironment().getLocale();
         } else {
             return Locale.getDefault();
+        }
+    }
+
+    private static ExtFormatStyle getFormatStyle(String format) {
+        try {
+            return ExtFormatStyle.valueOf(format);
+        } catch(IllegalArgumentException | NullPointerException ex) {
+            return null;
         }
     }
 
