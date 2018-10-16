@@ -35,13 +35,13 @@ You need to configure FreeMarker with our package by adding the `Java8ObjectWrap
 
 [source, java]
 ----
-this.cfg = new Configuration(); // Or get the cfg from your framework like DropWizard or Spring Boot.
-this.cfg.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
+this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
+this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
 ----
 
 ### Usage within Spring
 
-Within a Spring project you can add this cfg class to your project:
+Within a Spring project you can add this configuration class to your project:
 
 [source, java]
 ----
@@ -56,11 +56,11 @@ import javax.annotation.PostConstruct;
 public class FreemarkerConfig extends FreeMarkerAutoConfiguration.FreeMarkerWebConfiguration {
 
     @Autowired
-    private freemarker.template.Configuration cfg;
+    private freemarker.template.Configuration configuration;
 
     @PostConstruct
     public void postConstruct() {
-        cfg.setObjectWrapper(
+        configuration.setObjectWrapper(
                 new Java8ObjectWrapper(freemarker.template.Configuration.getVersion())); // VERSION_2_3_26
     }
 
