@@ -16,6 +16,7 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.core.Environment;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -23,6 +24,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import no.api.freemarker.java8.config.Configuration;
+import no.api.freemarker.java8.config.TimeZoneStrategy;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -56,8 +58,15 @@ public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> impleme
             super(obj);
         }
 
+        private ZoneId getDefaultZoneId() {
+            if (getConfiguration().getDefaultTimeZoneStrategy() == TimeZoneStrategy.SYSTEM) {
+                return Environment.getCurrentEnvironment().getTimeZone().toZoneId();
+            }
+            return getObject().getZone();
+        }
+
         public Object exec(List list) throws TemplateModelException {
-            ZoneId zoneId = DateTimeTools.zoneIdLookup(list, 1);
+            ZoneId zoneId = DateTimeTools.zoneIdLookup(list, 1, getDefaultZoneId());
             if (isDifferentTimeZoneRequested(zoneId)) {
                 return getObject().withZoneSameInstant(zoneId).format(
                         createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_ZONED_DATE_TIME));

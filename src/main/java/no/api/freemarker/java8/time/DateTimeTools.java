@@ -67,13 +67,13 @@ public final class DateTimeTools {
             String format = ((SimpleScalar) list.get(index)).getAsString();
             ExtFormatStyle style = getFormatStyle(format);
 
-            if(style == null) {
+            if (style == null) {
                 return DateTimeFormatter.ofPattern(format, getLocale());
             } else {
                 DateTimeFormatter formatter;
-                if(style.withDate && style.withTime) {
+                if (style.withDate && style.withTime) {
                     formatter = DateTimeFormatter.ofLocalizedDateTime(style.javaFormatStyle);
-                } else if(style.withDate) {
+                } else if (style.withDate) {
                     formatter = DateTimeFormatter.ofLocalizedDate(style.javaFormatStyle);
                 } else {
                     formatter = DateTimeFormatter.ofLocalizedTime(style.javaFormatStyle);
@@ -112,6 +112,8 @@ public final class DateTimeTools {
      *         A list of Strings containing the String representation of the ZoneId.
      * @param index
      *         The index on where in the list the ZoneId string is located.
+     * @param defaultZoneId
+     *         The default zone id to use if not given by user
      *
      * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, then the default
      * FreeMarker ZoneId will be returned.
@@ -119,8 +121,8 @@ public final class DateTimeTools {
      * @throws TemplateModelException
      *         If Illegal ZoneId string was found in the list.
      */
-    public static ZoneId zoneIdLookup(List list, int index) throws TemplateModelException {
-        ZoneId zoneId = Environment.getCurrentEnvironment().getTimeZone().toZoneId();
+    public static ZoneId zoneIdLookup(List list, int index, ZoneId defaultZoneId) throws TemplateModelException {
+        ZoneId zoneId = defaultZoneId;
         if (list.size() > index) {
             String zoneIdString = ((SimpleScalar) list.get(index)).getAsString();
             try {
@@ -143,7 +145,7 @@ public final class DateTimeTools {
     private static ExtFormatStyle getFormatStyle(String format) {
         try {
             return ExtFormatStyle.valueOf(format);
-        } catch(IllegalArgumentException | NullPointerException ex) {
+        } catch (IllegalArgumentException | NullPointerException ex) {
             return null;
         }
     }
