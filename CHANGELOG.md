@@ -17,7 +17,7 @@ Note: As we had some issues with the 1.1.6 deployment, the changelig for this re
 ## [freemarker-java8-1.1.5](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.1.5) (2016-12-19)
 [Full Changelog](https://github.com/amedia/freemarker-java-8/compare/freemarker-java8-1.1.4...freemarker-java8-1.1.5)
 
-- OBS! Fixed bug that made the DateTimeFormatter use the default VM Locale instead of the Locale from the Freemarker cfg. [\#PR8](https://github.com/amedia/freemarker-java-8/pull/8).
+- OBS! Fixed bug that made the DateTimeFormatter use the default VM Locale instead of the Locale from the Freemarker configuration. [\#PR8](https://github.com/amedia/freemarker-java-8/pull/8).
 
 ## [freemarker-java8-1.1.4](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.1.4) (2016-12-15)
 [Full Changelog](https://github.com/amedia/freemarker-java-8/compare/freemarker-java8-1.1.2...freemarker-java8-1.1.4)
