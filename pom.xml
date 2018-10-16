@@ -141,12 +141,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
-                    <configuration>
+                    <cfg>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <useReleaseProfile>true</useReleaseProfile>
                         <releaseProfiles>release</releaseProfiles>
                         <goals>deploy</goals>
-                    </configuration>
+                    </cfg>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

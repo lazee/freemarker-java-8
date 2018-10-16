@@ -20,6 +20,8 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.Version;
+import no.api.freemarker.java8.config.Configuration;
+import no.api.freemarker.java8.config.ConfigurationBuilder;
 import no.api.freemarker.java8.time.ClockAdapter;
 import no.api.freemarker.java8.time.DurationAdapter;
 import no.api.freemarker.java8.time.InstantAdapter;
@@ -57,42 +59,50 @@ import java.time.ZonedDateTime;
  */
 public class Java8ObjectWrapper extends DefaultObjectWrapper {
 
+    private final Configuration cfg;
+
     public Java8ObjectWrapper(Version incompatibleImprovements) {
         super(incompatibleImprovements);
+        this.cfg = ConfigurationBuilder.create().build();
+    }
+
+    public Java8ObjectWrapper(Version incompatibleImprovements, Configuration cfg) {
+        super(incompatibleImprovements);
+        this.cfg = cfg;
     }
 
     @Override
     protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {
         if (obj instanceof Clock) {
-            return new ClockAdapter((Clock) obj);
+            return new ClockAdapter((Clock) obj, cfg);
         } else if (obj instanceof Duration) {
-            return new DurationAdapter((Duration) obj);
+            return new DurationAdapter((Duration) obj, cfg);
         } else if (obj instanceof Instant) {
-            return new InstantAdapter((Instant) obj);
+            return new InstantAdapter((Instant) obj, cfg);
         } else if (obj instanceof LocalDate) {
-            return new LocalDateAdapter((LocalDate) obj);
+            return new LocalDateAdapter((LocalDate) obj, cfg);
         } else if (obj instanceof LocalDateTime) {
-            return new LocalDateTimeAdapter((LocalDateTime) obj);
+            return new LocalDateTimeAdapter((LocalDateTime) obj, cfg);
         } else if (obj instanceof LocalTime) {
-            return new LocalTimeAdapter((LocalTime) obj);
+            return new LocalTimeAdapter((LocalTime) obj, cfg);
         } else if (obj instanceof MonthDay) {
-            return new MonthDayAdapter((MonthDay) obj);
+            return new MonthDayAdapter((MonthDay) obj, cfg);
         } else if (obj instanceof OffsetDateTime) {
-            return new OffsetDateTimeAdapter((OffsetDateTime) obj);
+            return new OffsetDateTimeAdapter((OffsetDateTime) obj, cfg);
         } else if (obj instanceof OffsetTime) {
-            return new OffsetTimeAdapter((OffsetTime) obj);
+            return new OffsetTimeAdapter((OffsetTime) obj, cfg);
         } else if (obj instanceof Period) {
-            return new PeriodAdapter((Period) obj);
+            return new PeriodAdapter((Period) obj, cfg);
         } else if (obj instanceof Year) {
-            return new YearAdapter((Year) obj);
+            return new YearAdapter((Year) obj, cfg);
         } else if (obj instanceof YearMonth) {
-            return new YearMonthAdapter((YearMonth) obj);
+            return new YearMonthAdapter((YearMonth) obj, cfg);
         } else if (obj instanceof ZonedDateTime) {
-            return new ZonedDateTimeAdapter((ZonedDateTime) obj);
+            return new ZonedDateTimeAdapter((ZonedDateTime) obj, cfg);
         } else if (obj instanceof ZoneOffset) {
-            return new ZoneOffsetAdapter((ZoneOffset) obj);
+            return new ZoneOffsetAdapter((ZoneOffset) obj, cfg);
         } else if (obj instanceof ZoneId) {
-            return new ZoneIdAdapter((ZoneId) obj);
+            return new ZoneIdAdapter((ZoneId) obj, cfg);
         }
         return super.handleUnknownType(obj);
     }

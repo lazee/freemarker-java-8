@@ -22,6 +22,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Configuration;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -38,8 +39,8 @@ import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter
 public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public ZonedDateTimeAdapter(ZonedDateTime obj) {
-        super(obj);
+    public ZonedDateTimeAdapter(ZonedDateTime obj, Configuration cfg) {
+        super(obj, cfg);
     }
 
     public TemplateModel get(String s) throws TemplateModelException {

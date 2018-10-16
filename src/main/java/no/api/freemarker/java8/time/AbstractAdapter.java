@@ -20,6 +20,7 @@ import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.WrappingTemplateModel;
+import no.api.freemarker.java8.config.Configuration;
 
 /**
  * Abstract adapter used as a basis for all the other TemplateModel implementations in this package.
@@ -33,8 +34,11 @@ public abstract class AbstractAdapter<E>
 
     private E obj;
 
-    public AbstractAdapter(E obj) {
+    private Configuration cfg;
+
+    public AbstractAdapter(E obj, Configuration cfg) {
         this.obj = obj;
+        this.cfg = cfg;
     }
 
     public String getAsString() throws TemplateModelException {
@@ -53,5 +57,9 @@ public abstract class AbstractAdapter<E>
 
     public E getObject() {
         return obj;
+    }
+
+    public Configuration getConfiguration() {
+        return cfg;
     }
 }

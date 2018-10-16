@@ -22,6 +22,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Configuration;
 
 import java.time.ZoneOffset;
 import java.util.List;
@@ -35,8 +36,8 @@ import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 public class ZoneOffsetAdapter extends AbstractAdapter<ZoneOffset> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public ZoneOffsetAdapter(ZoneOffset obj) {
-        super(obj);
+    public ZoneOffsetAdapter(ZoneOffset obj, Configuration cfg) {
+        super(obj, cfg);
     }
 
     @Override

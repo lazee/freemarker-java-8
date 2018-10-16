@@ -22,6 +22,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Configuration;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,8 +38,8 @@ import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter
 public class OffsetDateTimeAdapter extends AbstractAdapter<OffsetDateTime> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public OffsetDateTimeAdapter(OffsetDateTime obj) {
-        super(obj);
+    public OffsetDateTimeAdapter(OffsetDateTime obj, Configuration cfg) {
+        super(obj, cfg);
     }
 
     @Override
