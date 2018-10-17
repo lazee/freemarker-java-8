@@ -1,7 +1,7 @@
 
 # Java8 Date/Time Support For FreeMarker image:https://travis-ci.org/amedia/freemarker-java-8.svg?branch=master["Build Status", link="https://travis-ci.org/amedia/freemarker-java-8"]
 
-This is a tiny Java library that adds basic support for the new Java 8 date/time api to FreeMarker. Its not a perfect solution as we cannot add built-ins to FreeMarker from external code. Hopefully FreeMarker will add native support in the future, but there are no implementation being worked on at the moment (http://freemarker.org/contribute.html).
+This is a tiny Java library that adds basic support for the new Java 8 date/time api to FreeMarker. It is not a perfect solution as FreeMarker doesn't support adding custom built-ins. Hopefully FreeMarker will add native support in the future, but there are no implementation being worked on at the moment (http://freemarker.org/contribute.html).
 
 The library has basic formatting support for all classes in the java.time api introduced in Java 8, using the
 new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]. We have also introduced som comparison methods.
