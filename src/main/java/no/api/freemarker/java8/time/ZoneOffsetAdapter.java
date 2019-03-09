@@ -40,7 +40,7 @@ public class ZoneOffsetAdapter extends AbstractAdapter<ZoneOffset> implements Ad
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    protected TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new ZoneOffsetFormatter(getObject());
         }

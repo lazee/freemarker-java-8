@@ -30,6 +30,14 @@ Feature: Test the date time functionality
         And Duration object for "PT15M"
         Then expect the template to return "900"
 
+    Scenario: Test fallback method on Duration
+        Given an freemarker environment with locale set to "no-NO"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.toMillis()}"
+        And Duration object for "PT15M"
+        Then expect the template to return "900 000"
+
+
     ### Instant ###
     Scenario: Test basic Instant use in template
         Given an freemarker environment with locale set to "no-NO"
@@ -37,6 +45,13 @@ Feature: Test the date time functionality
         And a template "${obj}"
         And Instant object for "2007-12-03T10:15:30.00Z"
         Then expect the template to return "2007-12-03T10:15:30Z"
+
+    Scenario: Test basic Instant use in template with fallback method
+        Given an freemarker environment with locale set to "no-NO"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.toEpochMilli() / 2}"
+        And Instant object for "2007-12-03T10:15:30.00Z"
+        Then expect the template to return "598 338 465 000"
 
     ### LocalDate ###
     Scenario: Test basic LocalDate use in template

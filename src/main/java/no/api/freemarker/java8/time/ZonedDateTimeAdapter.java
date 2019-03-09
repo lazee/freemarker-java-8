@@ -42,7 +42,8 @@ public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> impleme
         super(obj);
     }
 
-    public TemplateModel get(String s) throws TemplateModelException {
+    @Override
+    protected TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new ZonedDateTimeFormatter(getObject());
         }

@@ -41,7 +41,7 @@ public class MonthDayAdapter extends AbstractAdapter<MonthDay> implements Adapte
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    protected TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new MonthDayFormatter(getObject());
         }

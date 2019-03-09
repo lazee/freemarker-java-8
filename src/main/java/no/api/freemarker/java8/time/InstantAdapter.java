@@ -16,12 +16,7 @@
 
 package no.api.freemarker.java8.time;
 
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -41,7 +36,7 @@ public class InstantAdapter extends AbstractAdapter<Instant> implements AdapterT
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    protected TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new InstantFormatter(getObject());
         }

@@ -78,7 +78,7 @@ public class DateTimeStepdefs {
     public void expect_the_template_to_return(String res) throws Throwable {
         Writer out = process(res);
         if (!res.equals(out.toString())) {
-            Assert.fail("Expected '" + res + "', but got '" + out.toString());
+            Assert.fail("Expected '" + res + "', but got '" + out.toString() + "'");
         }
     }
 

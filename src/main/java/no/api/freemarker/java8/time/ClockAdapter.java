@@ -16,12 +16,7 @@
 
 package no.api.freemarker.java8.time;
 
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
 
 import java.time.Clock;
 import java.util.List;
@@ -40,7 +35,7 @@ public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTempl
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    protected TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new ClockFormatter(getObject());
         }

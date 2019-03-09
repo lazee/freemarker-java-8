@@ -16,10 +16,9 @@
 
 package no.api.freemarker.java8.time;
 
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.WrappingTemplateModel;
+import freemarker.ext.beans.BeanModel;
+import freemarker.ext.beans.BeansWrapperBuilder;
+import freemarker.template.*;
 
 /**
  * Abstract adapter used as a basis for all the other TemplateModel implementations in this package.
@@ -31,10 +30,15 @@ public abstract class AbstractAdapter<E>
         extends WrappingTemplateModel
         implements AdapterTemplateModel, TemplateHashModel {
 
-    private E obj;
+    private final BeanModel fallback;
+
+    private final E obj;
+
 
     public AbstractAdapter(E obj) {
         this.obj = obj;
+        this.fallback = new BeanModel(obj, new BeansWrapperBuilder(Configuration.getVersion())
+                        .build());
     }
 
     public String getAsString() throws TemplateModelException {
@@ -54,4 +58,20 @@ public abstract class AbstractAdapter<E>
     public E getObject() {
         return obj;
     }
+
+    @Override
+    public final TemplateModel get(String s) throws TemplateModelException {
+        try {
+            return getForType(s);
+        } catch (TemplateModelException tme) {
+            try {
+                return fallback.get(s);
+            } catch (TemplateModelException tmeFallback) {
+                throw tme;
+            }
+        }
+    }
+
+    protected abstract TemplateModel getForType(String s) throws TemplateModelException;
+
 }

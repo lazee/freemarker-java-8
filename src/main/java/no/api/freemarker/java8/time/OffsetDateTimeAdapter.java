@@ -42,7 +42,7 @@ public class OffsetDateTimeAdapter extends AbstractAdapter<OffsetDateTime> imple
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    protected  TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new OffsetDateTimeFormatter(getObject());
         }
