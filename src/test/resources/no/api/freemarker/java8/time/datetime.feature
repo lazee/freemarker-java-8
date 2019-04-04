@@ -264,6 +264,13 @@ Feature: Test the date time functionality
         And ZonedDateTime object for "2007-12-03T16:15:30+07:00[Asia/Bangkok]"
         Then expect the template to return "2007 Dezember Montag +0900"
 
+		Scenario: Test that using a preset ZonedDateTime inside a template will return the default time zone when a built in pattern is given and german locale
+        Given an freemarker environment with locale set to "de-DE"
+        And timezone set to "Europe/Berlin"
+        And a template "${obj.format('ISO_OFFSET_DATE_TIME')}"
+        And ZonedDateTime object for "2007-12-03T16:15:30+01:00[Europe/Berlin]"
+        Then expect the template to return "2007-12-03T16:15:30+01:00"
+
     ### ZoneId ###
     Scenario: Test basic ZoneId use in template
         Given an freemarker environment with locale set to "no-NO"
