@@ -20,6 +20,7 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.Version;
+import no.api.freemarker.java8.config.Java8Configuration;
 import no.api.freemarker.java8.time.ClockAdapter;
 import no.api.freemarker.java8.time.DurationAdapter;
 import no.api.freemarker.java8.time.InstantAdapter;
@@ -51,49 +52,61 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 /**
  * Freemarker ObjectWrapper that extends the DefaultObjectWrapper with support for all classes in the new java.time api.
  */
 public class Java8ObjectWrapper extends DefaultObjectWrapper {
 
+	private final Java8Configuration configuration;
+	
+	public Java8ObjectWrapper(Version incompatibleImprovements, Java8Configuration configuration) {
+		super(incompatibleImprovements);
+		this.configuration = Objects.requireNonNull(configuration, "configuration");
+	}
+	
     public Java8ObjectWrapper(Version incompatibleImprovements) {
-        super(incompatibleImprovements);
+        this(incompatibleImprovements, Java8Configuration.defaultConfiguration());
     }
 
     @Override
     protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {
         if (obj instanceof Clock) {
-            return new ClockAdapter((Clock) obj);
+            return new ClockAdapter((Clock) obj, getConfiguration());
         } else if (obj instanceof Duration) {
-            return new DurationAdapter((Duration) obj);
+            return new DurationAdapter((Duration) obj, getConfiguration());
         } else if (obj instanceof Instant) {
-            return new InstantAdapter((Instant) obj);
+            return new InstantAdapter((Instant) obj, getConfiguration());
         } else if (obj instanceof LocalDate) {
-            return new LocalDateAdapter((LocalDate) obj);
+            return new LocalDateAdapter((LocalDate) obj, getConfiguration());
         } else if (obj instanceof LocalDateTime) {
-            return new LocalDateTimeAdapter((LocalDateTime) obj);
+            return new LocalDateTimeAdapter((LocalDateTime) obj, getConfiguration());
         } else if (obj instanceof LocalTime) {
-            return new LocalTimeAdapter((LocalTime) obj);
+            return new LocalTimeAdapter((LocalTime) obj, getConfiguration());
         } else if (obj instanceof MonthDay) {
-            return new MonthDayAdapter((MonthDay) obj);
+            return new MonthDayAdapter((MonthDay) obj, getConfiguration());
         } else if (obj instanceof OffsetDateTime) {
-            return new OffsetDateTimeAdapter((OffsetDateTime) obj);
+            return new OffsetDateTimeAdapter((OffsetDateTime) obj, getConfiguration());
         } else if (obj instanceof OffsetTime) {
-            return new OffsetTimeAdapter((OffsetTime) obj);
+            return new OffsetTimeAdapter((OffsetTime) obj, getConfiguration());
         } else if (obj instanceof Period) {
-            return new PeriodAdapter((Period) obj);
+            return new PeriodAdapter((Period) obj, getConfiguration());
         } else if (obj instanceof Year) {
-            return new YearAdapter((Year) obj);
+            return new YearAdapter((Year) obj, getConfiguration());
         } else if (obj instanceof YearMonth) {
-            return new YearMonthAdapter((YearMonth) obj);
+            return new YearMonthAdapter((YearMonth) obj, getConfiguration());
         } else if (obj instanceof ZonedDateTime) {
-            return new ZonedDateTimeAdapter((ZonedDateTime) obj);
+            return new ZonedDateTimeAdapter((ZonedDateTime) obj, getConfiguration());
         } else if (obj instanceof ZoneOffset) {
-            return new ZoneOffsetAdapter((ZoneOffset) obj);
+            return new ZoneOffsetAdapter((ZoneOffset) obj, getConfiguration());
         } else if (obj instanceof ZoneId) {
-            return new ZoneIdAdapter((ZoneId) obj);
+            return new ZoneIdAdapter((ZoneId) obj, getConfiguration());
         }
         return super.handleUnknownType(obj);
     }
+    
+    public Java8Configuration getConfiguration() {
+		return configuration;
+	}
 }

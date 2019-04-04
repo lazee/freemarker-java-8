@@ -22,6 +22,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Java8Configuration;
 
 import java.time.YearMonth;
 import java.util.List;
@@ -36,8 +37,8 @@ import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter
 public class YearMonthAdapter extends AbstractAdapter<YearMonth> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public YearMonthAdapter(YearMonth obj) {
-        super(obj);
+    public YearMonthAdapter(YearMonth obj, Java8Configuration configuration) {
+        super(obj, configuration);
     }
 
     @Override

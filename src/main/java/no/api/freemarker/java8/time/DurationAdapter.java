@@ -22,6 +22,7 @@ import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Java8Configuration;
 
 import java.time.Duration;
 
@@ -36,8 +37,8 @@ import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 public class DurationAdapter extends AbstractAdapter<Duration> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public DurationAdapter(Duration obj) {
-        super(obj);
+    public DurationAdapter(Duration obj, Java8Configuration configuration) {
+        super(obj, configuration);
     }
 
     @Override

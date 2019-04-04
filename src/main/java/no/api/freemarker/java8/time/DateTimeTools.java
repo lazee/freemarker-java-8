@@ -114,17 +114,16 @@ public final class DateTimeTools {
      * @throws TemplateModelException
      *         If Illegal ZoneId string was found in the list.
      */
-    public static ZoneId zoneIdLookup(List list, int index) throws TemplateModelException {
-        ZoneId zoneId = Environment.getCurrentEnvironment().getTimeZone().toZoneId();
+    public static Optional<ZoneId> zoneIdLookup(List list, int index) throws TemplateModelException {
         if (list.size() > index) {
             String zoneIdString = ((SimpleScalar) list.get(index)).getAsString();
             try {
-                zoneId = ZoneId.of(zoneIdString);
+                return Optional.of(ZoneId.of(zoneIdString));
             } catch (ZoneRulesException e) {
                 throw new TemplateModelException(ILLEGAL_ZONE_ID_MSG, e);
             }
         }
-        return zoneId;
+        return Optional.empty();
     }
 
     private static Locale getLocale() {

@@ -23,6 +23,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Java8Configuration;
 
 import java.time.ZoneId;
 import java.time.format.TextStyle;
@@ -37,8 +38,8 @@ import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 public class ZoneIdAdapter extends AbstractAdapter<ZoneId>
         implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-    public ZoneIdAdapter(ZoneId obj) {
-        super(obj);
+    public ZoneIdAdapter(ZoneId obj, Java8Configuration configuration) {
+        super(obj, configuration);
     }
 
     @Override

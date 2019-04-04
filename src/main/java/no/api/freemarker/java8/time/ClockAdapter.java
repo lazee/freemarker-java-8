@@ -22,6 +22,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Java8Configuration;
 
 import java.time.Clock;
 import java.util.List;
@@ -35,8 +36,8 @@ import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public ClockAdapter(Clock obj) {
-        super(obj);
+    public ClockAdapter(Clock obj, Java8Configuration configuration) {
+        super(obj, configuration);
     }
 
     @Override

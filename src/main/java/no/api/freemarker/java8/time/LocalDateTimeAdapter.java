@@ -22,6 +22,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Java8Configuration;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,8 +37,8 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
         TemplateScalarModel, TemplateHashModel {
 
 
-    public LocalDateTimeAdapter(LocalDateTime obj) {
-        super(obj);
+    public LocalDateTimeAdapter(LocalDateTime obj, Java8Configuration configuration) {
+        super(obj, configuration);
     }
 
     @Override

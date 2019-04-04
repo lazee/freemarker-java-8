@@ -22,6 +22,7 @@ import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Java8Configuration;
 
 import java.time.Period;
 
@@ -38,8 +39,8 @@ public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTem
         TemplateScalarModel, TemplateHashModel {
 
 
-    public PeriodAdapter(Period obj) {
-        super(obj);
+    public PeriodAdapter(Period obj, Java8Configuration configuration) {
+        super(obj, configuration);
     }
 
     @Override
