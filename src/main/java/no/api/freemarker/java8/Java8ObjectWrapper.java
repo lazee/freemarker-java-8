@@ -21,6 +21,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.Version;
 import no.api.freemarker.java8.config.Java8Configuration;
+import no.api.freemarker.java8.config.timezone.strategy.EnvironmentTimezoneStrategy;
 import no.api.freemarker.java8.time.ClockAdapter;
 import no.api.freemarker.java8.time.DurationAdapter;
 import no.api.freemarker.java8.time.InstantAdapter;
@@ -66,8 +67,17 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
 		this.configuration = Objects.requireNonNull(configuration, "configuration");
 	}
 	
+	/**
+	 * Creates a new instance, with a {@link Java8Configuration} with
+	 * {@link Java8Configuration#setTimezoneStrategy(no.api.freemarker.java8.config.timezone.TimezoneStrategy)
+	 * timezoneStrategy} set to {@link EnvironmentTimezoneStrategy}.
+	 * 
+	 * @deprecated Uses NOT the {@link Java8Configuration#defaultConfiguration()}. New implementations should
+	 *             use {@link #Java8ObjectWrapper(Version, Java8Configuration)}
+	 */
+	@Deprecated
     public Java8ObjectWrapper(Version incompatibleImprovements) {
-        this(incompatibleImprovements, Java8Configuration.defaultConfiguration());
+        this(incompatibleImprovements, Java8Configuration.builder().timezoneStrategy(EnvironmentTimezoneStrategy.INSTANCE).build());
     }
 
     @Override

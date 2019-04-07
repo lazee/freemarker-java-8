@@ -108,8 +108,8 @@ public final class DateTimeTools {
      * @param index
      *         The index on where in the list the ZoneId string is located.
      *
-     * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, then the default
-     * FreeMarker ZoneId will be returned.
+     * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, 
+     * 		   then an empty {@link Optional} will be returned.
      *
      * @throws TemplateModelException
      *         If Illegal ZoneId string was found in the list.

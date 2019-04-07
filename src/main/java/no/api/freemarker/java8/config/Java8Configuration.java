@@ -1,12 +1,23 @@
 package no.api.freemarker.java8.config;
 
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
+import no.api.freemarker.java8.Java8ObjectWrapper;
 import no.api.freemarker.java8.config.timezone.TimezoneStrategy;
-import no.api.freemarker.java8.config.timezone.strategy.EnvironmentTimezoneStrategy;
+import no.api.freemarker.java8.config.timezone.strategy.KeepingTimezoneStrategy;
 
+/**
+ * Class providing the configuration for the {@link Java8ObjectWrapper}.
+ * 
+ * @author Fritz Lumnitz
+ *
+ */
 public class Java8Configuration {
 
+	/**
+	 * The {@link TimezoneStrategy} used when formatting a {@link ZonedDateTime}.
+	 */
 	private TimezoneStrategy timezoneStrategy;
 
 	private Java8Configuration(final TimezoneStrategy timezoneStrategy) {
@@ -14,20 +25,41 @@ public class Java8Configuration {
 		this.timezoneStrategy = timezoneStrategy;
 	}
 
+	/**
+	 * @return A new {@link Builder} instance. It has already all required
+	 *         parameters set, according to the {@link #defaultConfiguration()}.
+	 */
 	public static Java8Configuration.Builder builder() {
 		return new Builder();
 	}
 
+	/**
+	 * @return A new default {@link Java8Configuration}.
+	 */
 	public static Java8Configuration defaultConfiguration() {
 		return new Builder().build(); // Builder has the defaults set
 	}
-	
+
+	/**
+	 * @return A new {@link Builder} instance. It inherits all configuration values
+	 *         of this instance.
+	 */
 	public Java8Configuration.Builder toBuilder() {
 		return new Builder(timezoneStrategy);
 	}
 
+	/**
+	 * Builder class for {@link Java8Configuration}.
+	 * 
+	 * @author Fritz Lumnitz
+	 *
+	 */
 	public static class Builder {
-		public static final TimezoneStrategy DEFAULT_TIMEZONE_STRATEGY = EnvironmentTimezoneStrategy.INSTANCE;
+		/**
+		 * The default {@link TimezoneStrategy} used, when no one is explicitly set.
+		 * Value is {@link KeepingTimezoneStrategy}.
+		 */
+		public static final TimezoneStrategy DEFAULT_TIMEZONE_STRATEGY = KeepingTimezoneStrategy.INSTANCE;
 
 		private TimezoneStrategy timezoneStrategy = DEFAULT_TIMEZONE_STRATEGY;
 
@@ -81,8 +113,7 @@ public class Java8Configuration {
 			return false;
 		return true;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "Java8Configuration [timezoneStrategy=" + timezoneStrategy + "]";
