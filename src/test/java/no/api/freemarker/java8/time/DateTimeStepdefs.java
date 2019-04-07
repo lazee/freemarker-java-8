@@ -60,8 +60,9 @@ public class DateTimeStepdefs {
 
     public DateTimeStepdefs() {
         this.configuration = new Configuration(VERSION_2_3_23);
-        this.java8Configuration = Java8Configuration.defaultConfiguration();
-        this.configuration.setObjectWrapper(new Java8ObjectWrapper(VERSION_2_3_23, java8Configuration));
+        Java8ObjectWrapper testee = new Java8ObjectWrapper(VERSION_2_3_23);
+        this.configuration.setObjectWrapper(testee);
+        this.java8Configuration = testee.getConfiguration();
     }
 
     
