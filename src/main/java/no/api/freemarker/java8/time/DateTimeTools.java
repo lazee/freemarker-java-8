@@ -16,15 +16,18 @@
 
 package no.api.freemarker.java8.time;
 
-import freemarker.core.Environment;
-import freemarker.template.SimpleScalar;
-import freemarker.template.TemplateModelException;
-
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.zone.ZoneRulesException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+
+import freemarker.core.Environment;
+import freemarker.template.SimpleScalar;
+import freemarker.template.TemplateModelException;
 
 /**
  * Helper methods and constants in use by the adapters.
@@ -67,19 +70,11 @@ public final class DateTimeTools {
             String format = ((SimpleScalar) list.get(index)).getAsString();
             ExtFormatStyle style = getFormatStyle(format);
 
-            if(style == null) {
-                return DateTimeFormatter.ofPattern(format, getLocale());
-            } else {
-                DateTimeFormatter formatter;
-                if(style.withDate && style.withTime) {
-                    formatter = DateTimeFormatter.ofLocalizedDateTime(style.javaFormatStyle);
-                } else if(style.withDate) {
-                    formatter = DateTimeFormatter.ofLocalizedDate(style.javaFormatStyle);
-                } else {
-                    formatter = DateTimeFormatter.ofLocalizedTime(style.javaFormatStyle);
-                }
-                return formatter.withLocale(getLocale());
+            if(style != null) {
+            	return style.getFormatter().withLocale(getLocale());
             }
+            Optional<DateTimeFormatter> builtin = getJreBuiltinFormatter(format);
+            return builtin.orElseGet(() -> DateTimeFormatter.ofPattern(format, getLocale()));
         }
         return defaultFormatter.withLocale(getLocale());
     }
@@ -113,23 +108,22 @@ public final class DateTimeTools {
      * @param index
      *         The index on where in the list the ZoneId string is located.
      *
-     * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, then the default
-     * FreeMarker ZoneId will be returned.
+     * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, 
+     * 		   then an empty {@link Optional} will be returned.
      *
      * @throws TemplateModelException
      *         If Illegal ZoneId string was found in the list.
      */
-    public static ZoneId zoneIdLookup(List list, int index) throws TemplateModelException {
-        ZoneId zoneId = Environment.getCurrentEnvironment().getTimeZone().toZoneId();
+    public static Optional<ZoneId> zoneIdLookup(List list, int index) throws TemplateModelException {
         if (list.size() > index) {
             String zoneIdString = ((SimpleScalar) list.get(index)).getAsString();
             try {
-                zoneId = ZoneId.of(zoneIdString);
+                return Optional.of(ZoneId.of(zoneIdString));
             } catch (ZoneRulesException e) {
                 throw new TemplateModelException(ILLEGAL_ZONE_ID_MSG, e);
             }
         }
-        return zoneId;
+        return Optional.empty();
     }
 
     private static Locale getLocale() {
@@ -142,10 +136,31 @@ public final class DateTimeTools {
 
     private static ExtFormatStyle getFormatStyle(String format) {
         try {
-            return ExtFormatStyle.valueOf(format);
+            return PreparedFormatStyle.valueOf(format);
         } catch(IllegalArgumentException | NullPointerException ex) {
             return null;
         }
+    }
+    
+    private static Optional<DateTimeFormatter> getJreBuiltinFormatter(String name) {
+    	try {
+    		final Field dateTimeFormatterField = DateTimeFormatter.class.getField(name);
+    		if((dateTimeFormatterField.getModifiers() & Modifier.STATIC) != 0 // Check if field is static
+    				&& DateTimeFormatter.class.isAssignableFrom(dateTimeFormatterField.getType())) {
+    			return Optional.ofNullable((DateTimeFormatter) dateTimeFormatterField.get(null));
+    		}
+    		// Not static, or not of the correct type
+    		return Optional.empty();
+    	} catch (NoSuchFieldException e) {
+    		// Seems like name is no built in DateTimeFormatter
+    		return Optional.empty();
+    	} catch (IllegalArgumentException e) {
+			// As this field is checked to be static, this should never occur
+			throw new RuntimeException("Field \"" + name + "\" has modifier STATIC but seems to be not static!", e);
+		} catch (IllegalAccessException e) {
+			// Well, if you use a SecurityManager, we cannot do this
+			throw new RuntimeException("Not allowed to access Field \"" + name + "\" of class " + DateTimeFormatter.class, e);
+		}
     }
 
 }

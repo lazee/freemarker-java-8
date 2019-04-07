@@ -22,6 +22,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import no.api.freemarker.java8.config.Java8Configuration;
 
 import java.time.Year;
 import java.util.List;
@@ -37,8 +38,8 @@ public class YearAdapter extends AbstractAdapter<Year> implements AdapterTemplat
         TemplateScalarModel, TemplateHashModel {
 
 
-    public YearAdapter(Year obj) {
-        super(obj);
+    public YearAdapter(Year obj, Java8Configuration configuration) {
+        super(obj, configuration);
     }
 
     @Override

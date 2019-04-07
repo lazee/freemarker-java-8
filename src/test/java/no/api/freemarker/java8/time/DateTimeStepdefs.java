@@ -1,12 +1,6 @@
 package no.api.freemarker.java8.time;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import no.api.freemarker.java8.Java8ObjectWrapper;
-import org.junit.Assert;
+import static freemarker.template.Configuration.VERSION_2_3_23;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -28,15 +22,35 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import static freemarker.template.Configuration.*;
+import org.junit.Assert;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import no.api.freemarker.java8.Java8ObjectWrapper;
+import no.api.freemarker.java8.config.Java8Configuration;
+import no.api.freemarker.java8.config.timezone.strategy.EnvironmentTimezoneStrategy;
+import no.api.freemarker.java8.config.timezone.strategy.KeepingTimezoneStrategy;
+import no.api.freemarker.java8.config.timezone.strategy.StaticTimezoneStrategy;
+import no.api.freemarker.java8.config.timezone.strategy.SystemTimezoneStrategy;
 
 public class DateTimeStepdefs {
 
     private final Configuration configuration;
+    
+    private final Java8Configuration java8Configuration;
+    
+    private List<Runnable> afterHooks;
 
     private String template;
 
@@ -46,9 +60,22 @@ public class DateTimeStepdefs {
 
     public DateTimeStepdefs() {
         this.configuration = new Configuration(VERSION_2_3_23);
-        this.configuration.setObjectWrapper(new Java8ObjectWrapper(VERSION_2_3_23));
+        Java8ObjectWrapper testee = new Java8ObjectWrapper(VERSION_2_3_23);
+        this.configuration.setObjectWrapper(testee);
+        this.java8Configuration = testee.getConfiguration();
     }
 
+    
+    @Before
+    public void before() {
+    	afterHooks = new LinkedList<>();
+    }
+    
+    @After
+    public void runAfterHooks() {
+    	afterHooks.forEach(Runnable::run);
+    }
+    
     @Given("^ZonedDateTime object for \"([^\"]*)\"$")
     public void zoneddatetime_object_for_T_Europe_Paris(String arg1) throws Throwable {
         obj = ZonedDateTime.parse(arg1);
@@ -58,7 +85,34 @@ public class DateTimeStepdefs {
     public void an_freemarker_environment_with_locate_set_to(String arg1) throws Throwable {
         configuration.setLocale(Locale.forLanguageTag(arg1));
     }
-
+    
+    @Given("^timezone strategy set to 'system'$")
+    public void timezone_strategy_set_to_system() throws Throwable {
+        java8Configuration.setTimezoneStrategy(SystemTimezoneStrategy.INSTANCE);
+    }
+    
+    @Given("^timezone strategy set to 'keeping'$")
+    public void timezone_strategy_set_to_keeping() throws Throwable {
+        java8Configuration.setTimezoneStrategy(KeepingTimezoneStrategy.INSTANCE);
+    }
+    
+    @Given("^timezone strategy set to 'environment'$")
+    public void timezone_strategy_set_to_environment() throws Throwable {
+        java8Configuration.setTimezoneStrategy(EnvironmentTimezoneStrategy.INSTANCE);
+    }
+    
+    @Given("^timezone strategy set to 'static' with timezone \"([^\"]*)\"$")
+    public void timezone_strategy_set_to_static_with_timezone(String arg1) throws Throwable {
+        java8Configuration.setTimezoneStrategy(StaticTimezoneStrategy.of(ZoneId.of(arg1)));
+    }
+    
+    @Given("^system timezone set to \"([^\"]*)\"$")
+    public void system_timezone_set_to(String arg1) throws Throwable {
+        TimeZone.setDefault(TimeZone.getTimeZone(arg1));
+        // Reset to default timezone afterwards
+        afterHooks.add(() -> TimeZone.setDefault(null)); 
+    }
+    
     @Given("^timezone set to \"([^\"]*)\"$")
     public void timezone_set_to(String arg1) throws Throwable {
         configuration.setTimeZone(TimeZone.getTimeZone(ZoneId.of(arg1)));
