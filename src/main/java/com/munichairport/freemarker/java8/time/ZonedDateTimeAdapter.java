@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2019 Flughafen München GmbH.
+ *
  * Copyright (c) 2015-2015 Amedia Utvikling AS.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +14,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * This file was modified by Flughafen München GmbH in order to add
+ * or change the following functionality:
+ *  - Added configuration support
+ *  - Added support for different timezone strategies when formatting
+ *    the ZonedDateTime instance
  */
 
 package com.munichairport.freemarker.java8.time;
@@ -66,8 +74,9 @@ public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> impleme
 
         private ZoneId getTargetZoneId(final List argumentList) throws TemplateModelException {
             final Optional<ZoneId> zoneId = DateTimeTools.zoneIdLookup(argumentList, 1);
-            if (zoneId.isPresent())
+            if (zoneId.isPresent()) {
                 return zoneId.get();
+            }
             return getConfiguration().getTimezoneStrategy().getUpdatedZone(getObject().getZone());
         }
 

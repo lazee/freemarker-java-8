@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2019 Flughafen München GmbH.
+ *
  * Copyright (c) 2015-2015 Amedia Utvikling AS.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +14,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * This file was modified by Flughafen München GmbH in order to add
+ * or change the following functionality:
+ *  - Added configuration support
  */
 
 package com.munichairport.freemarker.java8;
@@ -69,8 +75,9 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
     }
 
     /**
-     * Creates a new instance, with a {@link Java8Configuration} with {@link Java8Configuration#setTimezoneStrategy(com.munichairport.freemarker.java8.config.timezone.TimezoneStrategy)
-     * timezoneStrategy} set to {@link EnvironmentTimezoneStrategy}.
+     * Creates a new instance, with a {@link Java8Configuration} with
+     * {@link Java8Configuration#setTimezoneStrategy(com.munichairport.freemarker.java8.config.timezone.TimezoneStrategy) timezoneStrategy} set to
+     * {@link EnvironmentTimezoneStrategy}.
      *
      * @deprecated Uses NOT the {@link Java8Configuration#defaultConfiguration()}. New implementations should use {@link #Java8ObjectWrapper(Version, Java8Configuration)}
      */
