@@ -16,6 +16,9 @@
 
 package no.api.freemarker.java8.time;
 
+import java.time.Year;
+import java.util.List;
+
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -24,41 +27,32 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import no.api.freemarker.java8.config.Java8Configuration;
 
-import java.time.Year;
-import java.util.List;
-
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter;
-
 /**
  * YearAdapter adds basic format support for {@link Year} too FreeMarker 2.3.23 and above.
  */
-public class YearAdapter extends AbstractAdapter<Year> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+public class YearAdapter extends AbstractAdapter<Year> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-
-    public YearAdapter(Year obj, Java8Configuration configuration) {
+    public YearAdapter(final Year obj, final Java8Configuration configuration) {
         super(obj, configuration);
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
-        if (METHOD_FORMAT.equals(s)) {
+    public TemplateModel get(final String s) throws TemplateModelException {
+        if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new YearFormatter(getObject());
         }
-        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
+        throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
 
     public class YearFormatter extends AbstractFormatter<Year> implements TemplateMethodModelEx {
 
-        public YearFormatter(Year obj) {
+        public YearFormatter(final Year obj) {
             super(obj);
         }
 
         @Override
-        public Object exec(List list) throws TemplateModelException {
-            return getObject().format(createDateTimeFormatter(list, 0, "yyyy"));
+        public Object exec(final List list) throws TemplateModelException {
+            return getObject().format(DateTimeTools.createDateTimeFormatter(list, 0, "yyyy"));
         }
     }
 }

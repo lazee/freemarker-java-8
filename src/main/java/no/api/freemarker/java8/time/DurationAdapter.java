@@ -16,6 +16,8 @@
 
 package no.api.freemarker.java8.time;
 
+import java.time.Duration;
+
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateHashModel;
@@ -24,31 +26,23 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import no.api.freemarker.java8.config.Java8Configuration;
 
-import java.time.Duration;
-
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_NANO;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_SECONDS;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-
 /**
  * DurationAdapter adds basic format support for {@link Duration} too FreeMarker 2.3.23 and above.
- *
  */
-public class DurationAdapter extends AbstractAdapter<Duration> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+public class DurationAdapter extends AbstractAdapter<Duration> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-    public DurationAdapter(Duration obj, Java8Configuration configuration) {
+    public DurationAdapter(final Duration obj, final Java8Configuration configuration) {
         super(obj, configuration);
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
-        if (METHOD_NANO.equalsIgnoreCase(s)) {
+    public TemplateModel get(final String s) throws TemplateModelException {
+        if (DateTimeTools.METHOD_NANO.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getNano());
-        } else if (METHOD_SECONDS.equalsIgnoreCase(s)) {
+        } else if (DateTimeTools.METHOD_SECONDS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getSeconds());
         }
-        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
+        throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
 
 }

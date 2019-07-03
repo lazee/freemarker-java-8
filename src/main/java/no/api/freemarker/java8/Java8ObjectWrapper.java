@@ -16,6 +16,23 @@
 
 package no.api.freemarker.java8;
 
+import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.MonthDay;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.Period;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Objects;
+
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
@@ -38,50 +55,31 @@ import no.api.freemarker.java8.time.ZoneIdAdapter;
 import no.api.freemarker.java8.time.ZoneOffsetAdapter;
 import no.api.freemarker.java8.time.ZonedDateTimeAdapter;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.MonthDay;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.Period;
-import java.time.Year;
-import java.time.YearMonth;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.Objects;
-
 /**
  * Freemarker ObjectWrapper that extends the DefaultObjectWrapper with support for all classes in the new java.time api.
  */
 public class Java8ObjectWrapper extends DefaultObjectWrapper {
 
-	private final Java8Configuration configuration;
-	
-	public Java8ObjectWrapper(Version incompatibleImprovements, Java8Configuration configuration) {
-		super(incompatibleImprovements);
-		this.configuration = Objects.requireNonNull(configuration, "configuration");
-	}
-	
-	/**
-	 * Creates a new instance, with a {@link Java8Configuration} with
-	 * {@link Java8Configuration#setTimezoneStrategy(no.api.freemarker.java8.config.timezone.TimezoneStrategy)
-	 * timezoneStrategy} set to {@link EnvironmentTimezoneStrategy}.
-	 * 
-	 * @deprecated Uses NOT the {@link Java8Configuration#defaultConfiguration()}. New implementations should
-	 *             use {@link #Java8ObjectWrapper(Version, Java8Configuration)}
-	 */
-	@Deprecated
-    public Java8ObjectWrapper(Version incompatibleImprovements) {
+    private final Java8Configuration configuration;
+
+    public Java8ObjectWrapper(final Version incompatibleImprovements, final Java8Configuration configuration) {
+        super(incompatibleImprovements);
+        this.configuration = Objects.requireNonNull(configuration, "configuration");
+    }
+
+    /**
+     * Creates a new instance, with a {@link Java8Configuration} with {@link Java8Configuration#setTimezoneStrategy(no.api.freemarker.java8.config.timezone.TimezoneStrategy)
+     * timezoneStrategy} set to {@link EnvironmentTimezoneStrategy}.
+     *
+     * @deprecated Uses NOT the {@link Java8Configuration#defaultConfiguration()}. New implementations should use {@link #Java8ObjectWrapper(Version, Java8Configuration)}
+     */
+    @Deprecated
+    public Java8ObjectWrapper(final Version incompatibleImprovements) {
         this(incompatibleImprovements, Java8Configuration.builder().timezoneStrategy(EnvironmentTimezoneStrategy.INSTANCE).build());
     }
 
     @Override
-    protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {
+    protected TemplateModel handleUnknownType(final Object obj) throws TemplateModelException {
         if (obj instanceof Clock) {
             return new ClockAdapter((Clock) obj, getConfiguration());
         } else if (obj instanceof Duration) {
@@ -115,8 +113,8 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
         }
         return super.handleUnknownType(obj);
     }
-    
+
     public Java8Configuration getConfiguration() {
-		return configuration;
-	}
+        return this.configuration;
+    }
 }

@@ -16,6 +16,9 @@
 
 package no.api.freemarker.java8.time;
 
+import java.time.Instant;
+import java.util.List;
+
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -24,39 +27,31 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import no.api.freemarker.java8.config.Java8Configuration;
 
-import java.time.Instant;
-import java.util.List;
-
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-
 /**
  * InstantAdapter adds basic format support for {@link Instant} too FreeMarker 2.3.23 and above.
  */
-public class InstantAdapter extends AbstractAdapter<Instant> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+public class InstantAdapter extends AbstractAdapter<Instant> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-
-    public InstantAdapter(Instant obj, Java8Configuration configuration) {
+    public InstantAdapter(final Instant obj, final Java8Configuration configuration) {
         super(obj, configuration);
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
-        if (METHOD_FORMAT.equals(s)) {
+    public TemplateModel get(final String s) throws TemplateModelException {
+        if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new InstantFormatter(getObject());
         }
-        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
+        throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
 
     public class InstantFormatter extends AbstractFormatter<Instant> implements TemplateMethodModelEx {
 
-        public InstantFormatter(Instant obj) {
+        public InstantFormatter(final Instant obj) {
             super(obj);
         }
 
         @Override
-        public Object exec(List list) throws TemplateModelException {
+        public Object exec(final List list) throws TemplateModelException {
             return getObject().toString();
         }
     }

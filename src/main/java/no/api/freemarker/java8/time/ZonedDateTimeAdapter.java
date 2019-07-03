@@ -16,10 +16,6 @@
 
 package no.api.freemarker.java8.time;
 
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,47 +33,46 @@ import no.api.freemarker.java8.config.Java8Configuration;
 /**
  * ZonedDateTimeAdapter adds basic format support for {@link ZonedDateTime} too FreeMarker 2.3.23 and above.
  */
-public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-    public ZonedDateTimeAdapter(ZonedDateTime obj, Java8Configuration configuration) {
+    public ZonedDateTimeAdapter(final ZonedDateTime obj, final Java8Configuration configuration) {
         super(obj, configuration);
     }
 
-    public TemplateModel get(String s) throws TemplateModelException {
-        if (METHOD_FORMAT.equals(s)) {
+    @Override
+    public TemplateModel get(final String s) throws TemplateModelException {
+        if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new ZonedDateTimeFormatter(getObject());
         }
-        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
+        throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
 
     public class ZonedDateTimeFormatter extends AbstractFormatter<ZonedDateTime> implements TemplateMethodModelEx {
 
-        public ZonedDateTimeFormatter(ZonedDateTime obj) {
+        public ZonedDateTimeFormatter(final ZonedDateTime obj) {
             super(obj);
         }
-        
-        public Object exec(List list) throws TemplateModelException {
-        	final ZoneId targetZoneId = getTargetZoneId(list);
+
+        @Override
+        public Object exec(final List list) throws TemplateModelException {
+            final ZoneId targetZoneId = getTargetZoneId(list);
             if (isDifferentTimeZoneRequested(targetZoneId)) {
-                return getObject().withZoneSameInstant(targetZoneId).format(
-                        createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+                return getObject().withZoneSameInstant(targetZoneId).format(DateTimeTools.createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_ZONED_DATE_TIME));
             } else {
-                return getObject().format(createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+                return getObject().format(DateTimeTools.createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_ZONED_DATE_TIME));
             }
         }
-        
-        private ZoneId getTargetZoneId(List argumentList) throws TemplateModelException {
-        	Optional<ZoneId> zoneId = DateTimeTools.zoneIdLookup(argumentList, 1);
-        	if(zoneId.isPresent())
-        		return zoneId.get();
+
+        private ZoneId getTargetZoneId(final List argumentList) throws TemplateModelException {
+            final Optional<ZoneId> zoneId = DateTimeTools.zoneIdLookup(argumentList, 1);
+            if (zoneId.isPresent())
+                return zoneId.get();
             return getConfiguration().getTimezoneStrategy().getUpdatedZone(getObject().getZone());
         }
 
-        private boolean isDifferentTimeZoneRequested(ZoneId zoneId) {
+        private boolean isDifferentTimeZoneRequested(final ZoneId zoneId) {
             return !getObject().getZone().equals(zoneId);
         }
-
 
     }
 

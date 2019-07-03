@@ -16,6 +16,8 @@
 
 package no.api.freemarker.java8.time;
 
+import java.time.Period;
+
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateHashModel;
@@ -24,35 +26,25 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import no.api.freemarker.java8.config.Java8Configuration;
 
-import java.time.Period;
-
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_DAYS;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_MONTHS;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_YEARS;
-
 /**
- * PeriodAdapter gives access to the days, months and years values in the wrapped {@link Period} object in FreeMarker
- * templates.
+ * PeriodAdapter gives access to the days, months and years values in the wrapped {@link Period} object in FreeMarker templates.
  */
-public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-
-    public PeriodAdapter(Period obj, Java8Configuration configuration) {
+    public PeriodAdapter(final Period obj, final Java8Configuration configuration) {
         super(obj, configuration);
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
-        if (METHOD_DAYS.equalsIgnoreCase(s)) {
+    public TemplateModel get(final String s) throws TemplateModelException {
+        if (DateTimeTools.METHOD_DAYS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getDays());
-        } else if (METHOD_MONTHS.equalsIgnoreCase(s)) {
+        } else if (DateTimeTools.METHOD_MONTHS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getMonths());
-        } else if (METHOD_YEARS.equalsIgnoreCase(s)) {
+        } else if (DateTimeTools.METHOD_YEARS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getYears());
         }
-        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
+        throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
 
 }

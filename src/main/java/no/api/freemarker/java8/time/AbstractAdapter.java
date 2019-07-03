@@ -21,23 +21,20 @@ import java.util.Objects;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
-import freemarker.template.WrappingTemplateModel;
 import no.api.freemarker.java8.config.Java8Configuration;
 
 /**
  * Abstract adapter used as a basis for all the other TemplateModel implementations in this package.
  *
- * @param <E>
- *         The java.time class that this TemplateModel is wrapping.
+ * @param <E> The java.time class that this TemplateModel is wrapping.
  */
-public abstract class AbstractAdapter<E>
-        implements AdapterTemplateModel, TemplateHashModel {
+public abstract class AbstractAdapter<E> implements AdapterTemplateModel, TemplateHashModel {
 
-    private E obj;
+    private final E obj;
 
     private final Java8Configuration configuration;
-    
-    public AbstractAdapter(E obj, Java8Configuration configuration) {
+
+    public AbstractAdapter(final E obj, final Java8Configuration configuration) {
         this.obj = obj;
         this.configuration = Objects.requireNonNull(configuration, "configuration");
     }
@@ -47,8 +44,8 @@ public abstract class AbstractAdapter<E>
     }
 
     @Override
-    public Object getAdaptedObject(Class aClass) {
-        return obj;
+    public Object getAdaptedObject(final Class aClass) {
+        return this.obj;
     }
 
     @Override
@@ -57,10 +54,10 @@ public abstract class AbstractAdapter<E>
     }
 
     public E getObject() {
-        return obj;
+        return this.obj;
     }
-    
+
     public Java8Configuration getConfiguration() {
-		return configuration;
-	}
+        return this.configuration;
+    }
 }

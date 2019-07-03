@@ -16,6 +16,14 @@
 
 package no.api.freemarker.java8.time;
 
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_AFTER;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_BEFORE;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_EQUALS;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -24,58 +32,51 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import no.api.freemarker.java8.config.Java8Configuration;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import static no.api.freemarker.java8.time.DateTimeTools.*;
-
 /**
  * LocalDateTimeAdapter adds basic format support for {@link LocalDateTime} too FreeMarker 2.3.23 and above.
  */
-public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-
-    public LocalDateTimeAdapter(LocalDateTime obj, Java8Configuration configuration) {
+    public LocalDateTimeAdapter(final LocalDateTime obj, final Java8Configuration configuration) {
         super(obj, configuration);
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
-        if (METHOD_FORMAT.equals(s)) {
+    public TemplateModel get(final String s) throws TemplateModelException {
+        if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new LocalDateTimeFormatter(getObject());
-        } else if(METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
+        } else if (DateTimeTools.METHOD_EQUALS.equals(s) || DateTimeTools.METHOD_AFTER.equals(s) || DateTimeTools.METHOD_BEFORE.equals(s)) {
             return new LocalDateTimeChecker(getObject(), s);
         }
-        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
+        throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
 
     public class LocalDateTimeFormatter extends AbstractFormatter<LocalDateTime> implements TemplateMethodModelEx {
 
-        public LocalDateTimeFormatter(LocalDateTime obj) {
+        public LocalDateTimeFormatter(final LocalDateTime obj) {
             super(obj);
         }
 
         @Override
-        public Object exec(List list) throws TemplateModelException {
-            return getObject().format(createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        public Object exec(final List list) throws TemplateModelException {
+            return getObject().format(DateTimeTools.createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
     }
 
     public class LocalDateTimeChecker extends AbstractChecker<LocalDateTime> implements TemplateMethodModelEx {
-        private String method;
 
-        public LocalDateTimeChecker(LocalDateTime obj, String method) {
+        private final String method;
+
+        public LocalDateTimeChecker(final LocalDateTime obj, final String method) {
             super(obj);
             this.method = method;
         }
 
         @SuppressWarnings("Duplicates")
         @Override
-        public Object exec(List list) throws TemplateModelException {
-            LocalDateTimeAdapter adapter = (LocalDateTimeAdapter) list.get(0);
-            switch(method) {
+        public Object exec(final List list) throws TemplateModelException {
+            final LocalDateTimeAdapter adapter = (LocalDateTimeAdapter) list.get(0);
+            switch (this.method) {
                 case METHOD_EQUALS:
                     return getObject().isEqual(adapter.getObject());
                 case METHOD_AFTER:

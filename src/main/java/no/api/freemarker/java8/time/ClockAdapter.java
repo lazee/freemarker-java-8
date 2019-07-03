@@ -16,6 +16,9 @@
 
 package no.api.freemarker.java8.time;
 
+import java.time.Clock;
+import java.util.List;
+
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -24,28 +27,21 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import no.api.freemarker.java8.config.Java8Configuration;
 
-import java.time.Clock;
-import java.util.List;
-
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-
 /**
  * ClockAdapter adds basic format support for {@link Clock} too FreeMarker 2.3.23 and above.
  */
-public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-    public ClockAdapter(Clock obj, Java8Configuration configuration) {
+    public ClockAdapter(final Clock obj, final Java8Configuration configuration) {
         super(obj, configuration);
     }
 
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
-        if (METHOD_FORMAT.equals(s)) {
+    public TemplateModel get(final String s) throws TemplateModelException {
+        if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new ClockFormatter(getObject());
         }
-        throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
+        throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
 
     /**
@@ -61,12 +57,12 @@ public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTempl
 
     public class ClockFormatter extends AbstractFormatter<Clock> implements TemplateMethodModelEx {
 
-        public ClockFormatter(Clock obj) {
+        public ClockFormatter(final Clock obj) {
             super(obj);
         }
 
         @Override
-        public Object exec(List list) throws TemplateModelException {
+        public Object exec(final List list) throws TemplateModelException {
             return getObject().toString();
         }
     }

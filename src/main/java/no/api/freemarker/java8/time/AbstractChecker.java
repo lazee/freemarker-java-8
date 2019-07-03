@@ -1,22 +1,19 @@
 package no.api.freemarker.java8.time;
 
 /**
- * Abstract checker class.
+ * Abstract checker class. Adapters supporting checkers will extend this class.
  *
- * Adapters supporting checkers will extend this class.
- *
- * @param <E>
- *         The java.time class this formatter handles.
+ * @param <E> The java.time class this formatter handles.
  */
 public abstract class AbstractChecker<E> {
 
-    private E obj;
+    private final E obj;
 
-    public AbstractChecker(E obj) {
+    public AbstractChecker(final E obj) {
         this.obj = obj;
     }
 
     public E getObject() {
-        return obj;
+        return this.obj;
     }
 }

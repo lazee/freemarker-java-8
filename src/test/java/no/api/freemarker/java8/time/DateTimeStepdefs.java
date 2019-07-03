@@ -1,7 +1,5 @@
 package no.api.freemarker.java8.time;
 
-import static freemarker.template.Configuration.VERSION_2_3_23;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -47,9 +45,9 @@ import no.api.freemarker.java8.config.timezone.strategy.SystemTimezoneStrategy;
 public class DateTimeStepdefs {
 
     private final Configuration configuration;
-    
+
     private final Java8Configuration java8Configuration;
-    
+
     private List<Runnable> afterHooks;
 
     private String template;
@@ -59,78 +57,77 @@ public class DateTimeStepdefs {
     private Object obj2;
 
     public DateTimeStepdefs() {
-        this.configuration = new Configuration(VERSION_2_3_23);
-        Java8ObjectWrapper testee = new Java8ObjectWrapper(VERSION_2_3_23);
+        this.configuration = new Configuration(Configuration.VERSION_2_3_23);
+        final Java8ObjectWrapper testee = new Java8ObjectWrapper(Configuration.VERSION_2_3_23);
         this.configuration.setObjectWrapper(testee);
         this.java8Configuration = testee.getConfiguration();
     }
 
-    
     @Before
     public void before() {
-    	afterHooks = new LinkedList<>();
+        this.afterHooks = new LinkedList<>();
     }
-    
+
     @After
     public void runAfterHooks() {
-    	afterHooks.forEach(Runnable::run);
+        this.afterHooks.forEach(Runnable::run);
     }
-    
+
     @Given("^ZonedDateTime object for \"([^\"]*)\"$")
-    public void zoneddatetime_object_for_T_Europe_Paris(String arg1) throws Throwable {
-        obj = ZonedDateTime.parse(arg1);
+    public void zoneddatetime_object_for_T_Europe_Paris(final String arg1) throws Throwable {
+        this.obj = ZonedDateTime.parse(arg1);
     }
 
     @Given("^an freemarker environment with locale set to \"([^\"]*)\"$")
-    public void an_freemarker_environment_with_locate_set_to(String arg1) throws Throwable {
-        configuration.setLocale(Locale.forLanguageTag(arg1));
+    public void an_freemarker_environment_with_locate_set_to(final String arg1) throws Throwable {
+        this.configuration.setLocale(Locale.forLanguageTag(arg1));
     }
-    
+
     @Given("^timezone strategy set to 'system'$")
     public void timezone_strategy_set_to_system() throws Throwable {
-        java8Configuration.setTimezoneStrategy(SystemTimezoneStrategy.INSTANCE);
+        this.java8Configuration.setTimezoneStrategy(SystemTimezoneStrategy.INSTANCE);
     }
-    
+
     @Given("^timezone strategy set to 'keeping'$")
     public void timezone_strategy_set_to_keeping() throws Throwable {
-        java8Configuration.setTimezoneStrategy(KeepingTimezoneStrategy.INSTANCE);
+        this.java8Configuration.setTimezoneStrategy(KeepingTimezoneStrategy.INSTANCE);
     }
-    
+
     @Given("^timezone strategy set to 'environment'$")
     public void timezone_strategy_set_to_environment() throws Throwable {
-        java8Configuration.setTimezoneStrategy(EnvironmentTimezoneStrategy.INSTANCE);
+        this.java8Configuration.setTimezoneStrategy(EnvironmentTimezoneStrategy.INSTANCE);
     }
-    
+
     @Given("^timezone strategy set to 'static' with timezone \"([^\"]*)\"$")
-    public void timezone_strategy_set_to_static_with_timezone(String arg1) throws Throwable {
-        java8Configuration.setTimezoneStrategy(StaticTimezoneStrategy.of(ZoneId.of(arg1)));
+    public void timezone_strategy_set_to_static_with_timezone(final String arg1) throws Throwable {
+        this.java8Configuration.setTimezoneStrategy(StaticTimezoneStrategy.of(ZoneId.of(arg1)));
     }
-    
+
     @Given("^system timezone set to \"([^\"]*)\"$")
-    public void system_timezone_set_to(String arg1) throws Throwable {
+    public void system_timezone_set_to(final String arg1) throws Throwable {
         TimeZone.setDefault(TimeZone.getTimeZone(arg1));
         // Reset to default timezone afterwards
-        afterHooks.add(() -> TimeZone.setDefault(null)); 
+        this.afterHooks.add(() -> TimeZone.setDefault(null));
     }
-    
+
     @Given("^timezone set to \"([^\"]*)\"$")
-    public void timezone_set_to(String arg1) throws Throwable {
-        configuration.setTimeZone(TimeZone.getTimeZone(ZoneId.of(arg1)));
+    public void timezone_set_to(final String arg1) throws Throwable {
+        this.configuration.setTimeZone(TimeZone.getTimeZone(ZoneId.of(arg1)));
     }
 
     @Given("^a template \"([^\"]*)\"$")
-    public void a_template_$_zoneid(String template) throws Throwable {
+    public void a_template_$_zoneid(final String template) throws Throwable {
         this.template = template;
     }
 
     @Given("^a ZoneId object for '(.*?)'$")
-    public void a_ZoneId_object_for_Europe_Oslo(String zone) throws Throwable {
-        obj = ZoneId.of(zone);
+    public void a_ZoneId_object_for_Europe_Oslo(final String zone) throws Throwable {
+        this.obj = ZoneId.of(zone);
     }
 
     @Then("^expect the template to return \"([^\"]*)\"$")
-    public void expect_the_template_to_return(String res) throws Throwable {
-        Writer out = process(res);
+    public void expect_the_template_to_return(final String res) throws Throwable {
+        final Writer out = process(res);
         if (!res.equals(out.toString())) {
             Assert.fail("Expected '" + res + "', but got '" + out.toString());
         }
@@ -138,8 +135,8 @@ public class DateTimeStepdefs {
 
     @Then("^expect the template to return the current year$")
     public void expect_the_template_to_return_the_current_year() throws Throwable {
-        String res = Year.now().toString();
-        Writer out = process(res);
+        final String res = Year.now().toString();
+        final Writer out = process(res);
         if (!res.equals(out.toString())) {
             Assert.fail("Expected '" + res + "', but got '" + out.toString());
         }
@@ -147,7 +144,7 @@ public class DateTimeStepdefs {
 
     @Then("^expect the template to return true$")
     public void expect_the_template_to_true() throws Throwable {
-        Writer out = process("true");
+        final Writer out = process("true");
         if (!"true".equals(out.toString())) {
             Assert.fail("Expected 'true', but got '" + out.toString());
         }
@@ -155,20 +152,20 @@ public class DateTimeStepdefs {
 
     @Then("^expect the template to return false$")
     public void expect_the_template_to_false() throws Throwable {
-        Writer out = process("false");
+        final Writer out = process("false");
         if (!"false".equals(out.toString())) {
             Assert.fail("Expected 'false', but got '" + out.toString());
         }
     }
 
-    private Writer process(String res) throws IOException, TemplateException {
-        Map<String, Object> map = new HashMap<>();
-        map.put("obj", obj);
-        if (obj2 != null) {
-            map.put("obj2", obj2);
+    private Writer process(final String res) throws IOException, TemplateException {
+        final Map<String, Object> map = new HashMap<>();
+        map.put("obj", this.obj);
+        if (this.obj2 != null) {
+            map.put("obj2", this.obj2);
         }
-        Template t = new Template("name", new StringReader(template), configuration);
-        Writer out = new StringWriter();
+        final Template t = new Template("name", new StringReader(this.template), this.configuration);
+        final Writer out = new StringWriter();
         t.process(map, out);
         out.flush();
         if (res == null) {
@@ -178,89 +175,88 @@ public class DateTimeStepdefs {
     }
 
     @Given("^YearMonth object for \"([^\"]*)\"$")
-    public void yearmonth_object_for(String arg1) throws Throwable {
-        obj = YearMonth.parse(arg1);
+    public void yearmonth_object_for(final String arg1) throws Throwable {
+        this.obj = YearMonth.parse(arg1);
     }
 
     @Given("^Year object for \"([^\"]*)\"$")
-    public void year_object_for(String arg1) throws Throwable {
-        obj = Year.parse(arg1);
+    public void year_object_for(final String arg1) throws Throwable {
+        this.obj = Year.parse(arg1);
     }
 
     @Then("^expect UnsupportedTemporalTypeException$")
     public void expect_UnsupportedTemporalTypeException() throws Throwable {
-        obj = Year.now();
+        this.obj = Year.now();
     }
 
     @Given("^Clock object for \"([^\"]*)\"$")
-    public void clock_object_for(String arg1) throws Throwable {
-        obj = Clock.fixed(Instant.parse(arg1), configuration.getTimeZone().toZoneId());
+    public void clock_object_for(final String arg1) throws Throwable {
+        this.obj = Clock.fixed(Instant.parse(arg1), this.configuration.getTimeZone().toZoneId());
     }
 
     @Given("^Duration object for \"([^\"]*)\"$")
-    public void duration_object_for(String arg1) throws Throwable {
-        obj = Duration.parse(arg1);
+    public void duration_object_for(final String arg1) throws Throwable {
+        this.obj = Duration.parse(arg1);
     }
 
     @Given("^Instant object for \"([^\"]*)\"$")
-    public void instant_object_for(String arg1) throws Throwable {
-        obj = Instant.parse(arg1);
+    public void instant_object_for(final String arg1) throws Throwable {
+        this.obj = Instant.parse(arg1);
     }
 
     @Given("^LocalDate object for \"([^\"]*)\"$")
-    public void localdate_object_for(String arg1) throws Throwable {
-        obj = LocalDate.parse(arg1);
+    public void localdate_object_for(final String arg1) throws Throwable {
+        this.obj = LocalDate.parse(arg1);
     }
 
     @Given("^LocalDate object2 for \"([^\"]*)\"$")
-    public void localdate_object2_for(String arg1) throws Throwable {
-        obj2 = LocalDate.parse(arg1);
+    public void localdate_object2_for(final String arg1) throws Throwable {
+        this.obj2 = LocalDate.parse(arg1);
     }
 
     @Given("^LocalDateTime object for \"([^\"]*)\"$")
-    public void localdatetime_object_for(String arg1) throws Throwable {
-        obj = LocalDateTime.parse(arg1);
+    public void localdatetime_object_for(final String arg1) throws Throwable {
+        this.obj = LocalDateTime.parse(arg1);
     }
 
     @Given("^LocalDateTime object2 for \"([^\"]*)\"$")
-    public void localdatetime_object2_for(String arg1) throws Throwable {
-        obj2 = LocalDateTime.parse(arg1);
+    public void localdatetime_object2_for(final String arg1) throws Throwable {
+        this.obj2 = LocalDateTime.parse(arg1);
     }
 
     @Given("^LocalTime object for \"([^\"]*)\"$")
-    public void localtime_object_for(String arg1) throws Throwable {
-        obj = LocalTime.parse(arg1);
+    public void localtime_object_for(final String arg1) throws Throwable {
+        this.obj = LocalTime.parse(arg1);
     }
 
     @Given("^LocalTime object2 for \"([^\"]*)\"$")
-    public void localtime_object2_for(String arg1) throws Throwable {
-        obj2 = LocalTime.parse(arg1);
+    public void localtime_object2_for(final String arg1) throws Throwable {
+        this.obj2 = LocalTime.parse(arg1);
     }
 
     @Given("^MonthDay object for \"([^\"]*)\"$")
-    public void monthday_object_for(String arg1) throws Throwable {
-        obj = MonthDay.parse(arg1);
+    public void monthday_object_for(final String arg1) throws Throwable {
+        this.obj = MonthDay.parse(arg1);
     }
 
     @Given("^OffsetDateTime object for \"([^\"]*)\"$")
-    public void offsetdatetime_object_for(String arg1) throws Throwable {
-        obj = OffsetDateTime.parse(arg1);
+    public void offsetdatetime_object_for(final String arg1) throws Throwable {
+        this.obj = OffsetDateTime.parse(arg1);
     }
 
     @Given("^OffsetTime object for \"([^\"]*)\"$")
-    public void offsettime_object_for(String arg1) throws Throwable {
-        obj = OffsetTime.parse(arg1);
+    public void offsettime_object_for(final String arg1) throws Throwable {
+        this.obj = OffsetTime.parse(arg1);
     }
 
-
     @Given("^Period object for \"([^\"]*)\"$")
-    public void period_object_for(String arg1) throws Throwable {
-        obj = Period.parse(arg1);
+    public void period_object_for(final String arg1) throws Throwable {
+        this.obj = Period.parse(arg1);
     }
 
     @Given("^ZoneOffset object for \"([^\"]*)\"$")
-    public void zoneoffset_object_for(Integer arg1) throws Throwable {
-        obj = ZoneOffset.ofHours(arg1);
+    public void zoneoffset_object_for(final Integer arg1) throws Throwable {
+        this.obj = ZoneOffset.ofHours(arg1);
     }
 
 }

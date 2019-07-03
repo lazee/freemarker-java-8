@@ -17,22 +17,19 @@
 package no.api.freemarker.java8.time;
 
 /**
- * Abstract formatter class.
+ * Abstract formatter class. Adapters supporting formatters will extend this class.
  *
- * Adapters supporting formatters will extend this class.
- *
- * @param <E>
- *         The java.time class this formatter handles.
+ * @param <E> The java.time class this formatter handles.
  */
 public abstract class AbstractFormatter<E> {
 
-    private E obj;
+    private final E obj;
 
-    public AbstractFormatter(E obj) {
+    public AbstractFormatter(final E obj) {
         this.obj = obj;
     }
 
     public E getObject() {
-        return obj;
+        return this.obj;
     }
 }
