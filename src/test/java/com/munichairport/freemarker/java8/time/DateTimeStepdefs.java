@@ -130,7 +130,7 @@ public class DateTimeStepdefs {
     public void expect_the_template_to_return(final String res) throws Throwable {
         final Writer out = process(res);
         if (!res.equals(out.toString())) {
-            Assert.fail("Expected '" + res + "', but got '" + out.toString());
+            Assert.fail("Expected '" + res + "', but got '" + out.toString() + "'");
         }
     }
 
@@ -139,7 +139,7 @@ public class DateTimeStepdefs {
         final String res = Year.now().toString();
         final Writer out = process(res);
         if (!res.equals(out.toString())) {
-            Assert.fail("Expected '" + res + "', but got '" + out.toString());
+            Assert.fail("Expected '" + res + "', but got '" + out.toString() + "'");
         }
     }
 
@@ -147,7 +147,7 @@ public class DateTimeStepdefs {
     public void expect_the_template_to_true() throws Throwable {
         final Writer out = process("true");
         if (!"true".equals(out.toString())) {
-            Assert.fail("Expected 'true', but got '" + out.toString());
+            Assert.fail("Expected 'true', but got '" + out.toString() + "'");
         }
     }
 
@@ -155,7 +155,7 @@ public class DateTimeStepdefs {
     public void expect_the_template_to_false() throws Throwable {
         final Writer out = process("false");
         if (!"false".equals(out.toString())) {
-            Assert.fail("Expected 'false', but got '" + out.toString());
+            Assert.fail("Expected 'false', but got '" + out.toString() + "'");
         }
     }
 
