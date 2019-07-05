@@ -18,6 +18,8 @@
  * This file was modified by Flughafen München GmbH in order to add
  * or change the following functionality:
  *  - Added support for JRE builtin formatters
+ *  - Remove handling of isAfter, isBefore because the default
+ *    bean model already supports this
  */
 
 package com.munichairport.freemarker.java8.time;
@@ -42,21 +44,7 @@ public final class DateTimeTools {
 
     public static final String METHOD_EQUALS = "isEqual";
 
-    public static final String METHOD_BEFORE = "isBefore";
-
-    public static final String METHOD_AFTER = "isAfter";
-
     public static final String METHOD_FORMAT = "format";
-
-    public static final String METHOD_DAYS = "days";
-
-    public static final String METHOD_MONTHS = "months";
-
-    public static final String METHOD_YEARS = "years";
-
-    public static final String METHOD_NANO = "nano";
-
-    public static final String METHOD_SECONDS = "seconds";
 
     public static final String METHOD_UNKNOWN_MSG = "Unknown method call: ";
 

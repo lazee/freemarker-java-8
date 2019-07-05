@@ -18,12 +18,13 @@
  * This file was modified by Flughafen München GmbH in order to add
  * or change the following functionality:
  *  - Added configuration support
+ *  - Removed Duration and Period adapters, as they do not give any
+ *    additional functionality to default bean model
  */
 
 package com.munichairport.freemarker.java8;
 
 import java.time.Clock;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,7 +32,6 @@ import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
-import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -42,7 +42,6 @@ import java.util.Objects;
 import com.munichairport.freemarker.java8.config.Java8Configuration;
 import com.munichairport.freemarker.java8.config.timezone.strategy.EnvironmentTimezoneStrategy;
 import com.munichairport.freemarker.java8.time.ClockAdapter;
-import com.munichairport.freemarker.java8.time.DurationAdapter;
 import com.munichairport.freemarker.java8.time.InstantAdapter;
 import com.munichairport.freemarker.java8.time.LocalDateAdapter;
 import com.munichairport.freemarker.java8.time.LocalDateTimeAdapter;
@@ -50,7 +49,6 @@ import com.munichairport.freemarker.java8.time.LocalTimeAdapter;
 import com.munichairport.freemarker.java8.time.MonthDayAdapter;
 import com.munichairport.freemarker.java8.time.OffsetDateTimeAdapter;
 import com.munichairport.freemarker.java8.time.OffsetTimeAdapter;
-import com.munichairport.freemarker.java8.time.PeriodAdapter;
 import com.munichairport.freemarker.java8.time.YearAdapter;
 import com.munichairport.freemarker.java8.time.YearMonthAdapter;
 import com.munichairport.freemarker.java8.time.ZoneIdAdapter;
@@ -90,8 +88,6 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
     protected TemplateModel handleUnknownType(final Object obj) throws TemplateModelException {
         if (obj instanceof Clock) {
             return new ClockAdapter((Clock) obj, getConfiguration());
-        } else if (obj instanceof Duration) {
-            return new DurationAdapter((Duration) obj, getConfiguration());
         } else if (obj instanceof Instant) {
             return new InstantAdapter((Instant) obj, getConfiguration());
         } else if (obj instanceof LocalDate) {
@@ -106,8 +102,6 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
             return new OffsetDateTimeAdapter((OffsetDateTime) obj, getConfiguration());
         } else if (obj instanceof OffsetTime) {
             return new OffsetTimeAdapter((OffsetTime) obj, getConfiguration());
-        } else if (obj instanceof Period) {
-            return new PeriodAdapter((Period) obj, getConfiguration());
         } else if (obj instanceof Year) {
             return new YearAdapter((Year) obj, getConfiguration());
         } else if (obj instanceof YearMonth) {

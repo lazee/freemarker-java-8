@@ -18,12 +18,12 @@
  * This file was modified by Flughafen München GmbH in order to add
  * or change the following functionality:
  *  - Added configuration support
+ *  - Only support isEqual, because isBefore and isAfter are
+ *    already supported by the default bean model
  */
 
 package com.munichairport.freemarker.java8.time;
 
-import static com.munichairport.freemarker.java8.time.DateTimeTools.METHOD_AFTER;
-import static com.munichairport.freemarker.java8.time.DateTimeTools.METHOD_BEFORE;
 import static com.munichairport.freemarker.java8.time.DateTimeTools.METHOD_EQUALS;
 
 import java.time.LocalTime;
@@ -52,7 +52,8 @@ public class LocalTimeAdapter extends AbstractAdapter<LocalTime> implements Adap
     protected TemplateModel getInternal(final String s) throws TemplateModelException {
         if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new LocalTimeFormatter(getObject());
-        } else if (DateTimeTools.METHOD_EQUALS.equals(s) || DateTimeTools.METHOD_AFTER.equals(s) || DateTimeTools.METHOD_BEFORE.equals(s)) {
+        } else if (DateTimeTools.METHOD_EQUALS.equals(s)) {
+            // LocalTime has no isEqual(...) method, because equals(...) has the same functionality
             return new LocalTimeChecker(getObject(), s);
         }
         throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
@@ -85,12 +86,8 @@ public class LocalTimeAdapter extends AbstractAdapter<LocalTime> implements Adap
             switch (this.method) {
                 case METHOD_EQUALS:
                     return getObject().equals(adapter.getObject());
-                case METHOD_AFTER:
-                    return getObject().isAfter(adapter.getObject());
-                case METHOD_BEFORE:
-                    return getObject().isBefore(adapter.getObject());
             }
-            throw new TemplateModelException("method not implemented");
+            throw new TemplateModelException("method '" + this.method + "' not implemented");
         }
     }
 }

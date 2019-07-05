@@ -18,13 +18,11 @@
  * This file was modified by Flughafen München GmbH in order to add
  * or change the following functionality:
  *  - Added configuration support
+ *  - Remove handling of isAfter, isBefore and isEqual because the default
+ *    bean model already supports this
  */
 
 package com.munichairport.freemarker.java8.time;
-
-import static com.munichairport.freemarker.java8.time.DateTimeTools.METHOD_AFTER;
-import static com.munichairport.freemarker.java8.time.DateTimeTools.METHOD_BEFORE;
-import static com.munichairport.freemarker.java8.time.DateTimeTools.METHOD_EQUALS;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,8 +50,6 @@ public class LocalDateAdapter extends AbstractAdapter<LocalDate> implements Adap
     protected TemplateModel getInternal(final String s) throws TemplateModelException {
         if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new LocalDateFormatter(getObject());
-        } else if (DateTimeTools.METHOD_EQUALS.equals(s) || DateTimeTools.METHOD_AFTER.equals(s) || DateTimeTools.METHOD_BEFORE.equals(s)) {
-            return new LocalDateChecker(getObject(), s);
         }
         throw new TemplateModelException(DateTimeTools.METHOD_UNKNOWN_MSG + s);
     }
@@ -67,31 +63,6 @@ public class LocalDateAdapter extends AbstractAdapter<LocalDate> implements Adap
         @Override
         public Object exec(final List list) throws TemplateModelException {
             return getObject().format(DateTimeTools.createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_LOCAL_DATE));
-        }
-    }
-
-    public class LocalDateChecker extends AbstractChecker<LocalDate> implements TemplateMethodModelEx {
-
-        private final String method;
-
-        public LocalDateChecker(final LocalDate obj, final String method) {
-            super(obj);
-            this.method = method;
-        }
-
-        @SuppressWarnings("Duplicates")
-        @Override
-        public Object exec(final List list) throws TemplateModelException {
-            final LocalDateAdapter adapter = (LocalDateAdapter) list.get(0);
-            switch (this.method) {
-                case METHOD_EQUALS:
-                    return getObject().isEqual(adapter.getObject());
-                case METHOD_AFTER:
-                    return getObject().isAfter(adapter.getObject());
-                case METHOD_BEFORE:
-                    return getObject().isBefore(adapter.getObject());
-            }
-            throw new TemplateModelException("method not implemented");
         }
     }
 }
