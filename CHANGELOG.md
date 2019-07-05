@@ -5,9 +5,9 @@
 
 - Moved from amedia to Munich Airport. New maven dependency:
 
-    <groupId>com.munichairport.freemarker</groupId>
-    <artifactId>freemarker-java8</artifactId>
-    <version>2.0.0</version>
+      <groupId>com.munichairport.freemarker</groupId>
+      <artifactId>freemarker-java8</artifactId>
+      <version>2.0.0</version>
 
 - Added fallback to default bean model. All methods provided by the classes can now be used. For example: `${duration.plusMinutes(1).toMinutes()}`
   In addition all getters may be used as properties. For example `${duration.getSeconds()}` can be written as `${duration.seconds}`
