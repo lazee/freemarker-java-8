@@ -49,7 +49,7 @@ public class LocalTimeAdapter extends AbstractAdapter<LocalTime> implements Adap
     }
 
     @Override
-    public TemplateModel get(final String s) throws TemplateModelException {
+    protected TemplateModel getInternal(final String s) throws TemplateModelException {
         if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new LocalTimeFormatter(getObject());
         } else if (DateTimeTools.METHOD_EQUALS.equals(s) || DateTimeTools.METHOD_AFTER.equals(s) || DateTimeTools.METHOD_BEFORE.equals(s)) {

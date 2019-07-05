@@ -43,7 +43,7 @@ public class DurationAdapter extends AbstractAdapter<Duration> implements Adapte
     }
 
     @Override
-    public TemplateModel get(final String s) throws TemplateModelException {
+    protected TemplateModel getInternal(final String s) throws TemplateModelException {
         if (DateTimeTools.METHOD_NANO.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getNano());
         } else if (DateTimeTools.METHOD_SECONDS.equalsIgnoreCase(s)) {

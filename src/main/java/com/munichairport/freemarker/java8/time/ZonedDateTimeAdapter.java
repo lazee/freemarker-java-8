@@ -49,7 +49,7 @@ public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> impleme
     }
 
     @Override
-    public TemplateModel get(final String s) throws TemplateModelException {
+    protected TemplateModel getInternal(final String s) throws TemplateModelException {
         if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new ZonedDateTimeFormatter(getObject());
         }

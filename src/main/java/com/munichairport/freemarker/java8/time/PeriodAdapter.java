@@ -43,7 +43,7 @@ public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTem
     }
 
     @Override
-    public TemplateModel get(final String s) throws TemplateModelException {
+    protected TemplateModel getInternal(final String s) throws TemplateModelException {
         if (DateTimeTools.METHOD_DAYS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getDays());
         } else if (DateTimeTools.METHOD_MONTHS.equalsIgnoreCase(s)) {

@@ -51,7 +51,7 @@ public class ZoneIdAdapter extends AbstractAdapter<ZoneId> implements AdapterTem
     }
 
     @Override
-    public TemplateModel get(final String s) throws TemplateModelException {
+    protected TemplateModel getInternal(final String s) throws TemplateModelException {
         if (DateTimeTools.METHOD_FORMAT.equals(s)) {
             return new ZoneIdFormatter(getObject());
         }

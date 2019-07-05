@@ -18,6 +18,8 @@
  * This file was modified by Flughafen München GmbH in order to add
  * or change the following functionality:
  *  - Added configuration support
+ *  - Fallback to default bean model, if no internal method handler
+ *    was found
  */
 
 package com.munichairport.freemarker.java8.time;
@@ -26,8 +28,12 @@ import java.util.Objects;
 
 import com.munichairport.freemarker.java8.config.Java8Configuration;
 
+import freemarker.ext.beans.BeanModel;
+import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.AdapterTemplateModel;
+import freemarker.template.Configuration;
 import freemarker.template.TemplateHashModel;
+import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -39,11 +45,14 @@ public abstract class AbstractAdapter<E> implements AdapterTemplateModel, Templa
 
     private final E obj;
 
+    private final BeanModel fallback;
+
     private final Java8Configuration configuration;
 
     public AbstractAdapter(final E obj, final Java8Configuration configuration) {
         this.obj = obj;
         this.configuration = Objects.requireNonNull(configuration, "configuration");
+        this.fallback = new BeanModel(obj, new BeansWrapperBuilder(Configuration.getVersion()).build());
     }
 
     public String getAsString() throws TemplateModelException {
@@ -59,6 +68,23 @@ public abstract class AbstractAdapter<E> implements AdapterTemplateModel, Templa
     public boolean isEmpty() throws TemplateModelException {
         return false;
     }
+
+    @Override
+    public final TemplateModel get(final String key) throws TemplateModelException {
+        try {
+            return getInternal(key);
+        } catch (final TemplateModelException ex) {
+            // Fallback to default bean model, if our implementation could not handle the key
+            try {
+                return this.fallback.get(key);
+            } catch (final TemplateModelException suppressed) {
+                ex.addSuppressed(suppressed);
+                throw ex;
+            }
+        }
+    }
+
+    protected abstract TemplateModel getInternal(String key) throws TemplateModelException;
 
     public E getObject() {
         return this.obj;
