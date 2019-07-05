@@ -1,12 +1,14 @@
 
-# Java8 Date/Time Support For FreeMarker image:https://travis-ci.org/amedia/freemarker-java-8.svg?branch=master["Build Status", link="https://travis-ci.org/amedia/freemarker-java-8"]
+# Java8 Date/Time Support For FreeMarker
+
+This project is forked from the original but mostly "dead" project of amedia. See the original project https://github.com/amedia/freemarker-java-8[here].
 
 This is a tiny Java library that adds basic support for the new Java 8 date/time api to FreeMarker. It is not a perfect solution as FreeMarker doesn't support adding custom built-ins. Hopefully FreeMarker will add native support in the future, but there are no implementation being worked on at the moment (http://freemarker.org/contribute.html).
 
 The library has basic formatting support for all classes in the java.time api introduced in Java 8, using the
-new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]. We have also introduced som comparison methods.
+new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]. We have also introduced some comparison methods.
  
-Take a look at our feature test spec too see how it all works : https://github.com/amedia/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/
+Take a look at our feature test spec too see how it all works : https://github.com/Munich-Airport/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/
 
 ## Requirements
 
@@ -21,9 +23,9 @@ like this :
 [source, xml]
 ----
 <dependency>
-    <groupId>no.api.freemarker</groupId>
+    <groupId>com.munichairport.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>1.1.5</version>
+    <version>2.0.0</version>
 </dependency>
 ----
 
@@ -36,7 +38,10 @@ You need to configure FreeMarker with our package by adding the `Java8ObjectWrap
 [source, java]
 ----
 this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
-this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
+final Java8Configuration java8Configuration = Java8Configuration.defaultConfiguration();
+// Configure the java8 module
+// e.g.: java8Configuration.setTimezoneStrategy(SystemTimezoneStrategy.INSTANCE);
+this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23, java8Configuration));
 ----
 
 ### Usage within Spring
@@ -60,8 +65,9 @@ public class FreemarkerConfig extends FreeMarkerAutoConfiguration.FreeMarkerWebC
 
     @PostConstruct
     public void postConstruct() {
+        final Java8Configuration java8Configuration = Java8Configuration.defaultConfiguration();
         configuration.setObjectWrapper(
-                new Java8ObjectWrapper(freemarker.template.Configuration.getVersion())); // VERSION_2_3_26
+                new Java8ObjectWrapper(freemarker.template.Configuration.getVersion(), java8Configuration)); // VERSION_2_3_26
     }
 
 }
@@ -72,7 +78,7 @@ public class FreemarkerConfig extends FreeMarkerAutoConfiguration.FreeMarkerWebC
 We had to cheat a little bit to add format methods to our date.time classes. This is why you will see that our syntax differs from the default FreeMarker built-ins.
 
 All format methods uses the https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]
-for formatting.
+for formatting. For sake of completion we also added a `isEqual(...)` to `LocalTime` instances. All bean methods of the java.time classes are still supported.
 
 [cols="^,^,^,^", options="header"]
 .java.time template methods
@@ -84,11 +90,6 @@ for formatting.
 |This is a simple implementation where format just prints the toString() value of the object.
 |`${myclock.format()}`
 
-|Duration
-|`nano(), seconds()`
-|Gives access to the Duration values
-|`${myduration.seconds}, ${myduration.nano}`
-
 |Instant
 |`format()`
 |This is a simple implementation where format just prints the toString() value of the object.
@@ -96,18 +97,18 @@ for formatting.
 
 |LocalDate
 |`format(), format(pattern)`
-|Allows you to print a LocalDate on a default pattern, by providing a custom pattern or a builtin format style.
-|`${mylocaldate.format()}`, `${mylocaldate.format('yyyy MM dd')}` or `${mylocaldate.format('FULL_DATE')}`
+|Allows you to print a LocalDate on a default pattern, or by providing a custom pattern or a builtin format style or the static field name of the `DateTimeFormatter` class.
+|`${mylocaldate.format()}`, `${mylocaldate.format('yyyy MM dd')}` or `${mylocaldate.format('FULL_DATE')}` or `${mylocaldate.format('ISO_DATE')}`
 
 |LocalDateTime
 |`format(), format(pattern)`
-|Allows you to print a LocalDateTime on a default pattern, by providing a custom pattern or a builtin format style.
-|`${mylocaldatetime.format()}`, `${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}` or `${mylocaldatetime.format('MEDIUM_DATETIME')}`
+|Allows you to print a LocalDateTime on a default pattern, or by providing a custom pattern or a builtin format style or the static field name of the `DateTimeFormatter` class.
+|`${mylocaldatetime.format()}`, `${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}` or `${mylocaldatetime.format('MEDIUM_DATETIME')}` or `${mylocaldatetime.format('ISO_DATE_TIME')}`
 
 |LocalTime
 |`format(), format(pattern)`
-|Allows you to print a LocalTime on a default pattern, by providing a custom pattern or a builtin format style.
-|`${mylocaltime.format()}`, `${mylocaltime.format('HH : mm : ss')}` or `${mylocaltime.format('SHORT_TIME')}`
+|Allows you to print a LocalTime on a default pattern, or by providing a custom pattern or a builtin format style or the static field name of the `DateTimeFormatter` class.
+|`${mylocaltime.format()}`, `${mylocaltime.format('HH : mm : ss')}` or `${mylocaltime.format('SHORT_TIME')}` or `${mylocaltime.format('ISO_TIME')}`
 
 |MonthDay
 |`format(), format(pattern)`
@@ -116,18 +117,13 @@ for formatting.
 
 |OffsetDateTime
 |`format(), format(pattern)`
-|Allows you to print a OffsetDateTime on a default pattern, by providing a custom pattern or a builtin format style.
-|`${myoffsetdatetime.format()}`, `${myoffsetdatetime.format('yyyy MM dd HH mm ss')}` or `${myoffsetdatetime.format('FULL_DATETIME')}`
+|Allows you to print a OffsetDateTime on a default pattern, or by providing a custom pattern or a builtin format style or the static field name of the `DateTimeFormatter` class.
+|`${myoffsetdatetime.format()}`, `${myoffsetdatetime.format('yyyy MM dd HH mm ss')}` or `${myoffsetdatetime.format('FULL_DATETIME')}` or `${myoffsetdatetime.format('IOS_OFFSET_DATE_TIME')}`
 
 |OffsetTime
 |`format(), format(pattern)`
-|Allows you to print a OffsetTime on a default pattern, by providing a custom pattern or a builtin format style.
-|`${myoffsettime.format()}`, `${myoffsettime.format('HH mm ss')}` or `${myoffsettime.format('MEDIUM_TIME')}`
-
-|Period
-|`days(), months(), years()`
-|Gives access to the values of the Period object.
-|`${myperiod.days}, ${myperiod.months}, ${myperiod.years}`
+|Allows you to print a OffsetTime on a default pattern, or by providing a custom pattern or a builtin format style or the static field name of the `DateTimeFormatter` class.
+|`${myoffsettime.format()}`, `${myoffsettime.format('HH mm ss')}` or `${myoffsettime.format('MEDIUM_TIME')}` or `${myoffsettime.format('IOS_OFFSET_TIME')}`
 
 |Year
 |`format(), format(pattern)`
@@ -141,8 +137,8 @@ for formatting.
 
 |ZonedDateTime
 |`format(), format(pattern), format(pattern, zoneId)`
-|Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern.
-|`${myzoneddatetime.format()}` or `${myzoneddatetime.format('yyyy-MM-dd Z')}` or `${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}`
+|Allows you to print a ZonedDateTime on a default pattern/timezone (see timezone strategies), or by providing a custom pattern or a builtin format style or the static field name of the `DateTimeFormatter` class.
+|`${myzoneddatetime.format()}` or `${myzoneddatetime.format('yyyy-MM-dd Z')}` or `${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}` or `${myzoneddatetime.format('ISO_ZONED_DATE_TIME', 'Asia/Seoul')}`
 
 |ZoneId
 |`format(), format(textStyle), format(textstyle, locale)`
@@ -153,7 +149,7 @@ for formatting.
 |ZoneOffset
 |`format(), format(textStyle)`
 |Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
-|${myzoneoffset.format()}` or `${myzoneoffset.format('short')}` or `${myzoneoffset.format('short', 'no-NO')}
+|`${myzoneoffset.format()}` or `${myzoneoffset.format('short')}` or `${myzoneoffset.format('short', 'no-NO')}`
 |===
 
 [cols="^,^,^,^", options="header"]
@@ -161,17 +157,45 @@ for formatting.
 |===
 | java.time class | methods | comment | example
 
-|LocalDate
-|`isEqual(<LocalDate object>), isAfter(<LocalDate object>), isBefore(<LocalDate object>)`
-|Can compare two LocalDate objects for equality.
-|`${localDate.isEqual(anotherlocalDate)} or ${localDate.isAfter(anotherlocalDate)} or ${localDate.isBefore(anotherlocalDate)}`
-
-|LocalDateTime
-|`isEqual(<LocalDateTime object>), isAfter(<LocalDateTime object>), isBefore(<LocalDateTime object>)`
-|Can compare two LocalDateTime objects for equality.
-|`${localDateTime.isEqual(anotherlocalDateTime)} or ${localDateTime.isAfter(anotherlocalDateTime)} or ${localDateTime.isBefore(anotherlocalDateTime)}`
-
 |LocalTime
-|`isEqual(<LocalTime object>), isAfter(<LocalTime object>), isBefore(<LocalTime object>)`
+|`isEqual(<LocalTime object>)`
 |Can compare two LocalTime objects for equality.
-|`${localTime.isEqual(anotherlocalTime)} or ${localTime.isAfter(anotherlocalTime)} or ${localTime.isBefore(anotherlocalTime)}`
+|`${localTime.isEqual(anotherlocalTime)}`
+|===
+
+[cols="^", options="header"]
+.supported default patterns
+|===
+| pattern
+
+|LONG_DATE
+
+|LONG_DATETIME
+
+|LONG_TIME
+
+|MEDIUM_DATE
+
+|MEDIUM_DATETIME
+
+|MEDIUM_TIME
+
+|SHORT_DATE
+
+|SHORT_DATETIME
+
+|SHORT_TIME
+
+|===
+
+
+## Timezone Strategies
+
+Prior to version 2.0.0 all `ZonedDateTime` instances formatted using `format()` or `format(pattern)` were translated into the `ZoneId` retrieved by `Environment.getCurrentEnvironment().getTimezone().toZoneId()`. This leads to unexpected behavior as the purpose of `ZonedDateTime` is to have an instant in a specific timezone. Otherwise `LocalDateTime` could be used.
+From version 2.0.0 onwards, this behavior can be changed by providing a `Java8Configuration` with a specific `TimezoneStrategy` when creating the `Java8ObjectWrapper`. 
+Due to backwards compability this behavior is still present when creating a `Java8ObjectWrapper` without a `Java8Configuration`. The `Java8Configuration.defaultConfiguration()` however uses a different `TimezoneStrategy`. There are currently 4 builtin strategies:
+
+1. `EnvironmentTimezoneStrategy`: Always uses the `ZoneId` provided by the `Environment.getCurrentEnvironment()`. This is the default strategy for version < 2.0.0. This strategy is used when creating a `Java8ObjectWrapper` without a `Java8Configuration`
+1. `KeepingTimezoneStrategy`: Does not change the `ZoneId`. This is the default strategy used when creating a `Java8Configuration.defaultConfiguration()`.
+1. `StaticTimezoneStrategy`: Always uses the `ZoneId` provided when constructing this strategy.
+1. `SystemTimezoneStrategy`: Always uses the `ZoneId` provided by `ZoneId.systemDefault()`

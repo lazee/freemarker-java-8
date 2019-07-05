@@ -1,5 +1,29 @@
 # Change Log
 
+## [freemarker-java8-2.0.0](https://github.com/Munich-Airport/freemarker-java-8/tree/master) (TBD)
+[Full Changelog](https://github.com/Munich-Airport/freemarker-java-8/compare/freemarker-java8-1.2.0...freemarker-java8-2.0.0)
+
+- Moved from amedia to Munich Airport. New maven dependency:
+
+    <groupId>com.munichairport.freemarker</groupId>
+    <artifactId>freemarker-java8</artifactId>
+    <version>2.0.0</version>
+
+- Added fallback to default bean model. All methods provided by the classes can now be used. For example: `${duration.plusMinutes(1).toMinutes()}`
+  In addition all getters may be used as properties. For example `${duration.getSeconds()}` can be written as `${duration.seconds}`
+- Added support for configuring the `Java8ObjectWrapper` using an instance of `com.munichairport.freemarker.java8.config.Java8Configuration`. 
+- Added support for different timezone strategies when formatting a `ZonedDateTime` using `format()` or `format(pattern)`. Currently supported are:
+  1. `EnvironmentTimezoneStrategy`: 
+      Uses the `Environment.getCurrentEnvironment().getTimezone().toZoneId()` as ZoneId. The default behavior prior to 2.0.0.
+  1. `KeepingTimezoneStragegy`: 
+      Does not change the ZoneId of the input. Default behavior when creating a new `Java8Configuration`.
+  1. `StaticTimezoneStrategy`:
+      Changes all input ZoneIds to the statically configured.
+  1. `SystemTimezoneStrategy`:
+      Uses the system wide ZoneId.
+- Added support to use builtin static `DateTimeFormatter` instances by defining the static field name. 
+  For example: `${zonedDateTime.format('ISO_ZONED_DATE_TIME')}` formats the instance using the `DateTimeFormatter.ISO_ZONED_DATE_TIME` formatter.
+
 ## [freemarker-java8-1.2.0](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.2.0) (2017-08-08)
 [Full Changelog](https://github.com/amedia/freemarker-java-8/compare/freemarker-java8-1.1.5...freemarker-java8-1.2.0)
 
