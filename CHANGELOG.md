@@ -5,7 +5,7 @@
 
 - Moved from amedia to Munich Airport. New maven dependency:
 
-      <groupId>com.munichairport.freemarker</groupId>
+      <groupId>com.munich-airport.freemarker</groupId>
       <artifactId>freemarker-java8</artifactId>
       <version>2.0.0</version>
 
