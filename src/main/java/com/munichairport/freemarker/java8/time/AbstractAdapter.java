@@ -29,9 +29,8 @@ import java.util.Objects;
 import com.munichairport.freemarker.java8.config.Java8Configuration;
 
 import freemarker.ext.beans.BeanModel;
-import freemarker.ext.beans.BeansWrapperBuilder;
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
-import freemarker.template.Configuration;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
@@ -49,10 +48,10 @@ public abstract class AbstractAdapter<E> implements AdapterTemplateModel, Templa
 
     private final Java8Configuration configuration;
 
-    public AbstractAdapter(final E obj, final Java8Configuration configuration) {
+    public AbstractAdapter(final E obj, final Java8Configuration configuration, final BeansWrapper wrapper) {
         this.obj = obj;
         this.configuration = Objects.requireNonNull(configuration, "configuration");
-        this.fallback = new BeanModel(obj, new BeansWrapperBuilder(Configuration.getVersion()).build());
+        this.fallback = new BeanModel(obj, Objects.requireNonNull(wrapper, "wrapper"));
     }
 
     public String getAsString() throws TemplateModelException {

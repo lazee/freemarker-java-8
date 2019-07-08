@@ -32,6 +32,7 @@ import java.util.List;
 
 import com.munichairport.freemarker.java8.config.Java8Configuration;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -44,8 +45,8 @@ import freemarker.template.TemplateScalarModel;
  */
 public class LocalTimeAdapter extends AbstractAdapter<LocalTime> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-    public LocalTimeAdapter(final LocalTime obj, final Java8Configuration configuration) {
-        super(obj, configuration);
+    public LocalTimeAdapter(final LocalTime obj, final Java8Configuration configuration, final BeansWrapper wrapper) {
+        super(obj, configuration, wrapper);
     }
 
     @Override

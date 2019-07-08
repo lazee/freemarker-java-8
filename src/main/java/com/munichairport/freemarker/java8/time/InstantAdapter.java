@@ -27,6 +27,7 @@ import java.util.List;
 
 import com.munichairport.freemarker.java8.config.Java8Configuration;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -39,8 +40,8 @@ import freemarker.template.TemplateScalarModel;
  */
 public class InstantAdapter extends AbstractAdapter<Instant> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-    public InstantAdapter(final Instant obj, final Java8Configuration configuration) {
-        super(obj, configuration);
+    public InstantAdapter(final Instant obj, final Java8Configuration configuration, final BeansWrapper wrapper) {
+        super(obj, configuration, wrapper);
     }
 
     @Override

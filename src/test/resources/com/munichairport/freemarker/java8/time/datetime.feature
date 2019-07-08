@@ -333,3 +333,11 @@ Feature: Test the date time functionality
         And a template "${obj}"
         And ZoneOffset object for "2"
         Then expect the template to return "+02:00"
+        
+    ### NestedCall ###
+    Scenario: Test nested java.time access use in template
+        Given an freemarker environment with locale set to "de-DE"
+        And timezone set to "Europe/Berlin"
+        And a template "${obj.zone.format('SHORT')}"
+        And ZonedDateTime object for "2007-12-03T16:15:30+07:00[America/Los_Angeles]"
+        Then expect the template to return "PT"

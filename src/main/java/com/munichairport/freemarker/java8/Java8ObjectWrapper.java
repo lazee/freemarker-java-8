@@ -87,31 +87,31 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
     @Override
     protected TemplateModel handleUnknownType(final Object obj) throws TemplateModelException {
         if (obj instanceof Clock) {
-            return new ClockAdapter((Clock) obj, getConfiguration());
+            return new ClockAdapter((Clock) obj, getConfiguration(), this);
         } else if (obj instanceof Instant) {
-            return new InstantAdapter((Instant) obj, getConfiguration());
+            return new InstantAdapter((Instant) obj, getConfiguration(), this);
         } else if (obj instanceof LocalDate) {
-            return new LocalDateAdapter((LocalDate) obj, getConfiguration());
+            return new LocalDateAdapter((LocalDate) obj, getConfiguration(), this);
         } else if (obj instanceof LocalDateTime) {
-            return new LocalDateTimeAdapter((LocalDateTime) obj, getConfiguration());
+            return new LocalDateTimeAdapter((LocalDateTime) obj, getConfiguration(), this);
         } else if (obj instanceof LocalTime) {
-            return new LocalTimeAdapter((LocalTime) obj, getConfiguration());
+            return new LocalTimeAdapter((LocalTime) obj, getConfiguration(), this);
         } else if (obj instanceof MonthDay) {
-            return new MonthDayAdapter((MonthDay) obj, getConfiguration());
+            return new MonthDayAdapter((MonthDay) obj, getConfiguration(), this);
         } else if (obj instanceof OffsetDateTime) {
-            return new OffsetDateTimeAdapter((OffsetDateTime) obj, getConfiguration());
+            return new OffsetDateTimeAdapter((OffsetDateTime) obj, getConfiguration(), this);
         } else if (obj instanceof OffsetTime) {
-            return new OffsetTimeAdapter((OffsetTime) obj, getConfiguration());
+            return new OffsetTimeAdapter((OffsetTime) obj, getConfiguration(), this);
         } else if (obj instanceof Year) {
-            return new YearAdapter((Year) obj, getConfiguration());
+            return new YearAdapter((Year) obj, getConfiguration(), this);
         } else if (obj instanceof YearMonth) {
-            return new YearMonthAdapter((YearMonth) obj, getConfiguration());
+            return new YearMonthAdapter((YearMonth) obj, getConfiguration(), this);
         } else if (obj instanceof ZonedDateTime) {
-            return new ZonedDateTimeAdapter((ZonedDateTime) obj, getConfiguration());
+            return new ZonedDateTimeAdapter((ZonedDateTime) obj, getConfiguration(), this);
         } else if (obj instanceof ZoneOffset) {
-            return new ZoneOffsetAdapter((ZoneOffset) obj, getConfiguration());
+            return new ZoneOffsetAdapter((ZoneOffset) obj, getConfiguration(), this);
         } else if (obj instanceof ZoneId) {
-            return new ZoneIdAdapter((ZoneId) obj, getConfiguration());
+            return new ZoneIdAdapter((ZoneId) obj, getConfiguration(), this);
         }
         return super.handleUnknownType(obj);
     }
