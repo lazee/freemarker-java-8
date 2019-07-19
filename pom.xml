@@ -19,6 +19,7 @@
   ~ This file was modified by Flughafen München GmbH in order to add
   ~ or change the following functionality:
   ~  - Changed Amedia specific information to Munich Airport information
+  ~  - Externalized versions into properties
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -66,14 +67,24 @@
   </scm>
 
   <properties>
+    <!-- Default environment properties -->
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    
+    <!-- Dependency versions -->    
     <freemarker.version>2.3.23</freemarker.version>
     <cucumber.version>1.2.4</cucumber.version>
     <junit.version>4.12</junit.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <gherkin.version>2.12.2</gherkin.version>
+    
+    <!-- Plugin versions -->
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
   </properties>
 
   <issueManagement>
@@ -106,7 +117,7 @@
     <dependency>
       <groupId>info.cukes</groupId>
       <artifactId>gherkin</artifactId>
-      <version>2.12.2</version>
+      <version>${gherkin.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -146,12 +157,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
+          <version>${maven-gpg-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.3</version>
+          <version>${maven-release-plugin.version}</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <useReleaseProfile>true</useReleaseProfile>
@@ -162,7 +173,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>${maven-source-plugin.version}</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -175,7 +186,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.4</version>
+          <version>${maven-javadoc-plugin.version}</version>
           <executions>
             <execution>
               <id>attach-javadocs</id>
