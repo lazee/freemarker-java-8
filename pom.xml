@@ -20,6 +20,7 @@
   ~ or change the following functionality:
   ~  - Changed Amedia specific information to Munich Airport information
   ~  - Externalized versions into properties
+  ~  - Fix scm connection url to sonatype requirements
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -60,7 +61,7 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:ssh://git@github.com:Munich-Airport/freemarker-java-8.git</connection>
+    <connection>scm:git:git://github.com/Munich-Airport/freemarker-java-8.git</connection>
     <developerConnection>scm:git:ssh://git@github.com:Munich-Airport/freemarker-java-8.git</developerConnection>
     <url>https://github.com/Munich-Airport/freemarker-java-8</url>
     <tag>HEAD</tag>
