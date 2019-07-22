@@ -1,7 +1,7 @@
 # Change Log
 
-## [freemarker-java8-2.0.0](https://github.com/Munich-Airport/freemarker-java-8/tree/master) (TBD)
-[Full Changelog](https://github.com/Munich-Airport/freemarker-java-8/compare/freemarker-java8-1.2.0...freemarker-java8-2.0.0)
+## [2.0.0](https://github.com/Munich-Airport/freemarker-java-8/tree/2.0.0) (2019-07-22)
+[Full Changelog](https://github.com/Munich-Airport/freemarker-java-8/compare/freemarker-java8-1.3.0...2.0.0)
 
 - Moved from amedia to Munich Airport. New maven dependency:
 
