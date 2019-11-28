@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2015-2015 Amedia Utvikling AS.
+  ~ Copyright (c) 2019 Jakob Vad Nielsen
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -25,18 +25,12 @@
     <version>1.3.1-SNAPSHOT</version>
     <name>freemarker-java8</name>
     <description>This is a tiny Java library that adds basic format support for the new Java 8 date/time api in FreeMarker.</description>
-    <url>http://github.com/amedia/freemarker-java-8</url>
-
-    <organization>
-        <name>Amedia Utvikling AS</name>
-        <url>http://www.amedia.no</url>
-    </organization>
+    <url>http://github.com/lazee/freemarker-java-8</url>
 
     <developers>
         <developer>
             <name>Jakob Vad Nielsen</name>
-            <email>jakob.nielsen@amedia.no</email>
-            <organization>Amedia Utvikling AS</organization>
+            <email>jakobvadnielsen@gmail.-com</email>
         </developer>
     </developers>
 
@@ -48,9 +42,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com/amedia/freemarker-java-8.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/amedia/freemarker-java-8.git</developerConnection>
-        <url>https://github.com/amedia/freemarker-java-8</url>
+        <connection>scm:git:ssh://git@github.com/lazee/freemarker-java-8.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/lazee/freemarker-java-8.git</developerConnection>
+        <url>https://github.com/lazee/freemarker-java-8</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -67,7 +61,7 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/amedia/freemarker-java-8/issues</url>
+        <url>https://github.com/lazee/freemarker-java-8/issues</url>
     </issueManagement>
 
     <prerequisites>
