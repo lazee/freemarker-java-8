@@ -6,7 +6,9 @@ This is a tiny Java library that adds basic support for the new Java 8 date/time
 The library has basic formatting support for all classes in the java.time api introduced in Java 8, using the
 new https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]. We have also introduced som comparison methods.
  
-Take a look at our feature test spec too see how it all works : https://github.com/amedia/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/
+Take a look at our feature test spec too see how it all works : https://github.com/lazee/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/
+
+NOTE: Recently this repository was moved from the Amedia organisation to my private account on Github. The reason behind this is that I recently left Amedia after 13 years (!) and that they let me take this project with me. The package naming will however stay the same.
 
 ## Requirements
 
