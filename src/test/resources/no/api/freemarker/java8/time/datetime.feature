@@ -94,7 +94,7 @@ Feature: Test the date time functionality
         And timezone set to "Europe/Oslo"
         And a template "${obj.format('MEDIUM_DATETIME')}"
         And LocalDateTime object for "2007-12-03T10:15:30"
-        Then expect the template to return "03.des.2007 10:15:30"
+        Then expect the template to return "03.des.2007 10:15:30" or "3. des. 2007, 10:15:30"
 
     Scenario: Test basic LocalDateTime use in template with SHORT_TIME
         Given an freemarker environment with locale set to "no-No"
@@ -160,7 +160,7 @@ Feature: Test the date time functionality
         And timezone set to "Europe/Oslo"
         And a template "${obj.format('YYYY MMMM EEEE d HH:mm:ss Z')}"
         And OffsetDateTime object for "2007-12-03T10:15:30+01:00"
-        Then expect the template to return "2007 joulukuuta maanantai 3 10:15:30 +0100"
+        Then expect the template to return "2007 joulukuuta maanantai 3 10:15:30 +0100" or "2007 joulukuuta maanantaina 3 10:15:30 +0100"
 
     ### OffsetTime ###
     Scenario: Test basic OffsetTime use in template
@@ -270,7 +270,7 @@ Feature: Test the date time functionality
         And timezone set to "Europe/Oslo"
         And a template "${obj}"
         And a ZoneId object for 'Europe/Oslo'
-        Then expect the template to return "Central European Time"
+        Then expect the template to return "Central European Time" or "sentraleuropeisk tid"
 
     Scenario: Test that using ZoneId inside a template will return the toString() value
         Given an freemarker environment with locale set to "fi-FI"
