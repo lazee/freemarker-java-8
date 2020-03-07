@@ -290,6 +290,13 @@ Feature: Test the date time functionality
         And ZonedDateTime object for "2007-12-03T10:15:30+01:00[Europe/Paris]"
         Then expect the template to return "2007-12-03T10:15:30+01:00[Europe/Paris]"
 
+    Scenario: Test basic ZonedDateTime use in template (keeping).
+        Given an freemarker environment with locale set to "no-NO"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.format()}"
+        And ZonedDateTime object for "2007-12-03T10:15:30+01:00[Europe/Paris]"
+        Then expect the template to return "2007-12-03T10:15:30+01:00[Europe/Paris]"
+
     Scenario: Test that using a preset ZonedDateTime inside a template will return the default time zone
         Given an freemarker environment with locale set to "no-NO"
         And timezone set to "Europe/Oslo"
@@ -335,9 +342,9 @@ Feature: Test the date time functionality
         Then expect the template to return "+02:00"
 
     ### NestedCall ###
-#    Scenario: Test nested java.time access use in template
-#        Given an freemarker environment with locale set to "de-DE"
-#        And timezone set to "Europe/Berlin"
-#        And a template "${obj.zone.format('SHORT')}"
-#        And ZonedDateTime object for "2007-12-03T16:15:30+07:00[America/Los_Angeles]"
-#        Then expect the template to return "PT"
+    Scenario: Test nested java.time access use in template
+        Given an freemarker environment with locale set to "de-DE"
+        And timezone set to "Europe/Berlin"
+        And a template "${obj.zone.format('SHORT')}"
+        And ZonedDateTime object for "2007-12-03T16:15:30+07:00[America/Los_Angeles]"
+        Then expect the template to return "PT"

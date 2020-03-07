@@ -1,7 +1,6 @@
 package no.api.freemarker.java8.time;
 
 import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import freemarker.template.Configuration;
@@ -35,8 +34,6 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -53,21 +50,14 @@ public class DateTimeStepdefs {
 
     private Configuration configuration;
 
-    private List<Runnable> afterHooks;
-
     public DateTimeStepdefs() {
         this.configuration = new Configuration(Configuration.VERSION_2_3_23);
-        this.configuration.setObjectWrapper(new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZonedDateTimeStrategy()));
-    }
-
-    @Before
-    public void before() {
-        this.afterHooks = new LinkedList<>();
+        this.configuration.setObjectWrapper(new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZonedDateTimeStrategy()));
     }
 
     @After
     public void runAfterHooks() {
-        this.afterHooks.forEach(Runnable::run);
+        setStrategy(new KeepingZonedDateTimeStrategy());
     }
 
 
@@ -128,8 +118,6 @@ public class DateTimeStepdefs {
     @Given("^system timezone set to \"([^\"]*)\"$")
     public void system_timezone_set_to(final String arg1) {
         TimeZone.setDefault(TimeZone.getTimeZone(arg1));
-        // Reset to default timezone afterwards
-        this.afterHooks.add(() -> TimeZone.setDefault(null));
     }
 
     @Then("^expect the template to return \"([^\"]*)\"$")
