@@ -16,50 +16,73 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeanModel;
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
+import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.WrappingTemplateModel;
-import no.api.freemarker.java8.config.Configuration;
+
+import java.util.Objects;
 
 /**
  * Abstract adapter used as a basis for all the other TemplateModel implementations in this package.
  *
- * @param <E>
- *         The java.time class that this TemplateModel is wrapping.
+ * @param <E> The java.time class that this TemplateModel is wrapping.
  */
 public abstract class AbstractAdapter<E>
         extends WrappingTemplateModel
         implements AdapterTemplateModel, TemplateHashModel {
 
-    private E obj;
+    private E entity;
 
-    private Configuration cfg;
+    private final BeanModel fallback;
 
-    public AbstractAdapter(E obj, Configuration cfg) {
-        this.obj = obj;
-        this.cfg = cfg;
+
+    public AbstractAdapter(E entity, BeansWrapper wrapper) {
+        this.entity = entity;
+        this.fallback = new BeanModel(entity, Objects.requireNonNull(wrapper, "wrapper"));
     }
+
+
+    protected abstract TemplateModel getForType(String key) throws TemplateModelException;
+
 
     public String getAsString() throws TemplateModelException {
         return getObject().toString();
     }
 
+
     @Override
     public Object getAdaptedObject(Class aClass) {
-        return obj;
+        return entity;
     }
+
+
+    @Override
+    public final TemplateModel get(final String key) throws TemplateModelException {
+        try {
+            return getForType(key);
+        } catch (final TemplateModelException ex) {
+            try {
+                return this.fallback.get(key);
+            } catch (final TemplateModelException suppressed) {
+                ex.addSuppressed(suppressed);
+                throw ex;
+            }
+        }
+    }
+
 
     @Override
     public boolean isEmpty() throws TemplateModelException {
         return false;
     }
 
+
     public E getObject() {
-        return obj;
+        return entity;
     }
 
-    public Configuration getConfiguration() {
-        return cfg;
-    }
 }

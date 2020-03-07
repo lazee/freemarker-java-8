@@ -16,20 +16,17 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
-import no.api.freemarker.java8.config.Configuration;
 
 import java.time.Period;
 
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_DAYS;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_MONTHS;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_YEARS;
+import static no.api.freemarker.java8.time.DateTimeTools.*;
 
 /**
  * PeriodAdapter gives access to the days, months and years values in the wrapped {@link Period} object in FreeMarker
@@ -39,12 +36,13 @@ public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTem
         TemplateScalarModel, TemplateHashModel {
 
 
-    public PeriodAdapter(Period obj, Configuration cfg) {
-        super(obj, cfg);
+    public PeriodAdapter(Period obj, BeansWrapper wrapper) {
+        super(obj, wrapper);
     }
 
+
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_DAYS.equalsIgnoreCase(s)) {
             return new SimpleNumber(getObject().getDays());
         } else if (METHOD_MONTHS.equalsIgnoreCase(s)) {

@@ -20,8 +20,6 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.Version;
-import no.api.freemarker.java8.config.Configuration;
-import no.api.freemarker.java8.config.ConfigurationBuilder;
 import no.api.freemarker.java8.time.ClockAdapter;
 import no.api.freemarker.java8.time.DurationAdapter;
 import no.api.freemarker.java8.time.InstantAdapter;
@@ -37,6 +35,8 @@ import no.api.freemarker.java8.time.YearMonthAdapter;
 import no.api.freemarker.java8.time.ZoneIdAdapter;
 import no.api.freemarker.java8.time.ZoneOffsetAdapter;
 import no.api.freemarker.java8.time.ZonedDateTimeAdapter;
+import no.api.freemarker.java8.zone.KeepingZonedDateTimeStrategy;
+import no.api.freemarker.java8.zone.ZonedDateTimeStrategy;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -59,50 +59,54 @@ import java.time.ZonedDateTime;
  */
 public class Java8ObjectWrapper extends DefaultObjectWrapper {
 
-    private final Configuration cfg;
+    private ZonedDateTimeStrategy strategy;
 
     public Java8ObjectWrapper(Version incompatibleImprovements) {
         super(incompatibleImprovements);
-        this.cfg = ConfigurationBuilder.create().build();
+        this.strategy = new KeepingZonedDateTimeStrategy();
     }
 
-    public Java8ObjectWrapper(Version incompatibleImprovements, Configuration cfg) {
+    public Java8ObjectWrapper(Version incompatibleImprovements, ZonedDateTimeStrategy strategy) {
         super(incompatibleImprovements);
-        this.cfg = cfg;
+        this.strategy = strategy;
+    }
+
+    public void setZonedDateTimeStrategy(ZonedDateTimeStrategy strategy) {
+        this.strategy = strategy;
     }
 
     @Override
     protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {
         if (obj instanceof Clock) {
-            return new ClockAdapter((Clock) obj, cfg);
+            return new ClockAdapter((Clock) obj, this);
         } else if (obj instanceof Duration) {
-            return new DurationAdapter((Duration) obj, cfg);
+            return new DurationAdapter((Duration) obj, this);
         } else if (obj instanceof Instant) {
-            return new InstantAdapter((Instant) obj, cfg);
+            return new InstantAdapter((Instant) obj, this);
         } else if (obj instanceof LocalDate) {
-            return new LocalDateAdapter((LocalDate) obj, cfg);
+            return new LocalDateAdapter((LocalDate) obj, this);
         } else if (obj instanceof LocalDateTime) {
-            return new LocalDateTimeAdapter((LocalDateTime) obj, cfg);
+            return new LocalDateTimeAdapter((LocalDateTime) obj, this);
         } else if (obj instanceof LocalTime) {
-            return new LocalTimeAdapter((LocalTime) obj, cfg);
+            return new LocalTimeAdapter((LocalTime) obj, this);
         } else if (obj instanceof MonthDay) {
-            return new MonthDayAdapter((MonthDay) obj, cfg);
+            return new MonthDayAdapter((MonthDay) obj, this);
         } else if (obj instanceof OffsetDateTime) {
-            return new OffsetDateTimeAdapter((OffsetDateTime) obj, cfg);
+            return new OffsetDateTimeAdapter((OffsetDateTime) obj, this);
         } else if (obj instanceof OffsetTime) {
-            return new OffsetTimeAdapter((OffsetTime) obj, cfg);
+            return new OffsetTimeAdapter((OffsetTime) obj, this);
         } else if (obj instanceof Period) {
-            return new PeriodAdapter((Period) obj, cfg);
+            return new PeriodAdapter((Period) obj, this);
         } else if (obj instanceof Year) {
-            return new YearAdapter((Year) obj, cfg);
+            return new YearAdapter((Year) obj, this);
         } else if (obj instanceof YearMonth) {
-            return new YearMonthAdapter((YearMonth) obj, cfg);
+            return new YearMonthAdapter((YearMonth) obj, this);
         } else if (obj instanceof ZonedDateTime) {
-            return new ZonedDateTimeAdapter((ZonedDateTime) obj, cfg);
+            return new ZonedDateTimeAdapter((ZonedDateTime) obj, this, strategy);
         } else if (obj instanceof ZoneOffset) {
-            return new ZoneOffsetAdapter((ZoneOffset) obj, cfg);
+            return new ZoneOffsetAdapter((ZoneOffset) obj, this);
         } else if (obj instanceof ZoneId) {
-            return new ZoneIdAdapter((ZoneId) obj, cfg);
+            return new ZoneIdAdapter((ZoneId) obj, this);
         }
         return super.handleUnknownType(obj);
     }

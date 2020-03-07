@@ -16,20 +16,18 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
-import no.api.freemarker.java8.config.Configuration;
 
 import java.time.MonthDay;
 import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
-import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter;
+import static no.api.freemarker.java8.time.DateTimeTools.*;
 
 /**
  * MonthDayAdapter adds basic format support for {@link MonthDay} too FreeMarker 2.3.23 and above.
@@ -37,23 +35,26 @@ import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter
 public class MonthDayAdapter extends AbstractAdapter<MonthDay> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public MonthDayAdapter(MonthDay obj, Configuration cfg) {
-        super(obj, cfg);
+    public MonthDayAdapter(MonthDay obj, BeansWrapper wrapper) {
+        super(obj, wrapper);
     }
 
+
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new MonthDayFormatter(getObject());
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
+
     public class MonthDayFormatter extends AbstractFormatter<MonthDay> implements TemplateMethodModelEx {
 
         public MonthDayFormatter(MonthDay obj) {
             super(obj);
         }
+
 
         @Override
         public Object exec(List list) throws TemplateModelException {

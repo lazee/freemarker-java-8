@@ -179,3 +179,11 @@ for formatting.
 |`isEqual(<LocalTime object>), isAfter(<LocalTime object>), isBefore(<LocalTime object>)`
 |Can compare two LocalTime objects for equality.
 |`${localTime.isEqual(anotherlocalTime)} or ${localTime.isAfter(anotherlocalTime)} or ${localTime.isBefore(anotherlocalTime)}`
+
+|===
+
+In previous versions of freemarker-java-8, we would always convert the time zone to the system default when
+formatting the object. That was a huge implementation mistake. The correct implementation would have been to keep
+the time zone from the date object when nothing else was set (See: <a href="https://github.com/lazee/freemarker-java-8/issues/16">#16</a>)
+
+*

@@ -16,13 +16,13 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
-import no.api.freemarker.java8.config.Configuration;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -36,25 +36,28 @@ import static no.api.freemarker.java8.time.DateTimeTools.*;
 public class LocalDateAdapter extends AbstractAdapter<LocalDate> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public LocalDateAdapter(LocalDate obj, Configuration cfg) {
-        super(obj, cfg);
+    public LocalDateAdapter(LocalDate obj, BeansWrapper wrapper) {
+        super(obj, wrapper);
     }
 
+
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new LocalDateFormatter(getObject());
-        } else if(METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
+        } else if (METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
             return new LocalDateChecker(getObject(), s);
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
+
 
     public class LocalDateFormatter extends AbstractFormatter<LocalDate> implements TemplateMethodModelEx {
 
         public LocalDateFormatter(LocalDate obj) {
             super(obj);
         }
+
 
         @Override
         public Object exec(List list) throws TemplateModelException {
@@ -65,16 +68,18 @@ public class LocalDateAdapter extends AbstractAdapter<LocalDate> implements Adap
     public class LocalDateChecker extends AbstractChecker<LocalDate> implements TemplateMethodModelEx {
         private String method;
 
+
         public LocalDateChecker(LocalDate obj, String method) {
             super(obj);
             this.method = method;
         }
 
+
         @SuppressWarnings("Duplicates")
         @Override
         public Object exec(List list) throws TemplateModelException {
             LocalDateAdapter adapter = (LocalDateAdapter) list.get(0);
-            switch(method) {
+            switch (method) {
                 case METHOD_EQUALS:
                     return getObject().isEqual(adapter.getObject());
                 case METHOD_AFTER:

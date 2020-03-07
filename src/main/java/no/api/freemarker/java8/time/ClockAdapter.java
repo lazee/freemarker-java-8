@@ -16,19 +16,18 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
-import no.api.freemarker.java8.config.Configuration;
 
 import java.time.Clock;
 import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
+import static no.api.freemarker.java8.time.DateTimeTools.*;
 
 /**
  * ClockAdapter adds basic format support for {@link Clock} too FreeMarker 2.3.23 and above.
@@ -36,17 +35,19 @@ import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public ClockAdapter(Clock obj, Configuration cfg) {
-        super(obj, cfg);
+    public ClockAdapter(Clock obj, BeansWrapper wrapper) {
+        super(obj, wrapper);
     }
 
+
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new ClockFormatter(getObject());
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
+
 
     /**
      * This is a quit silly implementation. Normally you would like to convert to an Instant when printing the clock.
@@ -59,11 +60,13 @@ public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTempl
         return getObject().toString();
     }
 
+
     public class ClockFormatter extends AbstractFormatter<Clock> implements TemplateMethodModelEx {
 
         public ClockFormatter(Clock obj) {
             super(obj);
         }
+
 
         @Override
         public Object exec(List list) throws TemplateModelException {

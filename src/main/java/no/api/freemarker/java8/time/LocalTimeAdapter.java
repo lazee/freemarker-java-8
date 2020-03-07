@@ -16,13 +16,13 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
-import no.api.freemarker.java8.config.Configuration;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -36,25 +36,28 @@ import static no.api.freemarker.java8.time.DateTimeTools.*;
 public class LocalTimeAdapter extends AbstractAdapter<LocalTime> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public LocalTimeAdapter(LocalTime obj, Configuration cfg) {
-        super(obj, cfg);
+    public LocalTimeAdapter(LocalTime obj, BeansWrapper wrapper) {
+        super(obj, wrapper);
     }
 
+
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new LocalTimeFormatter(getObject());
-        } else if(METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
+        } else if (METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
             return new LocalTimeChecker(getObject(), s);
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
+
 
     public class LocalTimeFormatter extends AbstractFormatter<LocalTime> implements TemplateMethodModelEx {
 
         public LocalTimeFormatter(LocalTime obj) {
             super(obj);
         }
+
 
         @Override
         public Object exec(List list) throws TemplateModelException {
@@ -65,15 +68,17 @@ public class LocalTimeAdapter extends AbstractAdapter<LocalTime> implements Adap
     public class LocalTimeChecker extends AbstractChecker<LocalTime> implements TemplateMethodModelEx {
         private String method;
 
+
         public LocalTimeChecker(LocalTime obj, String method) {
             super(obj);
             this.method = method;
         }
 
+
         @Override
         public Object exec(List list) throws TemplateModelException {
             LocalTimeAdapter adapter = (LocalTimeAdapter) list.get(0);
-            switch(method) {
+            switch (method) {
                 case METHOD_EQUALS:
                     return getObject().equals(adapter.getObject());
                 case METHOD_AFTER:
