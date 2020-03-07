@@ -1,5 +1,5 @@
 
-# Java8 Date/Time Support For FreeMarker image:https://travis-ci.org/amedia/freemarker-java-8.svg?branch=master["Build Status", link="https://travis-ci.org/amedia/freemarker-java-8"]
+# Java8 Date/Time Support For FreeMarker image:https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg[]
 
 This is a tiny Java library that adds basic support for the new Java 8 date/time api to FreeMarker. It is not a perfect solution as FreeMarker doesn't support adding custom built-ins. Hopefully FreeMarker will add native support in the future, but there are no implementation being worked on at the moment (http://freemarker.org/contribute.html).
 
