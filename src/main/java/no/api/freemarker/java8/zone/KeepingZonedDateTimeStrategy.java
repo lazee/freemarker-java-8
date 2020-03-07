@@ -9,7 +9,6 @@ public class KeepingZonedDateTimeStrategy implements ZonedDateTimeStrategy {
 
     @Override
     public ZoneId getZoneId(ZoneId input) {
-        System.out.println("yes " + input.toString());
         return input;
     }
 }

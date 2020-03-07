@@ -290,17 +290,19 @@ Feature: Test the date time functionality
         And ZonedDateTime object for "2007-12-03T10:15:30+01:00[Europe/Paris]"
         Then expect the template to return "2007-12-03T10:15:30+01:00[Europe/Paris]"
 
-    Scenario: Test basic ZonedDateTime use in template (keeping).
+    Scenario: Test basic ZonedDateTime use in template (environment).
         Given an freemarker environment with locale set to "no-NO"
         And timezone set to "Europe/Oslo"
         And a template "${obj.format()}"
+        And timezone strategy set to 'environment'
         And ZonedDateTime object for "2007-12-03T10:15:30+01:00[Europe/Paris]"
-        Then expect the template to return "2007-12-03T10:15:30+01:00[Europe/Paris]"
+        Then expect the template to return "2007-12-03T10:15:30+01:00[Europe/Oslo]"
 
     Scenario: Test that using a preset ZonedDateTime inside a template will return the default time zone
         Given an freemarker environment with locale set to "no-NO"
         And timezone set to "Europe/Oslo"
         And a template "${obj.format()}"
+        And timezone strategy set to 'environment'
         And ZonedDateTime object for "2007-12-03T16:15:30+07:00[Asia/Bangkok]"
         Then expect the template to return "2007-12-03T10:15:30+01:00[Europe/Oslo]"
 

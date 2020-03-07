@@ -29,7 +29,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 import static no.api.freemarker.java8.time.DateTimeTools.*;
 
@@ -77,11 +76,7 @@ public class ZonedDateTimeAdapter extends AbstractAdapter<ZonedDateTime> impleme
 
 
         private ZoneId getTargetZoneId(final List argumentList) throws TemplateModelException {
-            final Optional<ZoneId> zoneId = DateTimeTools.zoneIdLookup(argumentList, 1);
-            if (zoneId.isPresent()) {
-                return zoneId.get();
-            }
-            return strategy.getZoneId(getObject().getZone());
+            return zoneIdLookup(argumentList, 1).orElse(strategy.getZoneId(getObject().getZone()));
         }
 
 

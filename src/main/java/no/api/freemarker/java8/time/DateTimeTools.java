@@ -115,7 +115,6 @@ public final class DateTimeTools {
         return Optional.empty();
     }
 
-
     private static Locale getLocale() {
         if (Environment.getCurrentEnvironment() != null) {
             return Environment.getCurrentEnvironment().getLocale();

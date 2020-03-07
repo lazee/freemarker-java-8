@@ -50,9 +50,12 @@ public class DateTimeStepdefs {
 
     private Configuration configuration;
 
+    private Java8ObjectWrapper objectWrapper;
+
     public DateTimeStepdefs() {
         this.configuration = new Configuration(Configuration.VERSION_2_3_23);
-        this.configuration.setObjectWrapper(new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZonedDateTimeStrategy()));
+        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZonedDateTimeStrategy());
+        this.configuration.setObjectWrapper(objectWrapper);
     }
 
     @After
@@ -62,7 +65,8 @@ public class DateTimeStepdefs {
 
 
     private void setStrategy(ZonedDateTimeStrategy strategy) {
-        ((Java8ObjectWrapper) this.configuration.getObjectWrapper()).setZonedDateTimeStrategy(strategy);
+        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, strategy);
+        this.configuration.setObjectWrapper(objectWrapper);
     }
 
 
