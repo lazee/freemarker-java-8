@@ -1,35 +1,48 @@
-# Java8 Date/Time Support For FreeMarker
+# java.time support for FreeMarker
 ![](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
-This is a tiny Java library that adds basic support for the new Java 8
-date/time api to FreeMarker. It is not a perfect solution as FreeMarker
-doesn’t support adding custom built-ins. Hopefully FreeMarker will add
-native support in the future, but there are no implementation being
-worked on at the moment (<http://freemarker.org/contribute.html>).
+FJ8 (freemarker-java-8) is a Java library that adds support for the 
+java.time api, introduced with Java 8, to FreeMarker templates. It is not a perfect solution as FreeMarker
+doesn’t support custom built-ins. Hopefully future versions of FreeMarker will add
+native support, but it doesn't look promising (<http://freemarker.org/contribute.html>).
 
-The library has basic formatting support for all classes in the
-java.time api introduced in Java 8, using the new
+Basically this library allows you to format java.time types within your templates, using the new
 [java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
-We have also introduced som comparison methods.
 
-Take a look at our feature test spec too see how it all works :
-<https://github.com/lazee/freemarker-java-8/blob/master/src/test/resources/no/api/freemarker/java8/time/>
+## Table of content
+- [java.time support for FreeMarker](#javatime-support-for-freemarker)
+  * [Installation](#installation)
+  * [Setup](#setup)
+  * [Usage](#usage)
+	    * [Formatting](#formatting)
+	      - [java.time.Clock](#javatimeclock)
+	      - [java.time.Duration](#javatimeduration)
+	      - [java.time.Instant](#javatimeinstant)
+	      - [java.time.LocalDate](#javatimelocaldate)
+	      - [java.time.LocalDateTime](#javatimelocaldatetime)
+	      - [java.time.LocalTime](#javatimelocaltime)
+	      - [java.time.MonthDay](#javatimemonthday)
+	      - [java.time.OffsetDateTime](#javatimeoffsetdatetime)
+	      - [java.time.OffsetTime](#javatimeoffsettime)
+	      - [java.time.Period](#javatimeperiod)
+	      - [java.time.Year](#javatimeyear)
+	      - [java.time.YearMonth](#javatimeyearmonth)
+	      - [java.time.ZonedDateTime](#javatimezoneddatetime)
+	      - [java.time.ZonedId](#javatimezonedid)
+	      - [java.time.ZonedOffset](#javatimezonedoffset)
+	    + [Comparison](#comparison)
+	      - [java.time.LocalDate](#javatimelocaldate-1)
+	      - [java.time.LocalDateTime](#javatimelocaldatetime-1)
+	      - [java.time.LocalTime](#javatimelocaltime-1)
+  * [Notice](#notice)
 
-Recently this repository was moved from the Amedia organisation to my
-private account on Github. The reason behind this is that I recently
-left Amedia after 13 years (!) and that they let me take this project
-with me. The package naming will however stay the same.
-
-## Requirements
-
-Java 8 or higher. Tested on Freemarker 2.3.23, but should at least work
-fine for all 2.3.x versions. Please file an issue if you have problems
-with other versions.
 
 ## Installation
 
-freemarker-java-8 is deployed to the Maven Central Repository. You can
-include the package in your Maven POM like this :
+You nwws Java 8 or higher. FJ8 is tested on Freemarker 2.3.23, and should at least work
+fine for all 2.3.x versions. 
+
+### Maven
 
     <dependency>
         <groupId>no.api.freemarker</groupId>
@@ -37,21 +50,22 @@ include the package in your Maven POM like this :
         <version>1.3.0</version>
     </dependency>
 
-Make sure to replace the version with the current version found in the
-pom.
+### Gradle
 
-## Usage
+	implementation 'no.api.freemarker:freemarker-java8:1.3.0'
 
-You need to configure FreeMarker with our package by adding the
-`Java8ObjectWrapper`.
+## Setup
+
+FJ8 extends the [DefaultObjectWrapper](https://freemarker.apache.org/docs/api/freemarker/template/DefaultObjectWrapper.html) to add support for the java.time classes. All you need to do is to replace
+the default object wrapper with the FJ8 implementation in your FreeMarker Configuration object.
+
 
     this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
     this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
 
-# Usage within Spring
+### Spring setup
 
-Within a Spring project you can add this configuration class to your
-project:
+This is how you can add FJ8 to your FreeMarker configuration in Spring / Spring Boot.
 
     package com.example.demo;
 
@@ -75,164 +89,294 @@ project:
         }
     }
 
-*Thank you to Desson Ariawan for figuring this out in latest versions of
-Spring Boot:
-<https://www.dariawan.com/tutorials/spring/java-8-datetime-freemarker/>*
+*Thanks to Desson Ariawan for the [example](https://www.dariawan.com/tutorials/spring/java-8-datetime-freemarker/)*
 
-## java.time support
+## Usage
 
-We had to cheat a little bit to add format methods to our date.time
-classes. This is why you will see that our syntax differs from the
-default FreeMarker built-ins.
-
+### Formatting
 All format methods uses the
 [java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)
 for formatting.
 
-<table>
-<caption>java.time template methods</caption>
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>java.time class</th>
-<th>methods</th>
-<th>comment</th>
-<th>example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Clock</p></td>
-<td><p><code>format()</code></p></td>
-<td><p>This is a simple implementation where format just prints the toString() value of the object.</p></td>
-<td><p><code>${myclock.format()}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>Duration</p></td>
-<td><p><code>nano(), seconds()</code></p></td>
-<td><p>Gives access to the Duration values</p></td>
-<td><p><code>${myduration.seconds}, ${myduration.nano}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>Instant</p></td>
-<td><p><code>format()</code></p></td>
-<td><p>This is a simple implementation where format just prints the toString() value of the object.</p></td>
-<td><p><code>${myinstant.format()}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>LocalDate</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a LocalDate on a default pattern, by providing a custom pattern or a builtin format style.</p></td>
-<td><p><code>${mylocaldate.format()}</code>, <code>${mylocaldate.format('yyyy MM dd')}</code> or <code>${mylocaldate.format('FULL_DATE')}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>LocalDateTime</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a LocalDateTime on a default pattern, by providing a custom pattern or a builtin format style.</p></td>
-<td><p><code>${mylocaldatetime.format()}</code>, <code>${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}</code> or <code>${mylocaldatetime.format('MEDIUM_DATETIME')}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>LocalTime</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a LocalTime on a default pattern, by providing a custom pattern or a builtin format style.</p></td>
-<td><p><code>${mylocaltime.format()}</code>, <code>${mylocaltime.format('HH : mm : ss')}</code> or <code>${mylocaltime.format('SHORT_TIME')}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>MonthDay</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a MonthDay on a default pattern or by providing a custom pattern.</p></td>
-<td><p><code>${mymonthday.format()}</code> or <code>${mymonthday.format('MM dd')}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>OffsetDateTime</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a OffsetDateTime on a default pattern, by providing a custom pattern or a builtin format style.</p></td>
-<td><p><code>${myoffsetdatetime.format()}</code>, <code>${myoffsetdatetime.format('yyyy MM dd HH mm ss')}</code> or <code>${myoffsetdatetime.format('FULL_DATETIME')}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>OffsetTime</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a OffsetTime on a default pattern, by providing a custom pattern or a builtin format style.</p></td>
-<td><p><code>${myoffsettime.format()}</code>, <code>${myoffsettime.format('HH mm ss')}</code> or <code>${myoffsettime.format('MEDIUM_TIME')}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>Period</p></td>
-<td><p><code>days(), months(), years()</code></p></td>
-<td><p>Gives access to the values of the Period object.</p></td>
-<td><p><code>${myperiod.days}, ${myperiod.months}, ${myperiod.years}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>Year</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a Year on a default pattern or by providing a custom pattern.</p></td>
-<td><p><code>${myyear.format()}</code> or <code>${myyear.format('yyyy')}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>YearMonth</p></td>
-<td><p><code>format(), format(pattern)</code></p></td>
-<td><p>Allows you to print a YearMonth on a default pattern or by providing a custom pattern.</p></td>
-<td><p><code>${myyear.format()}</code> or <code>${myyear.format('yyyy MM')}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>ZonedDateTime</p></td>
-<td><p><code>format(), format(pattern), format(pattern, zoneId)</code></p></td>
-<td><p>Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern.</p></td>
-<td><p><code>${myzoneddatetime.format()}</code> or <code>${myzoneddatetime.format('yyyy-MM-dd Z')}</code> or <code>${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>ZoneId</p></td>
-<td><p><code>format(), format(textStyle), format(textstyle, locale)</code></p></td>
-<td><p>Prints the ZoneId display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.</p></td>
-<td><p><code>${myzoneid.format()}</code> or <code>${myzoneid.format('short')}</code> or <code>${myzoneid.format('short', 'no-NO')}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>ZoneOffset</p></td>
-<td><p><code>format(), format(textStyle)</code></p></td>
-<td><p>Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.</p></td>
-<td><p>${myzoneoffset.format()}` or <code>${myzoneoffset.format('short')}</code> or `${myzoneoffset.format(<em>short</em>, <em>no-NO</em>)}</p></td>
-</tr>
-</tbody>
-</table>
+#### java.time.Clock
 
-<table>
-<caption>java.time comparison methods</caption>
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>java.time class</th>
-<th>methods</th>
-<th>comment</th>
-<th>example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>LocalDate</p></td>
-<td><p><code>isEqual(&lt;LocalDate object&gt;), isAfter(&lt;LocalDate object&gt;), isBefore(&lt;LocalDate object&gt;)</code></p></td>
-<td><p>Can compare two LocalDate objects for equality.</p></td>
-<td><p><code>${localDate.isEqual(anotherlocalDate)} or ${localDate.isAfter(anotherlocalDate)} or ${localDate.isBefore(anotherlocalDate)}</code></p></td>
-</tr>
-<tr class="even">
-<td><p>LocalDateTime</p></td>
-<td><p><code>isEqual(&lt;LocalDateTime object&gt;), isAfter(&lt;LocalDateTime object&gt;), isBefore(&lt;LocalDateTime object&gt;)</code></p></td>
-<td><p>Can compare two LocalDateTime objects for equality.</p></td>
-<td><p><code>${localDateTime.isEqual(anotherlocalDateTime)} or ${localDateTime.isAfter(anotherlocalDateTime)} or ${localDateTime.isBefore(anotherlocalDateTime)}</code></p></td>
-</tr>
-<tr class="odd">
-<td><p>LocalTime</p></td>
-<td><p><code>isEqual(&lt;LocalTime object&gt;), isAfter(&lt;LocalTime object&gt;), isBefore(&lt;LocalTime object&gt;)</code></p></td>
-<td><p>Can compare two LocalTime objects for equality.</p></td>
-<td><p><code>${localTime.isEqual(anotherlocalTime)} or ${localTime.isAfter(anotherlocalTime)} or ${localTime.isBefore(anotherlocalTime)}</code></p></td>
-</tr>
-</tbody>
-</table>
+This is a simple implementation where format just prints the toString() value of the object.
+
+##### Methods
+
+* format()
+	
+##### Example
+
+	${myclock.format()}
+
+#### java.time.Duration
+
+Gives access to the Duration values.
+
+##### Methods
+
+* nano()
+* seconds()
+	
+##### Example
+
+	${myduration.seconds}
+	${myduration.nano}
+	
+
+#### java.time.Instant
+
+This is a simple implementation where format just prints the toString() value of the object.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${myinstant.format()}
+
+#### java.time.LocalDate
+
+Allows you to print a LocalDate on a default pattern, by providing a custom pattern or a builtin format style.
+
+##### Methods
+
+* format()
+	
+##### Example
+
+	${mylocaldate.format()}
+	${mylocaldate.format('yyyy MM dd')}
+	${mylocaldate.format('FULL_DATE')}
+
+#### java.time.LocalDateTime
+
+Allows you to print a LocalDateTime on a default pattern, by providing a custom pattern or a builtin format style.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${mylocaldatetime.format()}
+	${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}
+	${mylocaldatetime.format('MEDIUM_DATETIME')}
+
+#### java.time.LocalTime
+
+Allows you to print a LocalTime on a default pattern, by providing a custom pattern or a builtin format style.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${mylocaltime.format()}
+	${mylocaltime.format('HH : mm : ss')}
+	${mylocaltime.format('SHORT_TIME')}
+
+#### java.time.MonthDay
+
+Allows you to print a MonthDay on a default pattern or by providing a custom pattern.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${mymonthday.format()}
+	${mymonthday.format('MM dd')}
+
+#### java.time.OffsetDateTime
+
+Allows you to print a OffsetDateTime on a default pattern, by providing a custom pattern or a builtin format style.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${myoffsetdatetime.format()}
+	${myoffsetdatetime.format('yyyy MM dd HH mm ss')}
+	${myoffsetdatetime.format('FULL_DATETIME')}
+
+
+#### java.time.OffsetTime
+
+Allows you to print a OffsetTime on a default pattern, by providing a custom pattern or a builtin format style.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${myoffsettime.format()}
+	${myoffsettime.format('HH mm ss')}
+	${myoffsettime.format('MEDIUM_TIME')}
+
+#### java.time.Period
+
+Provides access to the values of the a Period object within your template.
+
+##### Methods
+
+* days()
+* months()
+* years()
+	
+##### Example
+
+	${myperiod.days}
+	${myperiod.months}
+	${myperiod.years}
+
+#### java.time.Year
+
+Allows you to print a Year on a default pattern or by providing a custom pattern.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${myyear.format()}
+	${myyear.format('yyyy')}
+
+#### java.time.YearMonth
+
+Allows you to print a YearMonth on a default pattern or by providing a custom pattern.
+
+##### Methods
+
+* format()
+* format(pattern)
+	
+##### Example
+
+	${myyear.format()}
+	${myyear.format('yyyy MM')}
+
+#### java.time.ZonedDateTime
+
+Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern.
+
+##### Methods
+
+* format()
+* format(pattern)
+* format(pattern, zone)
+	
+##### Example
+
+	${myzoneddatetime.format()}
+	${myzoneddatetime.format('yyyy-MM-dd Z')}
+	${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}
+
+#### java.time.ZonedId
+
+Prints the ZoneId display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
+
+##### Methods
+
+* format()
+* format(textStyle)
+* format(textstyle, locale)	
+
+##### Example
+
+	${myzoneid.format()}
+	${myzoneid.format('short')}
+	${myzoneid.format('short', 'no-NO')}
+
+#### java.time.ZonedOffset
+
+Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.</p></td>
+
+
+##### Methods
+
+* format()
+* format(textStyle)	
+
+##### Example
+
+	${myzoneoffset.format()}
+	${myzoneoffset.format('short')}
+
+
+### Comparison
+
+
+#### java.time.LocalDate
+
+Can compare two LocalDate objects for equality.
+
+##### Methods
+
+* isEqual(localDate)
+* isAfter(localDate)
+* isBefore(localDate)
+
+##### Example
+
+	${localDate.isEqual(anotherlocalDate)}
+	${localDate.isAfter(anotherlocalDate)}
+	${localDate.isBefore(anotherlocalDate)}
+
+
+#### java.time.LocalDateTime
+
+Can compare two LocalDateTime objects for equality.
+
+##### Methods
+
+* isEqual(localDateTime)
+* isAfter(localDateTime)
+* isBefore(localDateTime)
+
+##### Example
+
+	${localDateTime.isEqual(anotherlocalDateTime)}
+	${localDateTime.isAfter(anotherlocalDateTime)}
+	${localDateTime.isBefore(anotherlocalDateTime)}
+
+#### java.time.LocalTime
+
+Can compare two LocalTime objects for equality.
+
+##### Methods
+
+* isEqual(localDateTime)
+* isAfter(localDateTime)
+* isBefore(localDateTime)
+
+##### Example
+
+	${localTime.isEqual(anotherlocalTime)}
+	${localTime.isAfter(anotherlocalTime)}
+	${localTime.isBefore(anotherlocalTime)}
+
+
+## Notice
+
+
+Recently this repository was moved from the Amedia organisation to my
+private account on Github. The reason behind this is that I recently
+left Amedia after 13 years (!) and that they let me take this project
+with me. The package naming will however stay the same.
+
