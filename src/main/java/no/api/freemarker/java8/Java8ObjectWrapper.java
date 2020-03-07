@@ -61,19 +61,23 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
 
     private ZonedDateTimeStrategy strategy;
 
+
     public Java8ObjectWrapper(Version incompatibleImprovements) {
         super(incompatibleImprovements);
         this.strategy = new KeepingZonedDateTimeStrategy();
     }
+
 
     public Java8ObjectWrapper(Version incompatibleImprovements, ZonedDateTimeStrategy strategy) {
         super(incompatibleImprovements);
         this.strategy = strategy;
     }
 
+
     public void setZonedDateTimeStrategy(ZonedDateTimeStrategy strategy) {
         this.strategy = strategy;
     }
+
 
     @Override
     protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {

@@ -52,11 +52,13 @@ public class DateTimeStepdefs {
 
     private Java8ObjectWrapper objectWrapper;
 
+
     public DateTimeStepdefs() {
         this.configuration = new Configuration(Configuration.VERSION_2_3_23);
         this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZonedDateTimeStrategy());
         this.configuration.setObjectWrapper(objectWrapper);
     }
+
 
     @After
     public void runAfterHooks() {
@@ -99,30 +101,36 @@ public class DateTimeStepdefs {
         obj = ZoneId.of(zone);
     }
 
+
     @Given("^timezone strategy set to 'system'$")
     public void timezone_strategy_set_to_system() {
         setStrategy(new SystemZonedDateTimeStrategy());
     }
+
 
     @Given("^timezone strategy set to 'keeping'$")
     public void timezone_strategy_set_to_keeping() {
         setStrategy(new KeepingZonedDateTimeStrategy());
     }
 
+
     @Given("^timezone strategy set to 'environment'$")
     public void timezone_strategy_set_to_environment() {
         setStrategy(new EnvironmentZonedDateTimeStrategy());
     }
+
 
     @Given("^timezone strategy set to 'static' with timezone \"([^\"]*)\"$")
     public void timezone_strategy_set_to_static_with_timezone(final String arg1) {
         setStrategy(new StaticZonedDateTimeStrategy(ZoneId.of(arg1)));
     }
 
+
     @Given("^system timezone set to \"([^\"]*)\"$")
     public void system_timezone_set_to(final String arg1) {
         TimeZone.setDefault(TimeZone.getTimeZone(arg1));
     }
+
 
     @Then("^expect the template to return \"([^\"]*)\"$")
     public void expect_the_template_to_return(String res) throws Throwable {

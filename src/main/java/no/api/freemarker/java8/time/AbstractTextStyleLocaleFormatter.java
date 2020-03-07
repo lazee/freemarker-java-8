@@ -28,12 +28,14 @@ public class AbstractTextStyleLocaleFormatter<E> extends AbstractFormatter<E> {
         super(obj);
     }
 
+
     public TextStyle findTextStyle(List list) {
         if (list.size() > 0) {
             return TextStyle.valueOf(list.get(0).toString().toUpperCase());
         }
         return TextStyle.FULL;
     }
+
 
     public Locale findLocale(List list) {
         if (list.size() > 1) {

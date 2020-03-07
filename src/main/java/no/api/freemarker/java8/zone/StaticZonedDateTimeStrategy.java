@@ -9,6 +9,7 @@ public class StaticZonedDateTimeStrategy implements ZonedDateTimeStrategy {
 
     private final ZoneId zoneId;
 
+
     /**
      * Creates a new {@link StaticZonedDateTimeStrategy} instance, that will always return the given [{@code zone}.
      *
@@ -21,6 +22,7 @@ public class StaticZonedDateTimeStrategy implements ZonedDateTimeStrategy {
         }
         this.zoneId = zoneId;
     }
+
 
     @Override
     public ZoneId getZoneId(ZoneId input) {

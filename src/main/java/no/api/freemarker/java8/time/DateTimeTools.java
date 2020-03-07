@@ -98,7 +98,7 @@ public final class DateTimeTools {
     /**
      * Look up a ZoneId based on a String in a list on a given index.
      *
-     * @param list A list of Strings containing the String representation of the ZoneId.
+     * @param list  A list of Strings containing the String representation of the ZoneId.
      * @param index The index on where in the list the ZoneId string is located.
      * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, then an empty {@link Optional} will be returned.
      * @throws TemplateModelException If Illegal ZoneId string was found in the list.
@@ -114,6 +114,7 @@ public final class DateTimeTools {
         }
         return Optional.empty();
     }
+
 
     private static Locale getLocale() {
         if (Environment.getCurrentEnvironment() != null) {
