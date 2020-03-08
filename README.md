@@ -10,10 +10,10 @@ Basically this library allows you to format java.time types within your template
 [java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
 
 ## Table of content
-- [java.time support for FreeMarker](#javatime-support-for-freemarker)
-  * [Installation](#installation)
-  * [Setup](#setup)
-  * [Usage](#usage)
+* [Installation](#installation)
+* [Setup](#setup)
+* [Upgrade from 1.3 to 2.0](#upgrade)
+* [Usage](#usage)
     + [Formatting](#formatting)
       - [java.time.Clock](#javatimeclock)
       - [java.time.Duration](#javatimeduration)
@@ -34,12 +34,12 @@ Basically this library allows you to format java.time types within your template
       - [java.time.LocalDate](#javatimelocaldate-1)
       - [java.time.LocalDateTime](#javatimelocaldatetime-1)
       - [java.time.LocalTime](#javatimelocaltime-1)
-  * [Notice](#notice)
+* [Notice](#notice)
 
 
 ## Installation
 
-You nwws Java 8 or higher. FJ8 is tested on Freemarker 2.3.23, and should at least work
+You need Java 8 or higher. FJ8 is tested on Freemarker 2.3.23, and should at least work
 fine for all 2.3.x versions. 
 
 ### Maven
@@ -90,6 +90,19 @@ This is how you can add FJ8 to your FreeMarker configuration in Spring / Spring 
     }
 
 *Thanks to Desson Ariawan for the [example](https://www.dariawan.com/tutorials/spring/java-8-datetime-freemarker/)*
+
+## Upgrade from 1.3 to 2.0
+
+The 2.0 release doesn't introduce any new features. Instead it fixes two major issues reported by users ([#18](https://github.com/lazee/freemarker-java-8/issues/18)/[#16](https://github.com/lazee/freemarker-java-8/issues/16)). 2.0 introduces a breaking change that might affect some users. Hence the major bump.
+
+The upgrade itself is nothing else than changing the version in your build configuration (pom.xml or something else). However if you need to stick to the old behaviour on how time zones are treated when formatting ZonedDateTime objects, then you need to add a seconds argument to Java8ObjectWrapper upon initialization:
+
+```
+configuration.setObjectWrapper(
+	new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentTimeStrategy()
+);
+```
+
 
 ## Usage
 
@@ -287,6 +300,24 @@ Allows you to print a YearMonth on a default pattern/timezone or by providing a 
 	${myzoneddatetime.format('yyyy-MM-dd Z')}
 	${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}
 
+##### Notice
+
+When a zone is _not_ set, the formatter will use the zone found in the ZonedDateTime object itself. This behaviour can be changed if you want to. Scenarious where that might come in handy could be when you always wants to convert the timezone into your local timezone.
+
+`Java8ObjectMapper`now takes a second argument where you can choose one of four strategies for 
+the time zone used when formatting a ZonedDateTime:
+
+* **EnviromentZonedDateTimeStrategy** - Will convert the time zone into the one currently set within Freemarker.
+* **KeepingZonedDateTimeStrategy** - Will use the zone from the ZonedDateTime object itself (DEFAULT)
+* **SystemZonedDateTimeStrategy** - Will convert the time zone into ZoneId.systemDefault().
+* **StaticSystemZoneDateTimeStrategy** - Will use the time zone set when creating this strategy.
+
+Example:
+
+	new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZonedDateTimeStrategy());
+	// or
+	new Java8ObjectWrapper(VERSION_2_3_23, new StaticZonedDateTimeStrategy(ZoneId.of("Europe/Oslo")));
+	
 #### java.time.ZonedId
 
 Prints the ZoneId display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
