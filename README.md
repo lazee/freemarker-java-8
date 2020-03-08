@@ -1,8 +1,8 @@
 # java.time support for FreeMarker
 ![](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
-FJ8 (freemarker-java-8) is a Java library that adds support for the 
-java.time api, introduced with Java 8, to FreeMarker templates. It is not a perfect solution as FreeMarker
+FJ8 (freemarker-java-8) is a Java library that adds FreeMarker support for the 
+java.time api, introduced in Java 8. It is not a perfect solution as FreeMarker
 doesn’t support custom built-ins. Hopefully future versions of FreeMarker will add
 native support, but it doesn't look promising (<http://freemarker.org/contribute.html>).
 
@@ -44,11 +44,13 @@ fine for all 2.3.x versions.
 
 ### Maven
 
-    <dependency>
-        <groupId>no.api.freemarker</groupId>
-        <artifactId>freemarker-java8</artifactId>
-        <version>1.3.0</version>
-    </dependency>
+```xml
+<dependency>
+    <groupId>no.api.freemarker</groupId>
+    <artifactId>freemarker-java8</artifactId>
+    <version>1.3.0</version>
+</dependency>
+```
 
 ### Gradle
 
@@ -59,35 +61,38 @@ fine for all 2.3.x versions.
 FJ8 extends the [DefaultObjectWrapper](https://freemarker.apache.org/docs/api/freemarker/template/DefaultObjectWrapper.html) to add support for the java.time classes. All you need to do is to replace
 the default object wrapper with the FJ8 implementation in your FreeMarker Configuration object.
 
-
-    this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
-    this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
+```java
+this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
+this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
+```
 
 ### Spring setup
 
 This is how you can add FJ8 to your FreeMarker configuration in Spring / Spring Boot.
 
-    package com.example.demo;
+```java
+package com.example.demo;
 
-    import no.api.freemarker.java8.Java8ObjectWrapper;
-    import org.springframework.beans.BeansException;
-    import org.springframework.beans.factory.config.BeanPostProcessor;
-    import org.springframework.context.annotation.Configuration;
-    import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import no.api.freemarker.java8.Java8ObjectWrapper;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-    @Configuration
-    public class FreemarkerConfig implements BeanPostProcessor {
+@Configuration
+public class FreemarkerConfig implements BeanPostProcessor {
 
-        @Override
-        public Object postProcessAfterInitialization(Object bean, String beanName)
-                throws BeansException {
-            if (bean instanceof FreeMarkerConfigurer) {
-                FreeMarkerConfigurer configurer = (FreeMarkerConfigurer) bean;
-                configurer.getConfiguration().setObjectWrapper(new Java8ObjectWrapper(freemarker.template.Configuration.getVersion()));
-            }
-            return bean;
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName)
+            throws BeansException {
+        if (bean instanceof FreeMarkerConfigurer) {
+            FreeMarkerConfigurer configurer = (FreeMarkerConfigurer) bean;
+            configurer.getConfiguration().setObjectWrapper(new Java8ObjectWrapper(freemarker.template.Configuration.getVersion()));
         }
+        return bean;
     }
+}
+```
 
 *Thanks to Desson Ariawan for the [example](https://www.dariawan.com/tutorials/spring/java-8-datetime-freemarker/)*
 
@@ -97,7 +102,7 @@ The 2.0 release doesn't introduce any new features. Instead it fixes two major i
 
 The upgrade itself is nothing else than changing the version in your build configuration (pom.xml or something else). However if you need to stick to the old behaviour on how time zones are treated when formatting ZonedDateTime objects, then you need to add a seconds argument to Java8ObjectWrapper upon initialization:
 
-```
+```java
 configuration.setObjectWrapper(
 	new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentTimeStrategy()
 );
@@ -314,9 +319,11 @@ the time zone used when formatting a ZonedDateTime:
 
 Example:
 
-	new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZonedDateTimeStrategy());
-	// or
-	new Java8ObjectWrapper(VERSION_2_3_23, new StaticZonedDateTimeStrategy(ZoneId.of("Europe/Oslo")));
+```java
+new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZonedDateTimeStrategy());
+// or
+new Java8ObjectWrapper(VERSION_2_3_23, new StaticZonedDateTimeStrategy(ZoneId.of("Europe/Oslo")));
+```
 	
 #### java.time.ZonedId
 
