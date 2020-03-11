@@ -2,14 +2,19 @@
 ![](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
 FJ8 (freemarker-java-8) is a Java library that adds FreeMarker support for the 
-java.time api, introduced in Java 8. It is not a perfect solution as FreeMarker
+java.time api, introduced in Java 8. It is easy to add to your codebase, and very easy to use.
+
+Basically this library allows you to format and print values from `java.time` classes within FreeMarker templates.
+As a bonus you also get some comparison functions.
+
+It is not a perfect solution as FreeMarker
 doesn’t support custom built-ins. Hopefully future versions of FreeMarker will add
 native support, but it doesn't look promising (<http://freemarker.org/contribute.html>).
 
 Basically this library allows you to format java.time types within your templates, using the new
 [java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
 
-## Table of content
+# Table of content
 * [Installation](#installation)
 * [Setup](#setup)
 * [Upgrade from 1.3 to 2.0](#upgrade)
@@ -37,12 +42,12 @@ Basically this library allows you to format java.time types within your template
 * [Notice](#notice)
 
 
-## Installation
+# Installation
 
 You need Java 8 or higher. FJ8 is tested on Freemarker 2.3.23, and should at least work
 fine for all 2.3.x versions. 
 
-### Maven
+## Maven
 
 ```xml
 <dependency>
@@ -52,11 +57,11 @@ fine for all 2.3.x versions.
 </dependency>
 ```
 
-### Gradle
+## Gradle
 
 	implementation 'no.api.freemarker:freemarker-java8:1.3.0'
 
-## Setup
+# Setup
 
 FJ8 extends the [DefaultObjectWrapper](https://freemarker.apache.org/docs/api/freemarker/template/DefaultObjectWrapper.html) to add support for the java.time classes. All you need to do is to replace
 the default object wrapper with the FJ8 implementation in your FreeMarker Configuration object.
@@ -66,7 +71,7 @@ this.configuration = new Configuration(); // Or get the configuration from your 
 this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
 ```
 
-### Spring setup
+## Spring setup
 
 This is how you can add FJ8 to your FreeMarker configuration in Spring / Spring Boot.
 
@@ -96,7 +101,7 @@ public class FreemarkerConfig implements BeanPostProcessor {
 
 *Thanks to Desson Ariawan for the [example](https://www.dariawan.com/tutorials/spring/java-8-datetime-freemarker/)*
 
-## Upgrade from 1.3 to 2.0
+# Upgrade from 1.3 to 2.0
 
 The 2.0 release doesn't introduce any new features. Instead it fixes two major issues reported by users ([#18](https://github.com/lazee/freemarker-java-8/issues/18)/[#16](https://github.com/lazee/freemarker-java-8/issues/16)). 2.0 introduces a breaking change that might affect some users. Hence the major bump.
 
@@ -109,203 +114,203 @@ configuration.setObjectWrapper(
 ```
 
 
-## Usage
+# Usage
 
-### Formatting
+## Formatting java.time classes
 All format methods uses the
 [java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)
 for formatting.
 
-#### java.time.Clock
+### :hash: java.time.Clock
 
 This is a simple implementation where format just prints the toString() value of the object.
 
-##### Methods
+#### Methods
 
 * format()
 	
-##### Example
+#### Example
 
 	${myclock.format()}
 
-#### java.time.Duration
+### java.time.Duration
 
 Gives access to the Duration values.
 
-##### Methods
+#### Methods
 
 * nano()
 * seconds()
 	
-##### Example
+#### Example
 
 	${myduration.seconds}
 	${myduration.nano}
 	
 
-#### java.time.Instant
+### java.time.Instant
 
 This is a simple implementation where format just prints the toString() value of the object.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${myinstant.format()}
 
-#### java.time.LocalDate
+### java.time.LocalDate
 
 Allows you to print a LocalDate on a default pattern, by providing a custom pattern or a builtin format style.
 
-##### Methods
+#### Methods
 
 * format()
 	
-##### Example
+#### Example
 
 	${mylocaldate.format()}
 	${mylocaldate.format('yyyy MM dd')}
 	${mylocaldate.format('FULL_DATE')}
 
-#### java.time.LocalDateTime
+### java.time.LocalDateTime
 
 Allows you to print a LocalDateTime on a default pattern, by providing a custom pattern or a builtin format style.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${mylocaldatetime.format()}
 	${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}
 	${mylocaldatetime.format('MEDIUM_DATETIME')}
 
-#### java.time.LocalTime
+### java.time.LocalTime
 
 Allows you to print a LocalTime on a default pattern, by providing a custom pattern or a builtin format style.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${mylocaltime.format()}
 	${mylocaltime.format('HH : mm : ss')}
 	${mylocaltime.format('SHORT_TIME')}
 
-#### java.time.MonthDay
+### java.time.MonthDay
 
 Allows you to print a MonthDay on a default pattern or by providing a custom pattern.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${mymonthday.format()}
 	${mymonthday.format('MM dd')}
 
-#### java.time.OffsetDateTime
+### java.time.OffsetDateTime
 
 Allows you to print a OffsetDateTime on a default pattern, by providing a custom pattern or a builtin format style.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${myoffsetdatetime.format()}
 	${myoffsetdatetime.format('yyyy MM dd HH mm ss')}
 	${myoffsetdatetime.format('FULL_DATETIME')}
 
 
-#### java.time.OffsetTime
+### java.time.OffsetTime
 
 Allows you to print a OffsetTime on a default pattern, by providing a custom pattern or a builtin format style.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${myoffsettime.format()}
 	${myoffsettime.format('HH mm ss')}
 	${myoffsettime.format('MEDIUM_TIME')}
 
-#### java.time.Period
+### java.time.Period
 
 Provides access to the values of the a Period object within your template.
 
-##### Methods
+#### Methods
 
 * days()
 * months()
 * years()
 	
-##### Example
+#### Example
 
 	${myperiod.days}
 	${myperiod.months}
 	${myperiod.years}
 
-#### java.time.Year
+### java.time.Year
 
 Allows you to print a Year on a default pattern or by providing a custom pattern.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${myyear.format()}
 	${myyear.format('yyyy')}
 
-#### java.time.YearMonth
+### java.time.YearMonth
 
 Allows you to print a YearMonth on a default pattern or by providing a custom pattern.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 	
-##### Example
+#### Example
 
 	${myyear.format()}
 	${myyear.format('yyyy MM')}
 
-#### java.time.ZonedDateTime
+### java.time.ZonedDateTime
 
 Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern.
 
-##### Methods
+#### Methods
 
 * format()
 * format(pattern)
 * format(pattern, zone)
-	
-##### Example
+
+#### Example
 
 	${myzoneddatetime.format()}
 	${myzoneddatetime.format('yyyy-MM-dd Z')}
 	${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}
 
-##### Notice
+#### Notice
 
 When a zone is _not_ set, the formatter will use the zone found in the ZonedDateTime object itself. This behaviour can be changed if you want to. Scenarious where that might come in handy could be when you always wants to convert the timezone into your local timezone.
 
@@ -325,85 +330,85 @@ new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZonedDateTimeStrategy());
 new Java8ObjectWrapper(VERSION_2_3_23, new StaticZonedDateTimeStrategy(ZoneId.of("Europe/Oslo")));
 ```
 	
-#### java.time.ZonedId
+### java.time.ZonedId
 
 Prints the ZoneId display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
 
-##### Methods
+#### Methods
 
 * format()
 * format(textStyle)
 * format(textstyle, locale)	
 
-##### Example
+### Example
 
 	${myzoneid.format()}
 	${myzoneid.format('short')}
 	${myzoneid.format('short', 'no-NO')}
 
-#### java.time.ZonedOffset
+### java.time.ZonedOffset
 
 Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.</p></td>
 
 
-##### Methods
+#### Methods
 
 * format()
 * format(textStyle)	
 
-##### Example
+#### Example
 
 	${myzoneoffset.format()}
 	${myzoneoffset.format('short')}
 
 
-### Comparison
+## Comparison
 
 
-#### java.time.LocalDate
+### java.time.LocalDate
 
 Can compare two LocalDate objects for equality.
 
-##### Methods
+#### Methods
 
 * isEqual(localDate)
 * isAfter(localDate)
 * isBefore(localDate)
 
-##### Example
+#### Example
 
 	${localDate.isEqual(anotherlocalDate)}
 	${localDate.isAfter(anotherlocalDate)}
 	${localDate.isBefore(anotherlocalDate)}
 
 
-#### java.time.LocalDateTime
+### java.time.LocalDateTime
 
 Can compare two LocalDateTime objects for equality.
 
-##### Methods
+#### Methods
 
 * isEqual(localDateTime)
 * isAfter(localDateTime)
 * isBefore(localDateTime)
 
-##### Example
+#### Example
 
 	${localDateTime.isEqual(anotherlocalDateTime)}
 	${localDateTime.isAfter(anotherlocalDateTime)}
 	${localDateTime.isBefore(anotherlocalDateTime)}
 
-#### java.time.LocalTime
+### java.time.LocalTime
 
 Can compare two LocalTime objects for equality.
 
-##### Methods
+#### Methods
 
 * isEqual(localDateTime)
 * isAfter(localDateTime)
 * isBefore(localDateTime)
 
-##### Example
+#### Example
 
 	${localTime.isEqual(anotherlocalTime)}
 	${localTime.isAfter(anotherlocalTime)}
