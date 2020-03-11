@@ -121,7 +121,7 @@ All format methods uses the
 [java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)
 for formatting.
 
-### :hash: java.time.Clock
+### :ballot_box_with_check: java.time.Clock
 
 This is a simple implementation where format just prints the toString() value of the object.
 
@@ -148,7 +148,7 @@ Gives access to the Duration values.
 	${myduration.nano}
 	
 
-### java.time.Instant
+### :ballot_box_with_check: java.time.Instant
 
 This is a simple implementation where format just prints the toString() value of the object.
 
@@ -161,7 +161,7 @@ This is a simple implementation where format just prints the toString() value of
 
 	${myinstant.format()}
 
-### java.time.LocalDate
+### :ballot_box_with_check: java.time.LocalDate
 
 Allows you to print a LocalDate on a default pattern, by providing a custom pattern or a builtin format style.
 
@@ -175,7 +175,7 @@ Allows you to print a LocalDate on a default pattern, by providing a custom patt
 	${mylocaldate.format('yyyy MM dd')}
 	${mylocaldate.format('FULL_DATE')}
 
-### java.time.LocalDateTime
+### :ballot_box_with_check: java.time.LocalDateTime
 
 Allows you to print a LocalDateTime on a default pattern, by providing a custom pattern or a builtin format style.
 
@@ -190,7 +190,7 @@ Allows you to print a LocalDateTime on a default pattern, by providing a custom 
 	${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}
 	${mylocaldatetime.format('MEDIUM_DATETIME')}
 
-### java.time.LocalTime
+### :ballot_box_with_check: java.time.LocalTime
 
 Allows you to print a LocalTime on a default pattern, by providing a custom pattern or a builtin format style.
 
@@ -205,7 +205,7 @@ Allows you to print a LocalTime on a default pattern, by providing a custom patt
 	${mylocaltime.format('HH : mm : ss')}
 	${mylocaltime.format('SHORT_TIME')}
 
-### java.time.MonthDay
+### :ballot_box_with_check: java.time.MonthDay
 
 Allows you to print a MonthDay on a default pattern or by providing a custom pattern.
 
@@ -219,7 +219,7 @@ Allows you to print a MonthDay on a default pattern or by providing a custom pat
 	${mymonthday.format()}
 	${mymonthday.format('MM dd')}
 
-### java.time.OffsetDateTime
+### :ballot_box_with_check: java.time.OffsetDateTime
 
 Allows you to print a OffsetDateTime on a default pattern, by providing a custom pattern or a builtin format style.
 
@@ -235,7 +235,7 @@ Allows you to print a OffsetDateTime on a default pattern, by providing a custom
 	${myoffsetdatetime.format('FULL_DATETIME')}
 
 
-### java.time.OffsetTime
+### :ballot_box_with_check: java.time.OffsetTime
 
 Allows you to print a OffsetTime on a default pattern, by providing a custom pattern or a builtin format style.
 
@@ -250,7 +250,7 @@ Allows you to print a OffsetTime on a default pattern, by providing a custom pat
 	${myoffsettime.format('HH mm ss')}
 	${myoffsettime.format('MEDIUM_TIME')}
 
-### java.time.Period
+### :ballot_box_with_check: java.time.Period
 
 Provides access to the values of the a Period object within your template.
 
@@ -266,7 +266,7 @@ Provides access to the values of the a Period object within your template.
 	${myperiod.months}
 	${myperiod.years}
 
-### java.time.Year
+### :ballot_box_with_check: java.time.Year
 
 Allows you to print a Year on a default pattern or by providing a custom pattern.
 
@@ -280,7 +280,7 @@ Allows you to print a Year on a default pattern or by providing a custom pattern
 	${myyear.format()}
 	${myyear.format('yyyy')}
 
-### java.time.YearMonth
+### :ballot_box_with_check: java.time.YearMonth
 
 Allows you to print a YearMonth on a default pattern or by providing a custom pattern.
 
@@ -294,7 +294,7 @@ Allows you to print a YearMonth on a default pattern or by providing a custom pa
 	${myyear.format()}
 	${myyear.format('yyyy MM')}
 
-### java.time.ZonedDateTime
+### :ballot_box_with_check: java.time.ZonedDateTime
 
 Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern.
 
@@ -330,7 +330,7 @@ new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZonedDateTimeStrategy());
 new Java8ObjectWrapper(VERSION_2_3_23, new StaticZonedDateTimeStrategy(ZoneId.of("Europe/Oslo")));
 ```
 	
-### java.time.ZonedId
+### :ballot_box_with_check: java.time.ZonedId
 
 Prints the ZoneId display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
 
@@ -346,7 +346,7 @@ Prints the ZoneId display name. You can override the textstyle with one of these
 	${myzoneid.format('short')}
 	${myzoneid.format('short', 'no-NO')}
 
-### java.time.ZonedOffset
+### :ballot_box_with_check: java.time.ZonedOffset
 
 Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.</p></td>
 
@@ -365,7 +365,7 @@ Prints the ZoneOffset display name. You can override the textstyle with one of t
 ## Comparison
 
 
-### java.time.LocalDate
+### :ballot_box_with_check: java.time.LocalDate
 
 Can compare two LocalDate objects for equality.
 
@@ -382,7 +382,7 @@ Can compare two LocalDate objects for equality.
 	${localDate.isBefore(anotherlocalDate)}
 
 
-### java.time.LocalDateTime
+### :ballot_box_with_check: java.time.LocalDateTime
 
 Can compare two LocalDateTime objects for equality.
 
@@ -398,7 +398,7 @@ Can compare two LocalDateTime objects for equality.
 	${localDateTime.isAfter(anotherlocalDateTime)}
 	${localDateTime.isBefore(anotherlocalDateTime)}
 
-### java.time.LocalTime
+### :ballot_box_with_check: java.time.LocalTime
 
 Can compare two LocalTime objects for equality.
 
