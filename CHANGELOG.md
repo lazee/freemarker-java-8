@@ -1,7 +1,7 @@
 # Change Log
 
 ## [freemarker-java8-2.0.0](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-2.0.0) (2020-03-10)
-- Allow fall-through to default methods in the java.time classes
+- Allow fall-through to default methods in the java.time classes (Thank you @mihxil)
 - Proper handling of ZoneId for ZonedDateTime formatting (Breaking change in default behaviour)
 - Github Actions build
 
