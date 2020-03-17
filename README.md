@@ -105,7 +105,7 @@ public class FreemarkerConfig implements BeanPostProcessor {
 
 The 2.0 release doesn't introduce any new features. Instead it fixes two major issues reported by users ([#18](https://github.com/lazee/freemarker-java-8/issues/18)/[#16](https://github.com/lazee/freemarker-java-8/issues/16)). 2.0 introduces a breaking change that might affect some users. Hence the major bump.
 
-The upgrade itself is nothing else than changing the version in your build configuration (pom.xml or something else). However if you need to stick to the old behaviour on how time zones are treated when formatting ZonedDateTime objects, then you need to add a seconds argument to Java8ObjectWrapper upon initialization:
+The upgrade itself is nothing else than changing the version in your build configuration (pom.xml or something else). However if you need to stick to the old behaviour on how time zones are treated when formatting ZonedDateTime objects, then you need to add a second argument to Java8ObjectWrapper upon initialization:
 
 ```java
 configuration.setObjectWrapper(
