@@ -179,3 +179,14 @@ for formatting.
 |`isEqual(<LocalTime object>), isAfter(<LocalTime object>), isBefore(<LocalTime object>)`
 |Can compare two LocalTime objects for equality.
 |`${localTime.isEqual(anotherlocalTime)} or ${localTime.isAfter(anotherlocalTime)} or ${localTime.isBefore(anotherlocalTime)}`
+
+
+[cols="^,^,^,^", options="header"]
+.java.time manipulation methods (Requires `EnhancedJava8ObjectWrapper`)
+|===
+| java.time class | methods | comment | example
+
+|LocalDate / LocalDateTime / LocalTime
+|`plusSeconds(<Long>), plusMinutes(<Long>), plusDays(<Long>), plusWeeks(<Long>), plusMonths(<Long>), plusYears(<Long>)`
+|Can create a new Temporal object with specified time difference from the original object.
+|`${localDateTime.plusMonths(1).plus.Hours(2).plusMinutes(5).plusSeconds(30).format()}`

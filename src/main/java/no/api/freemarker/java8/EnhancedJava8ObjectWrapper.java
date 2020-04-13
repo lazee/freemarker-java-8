@@ -9,7 +9,7 @@ import no.api.freemarker.java8.time.TemporalDialerAdapter;
 import java.time.temporal.Temporal;
 
 /**
- * Freemarker ObjectWrapper that extends the Java8ObjectWrapper with support for time manipulation operations in all temporal classes in the new java.time api.
+ * Freemarker ObjectWrapper that extends the Java8ObjectWrapper with support for time manipulations in all temporal classes in the new java.time api.
  * Such time manipulation operations include plusSeconds, plusMinutes, etc.
  */
 public class EnhancedJava8ObjectWrapper extends Java8ObjectWrapper {
