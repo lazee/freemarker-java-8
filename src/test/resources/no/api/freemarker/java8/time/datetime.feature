@@ -82,6 +82,14 @@ Feature: Test the date time functionality
         And LocalDate object for "2007-12-03"
         Then expect the template to return "الاثنين 3 ديسمبر 2007"
 
+    Scenario: Test that time manipulation works with LocalDate
+        Given an freemarker environment with locale set to "de-DE"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.plusWeeks(52).plusDays(2).format()}"
+        And LocalDate object for "2007-12-03"
+        Then expect the template to return "2008-12-03"
+        # 2008 is a leap year
+
     Scenario: Test that using a preset ZonedDateTime inside a template will return the default time zone when a built in pattern is given and german locale
         Given an freemarker environment with locale set to "de-DE"
         And timezone set to "Europe/Berlin"
@@ -157,6 +165,13 @@ Feature: Test the date time functionality
         And LocalDateTime object for "2007-12-03T10:15:30"
         Then expect the template to return "luni 3 decembrie 2007 10:15:30"
 
+    Scenario: Test that time manipulation works with LocalDateTime
+        Given an freemarker environment with locale set to "ro-RO"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.plusMonths(-1).plusSeconds(5).format()}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "2007-11-03T10:15:35"
+
     ### LocalTime ###
     Scenario: Test basic LocalTime use in template
         Given an freemarker environment with locale set to "no-No"
@@ -164,6 +179,13 @@ Feature: Test the date time functionality
         And a template "${obj}"
         And LocalTime object for "23:44"
         Then expect the template to return "23:44"
+
+    Scenario: Test that time manipulation works with LocalTime
+        Given an freemarker environment with locale set to "no-No"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.plusHours(-1).plusSeconds(5).format()}"
+        And LocalTime object for "16:15:30"
+        Then expect the template to return "15:15:35"
 
     ### MonthDay ###
     Scenario: Test basic MonthDay use in template
@@ -319,6 +341,13 @@ Feature: Test the date time functionality
         And a template "${obj.format('yyyy MMMM EEEE Z', 'Asia/Seoul')}"
         And ZonedDateTime object for "2007-12-03T16:15:30+07:00[Asia/Bangkok]"
         Then expect the template to return "2007 Dezember Montag +0900"
+
+    Scenario: Test that time manipulation works with ZonedDateTime
+        Given an freemarker environment with locale set to "de-DE"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.plusYears(1).plusDays(2).plusMinutes(5).format()}"
+        And ZonedDateTime object for "2007-12-03T16:15:30+07:00[Asia/Bangkok]"
+        Then expect the template to return "2008-12-05T16:20:30+07:00[Asia/Bangkok]"
 
     ### ZoneId ###
     Scenario: Test basic ZoneId use in template

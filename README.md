@@ -414,6 +414,34 @@ Can compare two LocalTime objects for equality.
 	${localTime.isAfter(anotherlocalTime)}
 	${localTime.isBefore(anotherlocalTime)}
 
+## Manipulating time (Requires `EnhancedJava8ObjectWrapper`)
+
+### :ballot_box_with_check: java.time.temporal.Temporal
+
+Can create a new Temporal object with specified time difference from the original object, supporting 
+
+	java.time.Instant, 
+	java.time.LocalDate, 
+	java.time.LocalDateTime, 
+	java.time.LocalTime, 
+	java.time.OffsetDateTime, 
+	java.time.OffsetTime, 
+	java.time.Year, 
+	java.time.YearMonth, 
+	java.time.ZonedDateTime
+ 
+#### Methods
+
+* plusSeconds(<Long>)
+* plusMinutes(<Long>)
+* plusDays(<Long>)
+* plusWeeks(<Long>)
+* plusMonths(<Long>)
+* plusYears(<Long>)
+	
+#### Example
+
+	${localDateTime.plusMonths(1).plus.Hours(-2).plusMinutes(5).plusSeconds(30).format()}
 
 ## Notice
 
