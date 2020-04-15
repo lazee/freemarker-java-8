@@ -414,7 +414,7 @@ Can compare two LocalTime objects for equality.
 	${localTime.isAfter(anotherlocalTime)}
 	${localTime.isBefore(anotherlocalTime)}
 
-## Manipulating time (Requires `EnhancedJava8ObjectWrapper`)
+## Manipulating time
 
 ### :ballot_box_with_check: java.time.temporal.Temporal
 

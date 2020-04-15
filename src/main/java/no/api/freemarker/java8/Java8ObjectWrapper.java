@@ -17,6 +17,7 @@
 package no.api.freemarker.java8;
 
 import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.Version;
@@ -30,6 +31,7 @@ import no.api.freemarker.java8.time.MonthDayAdapter;
 import no.api.freemarker.java8.time.OffsetDateTimeAdapter;
 import no.api.freemarker.java8.time.OffsetTimeAdapter;
 import no.api.freemarker.java8.time.PeriodAdapter;
+import no.api.freemarker.java8.time.TemporalDialerAdapter;
 import no.api.freemarker.java8.time.YearAdapter;
 import no.api.freemarker.java8.time.YearMonthAdapter;
 import no.api.freemarker.java8.time.ZoneIdAdapter;
@@ -53,6 +55,7 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 
 /**
  * Freemarker ObjectWrapper that extends the DefaultObjectWrapper with support for all classes in the new java.time api.
@@ -78,9 +81,15 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
         this.strategy = strategy;
     }
 
-
     @Override
     protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {
+        TemplateModel delegate = _handleUnknownType(obj);
+        return obj instanceof Temporal && delegate instanceof TemplateHashModel
+                ? new TemporalDialerAdapter((Temporal) obj, this, (TemplateHashModel) delegate)
+                : delegate;
+    }
+
+    private TemplateModel _handleUnknownType(Object obj) throws TemplateModelException {
         if (obj instanceof Clock) {
             return new ClockAdapter((Clock) obj, this);
         } else if (obj instanceof Duration) {

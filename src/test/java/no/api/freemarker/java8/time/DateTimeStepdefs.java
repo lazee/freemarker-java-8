@@ -6,7 +6,7 @@ import cucumber.api.java.en.Then;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import no.api.freemarker.java8.EnhancedJava8ObjectWrapper;
+import no.api.freemarker.java8.Java8ObjectWrapper;
 import no.api.freemarker.java8.zone.EnvironmentZonedDateTimeStrategy;
 import no.api.freemarker.java8.zone.KeepingZonedDateTimeStrategy;
 import no.api.freemarker.java8.zone.StaticZonedDateTimeStrategy;
@@ -50,12 +50,12 @@ public class DateTimeStepdefs {
 
     private Configuration configuration;
 
-    private EnhancedJava8ObjectWrapper objectWrapper;
+    private Java8ObjectWrapper objectWrapper;
 
 
     public DateTimeStepdefs() {
         this.configuration = new Configuration(Configuration.VERSION_2_3_23);
-        this.objectWrapper = new EnhancedJava8ObjectWrapper(VERSION_2_3_23, new KeepingZonedDateTimeStrategy());
+        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZonedDateTimeStrategy());
         this.configuration.setObjectWrapper(objectWrapper);
     }
 
@@ -67,7 +67,7 @@ public class DateTimeStepdefs {
 
 
     private void setStrategy(ZonedDateTimeStrategy strategy) {
-        this.objectWrapper = new EnhancedJava8ObjectWrapper(VERSION_2_3_23, strategy);
+        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, strategy);
         this.configuration.setObjectWrapper(objectWrapper);
     }
 
