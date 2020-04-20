@@ -4,6 +4,7 @@
 - Allow fall-through to default methods in the java.time classes (Thank you @mihxil)
 - Proper handling of ZoneId for ZonedDateTime formatting (Breaking change in default behaviour)
 - Github Actions build
+- New time manipulation support by @jeffyjin [\#28](https://github.com/lazee/freemarker-java-8/pull/28)
 
 ## [freemarker-java8-1.2.0](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-1.2.0) (2017-08-08)
 
