@@ -25,6 +25,7 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 
 import java.time.LocalDate;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -78,16 +79,22 @@ public class LocalDateAdapter extends AbstractAdapter<LocalDate> implements Adap
         @SuppressWarnings("Duplicates")
         @Override
         public Object exec(List list) throws TemplateModelException {
-            LocalDateAdapter adapter = (LocalDateAdapter) list.get(0);
-            switch (method) {
-                case METHOD_EQUALS:
-                    return getObject().isEqual(adapter.getObject());
-                case METHOD_AFTER:
-                    return getObject().isAfter(adapter.getObject());
-                case METHOD_BEFORE:
-                    return getObject().isBefore(adapter.getObject());
+            AbstractAdapter adapter = (AbstractAdapter) list.get(0);
+            Object object = adapter.getObject();
+            if (object instanceof LocalDate) {
+                LocalDate other = (LocalDate) object;
+                switch (method) {
+                    case METHOD_EQUALS:
+                        return getObject().equals(other);
+                    case METHOD_AFTER:
+                        return getObject().isAfter(other);
+                    case METHOD_BEFORE:
+                        return getObject().isBefore(other);
+                }
+                throw new TemplateModelException("method not implemented");
+            } else {
+                throw new TemplateModelException("Invalid operand type for " + method + ": " + object);
             }
-            throw new TemplateModelException("method not implemented");
         }
     }
 }
