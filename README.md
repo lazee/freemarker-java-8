@@ -53,13 +53,13 @@ fine for all 2.3.x versions.
 <dependency>
     <groupId>no.api.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>1.3.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
 ## Gradle
 
-	implementation 'no.api.freemarker:freemarker-java8:1.3.0'
+	implementation 'no.api.freemarker:freemarker-java8:2.0.0'
 
 # Setup
 
