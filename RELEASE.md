@@ -4,6 +4,8 @@ You also need to configure a special settings.xml when releasing. Also ask Jakob
 
 Release package:
 
+* Release with jdk 8!
+* Always run mvn javadoc:javadoc before doing anything else!
 * mvn release:prepare
 * mvn release:perform
 * Go to https://oss.sonatype.org/ and log in.
