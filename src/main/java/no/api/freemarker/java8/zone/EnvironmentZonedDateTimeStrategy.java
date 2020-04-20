@@ -6,8 +6,8 @@ import java.time.ZoneId;
 import java.util.TimeZone;
 
 /**
- * {@link ZonedDateTimeStrategy} that always will transform the input {@link ZoneId} to the {@link ZoneId} provided by
- * {@link Environment#getCurrentEnvironment().getTimeZone().getTimeZone()}.<br>
+ * ZonedDateTimeStrategy that always will transform the input {@link ZoneId} to the {@link ZoneId} provided by
+ * Environment#getCurrentEnvironment().getTimeZone().getTimeZone().<br>
  */
 public class EnvironmentZonedDateTimeStrategy implements ZonedDateTimeStrategy {
 
