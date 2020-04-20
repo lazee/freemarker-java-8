@@ -16,6 +16,7 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -36,25 +37,28 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
         TemplateScalarModel, TemplateHashModel {
 
 
-    public LocalDateTimeAdapter(LocalDateTime obj) {
-        super(obj);
+    public LocalDateTimeAdapter(LocalDateTime obj, BeansWrapper wrapper) {
+        super(obj, wrapper);
     }
 
+
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new LocalDateTimeFormatter(getObject());
-        } else if(METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
+        } else if (METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
             return new LocalDateTimeChecker(getObject(), s);
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
+
 
     public class LocalDateTimeFormatter extends AbstractFormatter<LocalDateTime> implements TemplateMethodModelEx {
 
         public LocalDateTimeFormatter(LocalDateTime obj) {
             super(obj);
         }
+
 
         @Override
         public Object exec(List list) throws TemplateModelException {
@@ -65,24 +69,32 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
     public class LocalDateTimeChecker extends AbstractChecker<LocalDateTime> implements TemplateMethodModelEx {
         private String method;
 
+
         public LocalDateTimeChecker(LocalDateTime obj, String method) {
             super(obj);
             this.method = method;
         }
 
+
         @SuppressWarnings("Duplicates")
         @Override
         public Object exec(List list) throws TemplateModelException {
-            LocalDateTimeAdapter adapter = (LocalDateTimeAdapter) list.get(0);
-            switch(method) {
-                case METHOD_EQUALS:
-                    return getObject().isEqual(adapter.getObject());
-                case METHOD_AFTER:
-                    return getObject().isAfter(adapter.getObject());
-                case METHOD_BEFORE:
-                    return getObject().isBefore(adapter.getObject());
+            AbstractAdapter adapter = (AbstractAdapter) list.get(0);
+            Object object = adapter.getObject();
+            if (object instanceof LocalDateTime) {
+                LocalDateTime other = (LocalDateTime) object;
+                switch (method) {
+                    case METHOD_EQUALS:
+                        return getObject().equals(other);
+                    case METHOD_AFTER:
+                        return getObject().isAfter(other);
+                    case METHOD_BEFORE:
+                        return getObject().isBefore(other);
+                }
+                throw new TemplateModelException("method not implemented");
+            } else {
+                throw new TemplateModelException("Invalid operand type for " + method + ": " + object);
             }
-            throw new TemplateModelException("method not implemented");
         }
     }
 }

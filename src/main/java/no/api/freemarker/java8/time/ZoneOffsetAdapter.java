@@ -16,6 +16,7 @@
 
 package no.api.freemarker.java8.time;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
@@ -26,8 +27,7 @@ import freemarker.template.TemplateScalarModel;
 import java.time.ZoneOffset;
 import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
-import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
+import static no.api.freemarker.java8.time.DateTimeTools.*;
 
 /**
  * ZoneOffsetAdapter adds basic format support for {@link ZoneOffset} too FreeMarker 2.3.23 and above.
@@ -35,17 +35,19 @@ import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 public class ZoneOffsetAdapter extends AbstractAdapter<ZoneOffset> implements AdapterTemplateModel,
         TemplateScalarModel, TemplateHashModel {
 
-    public ZoneOffsetAdapter(ZoneOffset obj) {
-        super(obj);
+    public ZoneOffsetAdapter(ZoneOffset obj, BeansWrapper wrapper) {
+        super(obj, wrapper);
     }
 
+
     @Override
-    public TemplateModel get(String s) throws TemplateModelException {
+    public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new ZoneOffsetFormatter(getObject());
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
+
 
     public class ZoneOffsetFormatter extends AbstractTextStyleLocaleFormatter<ZoneOffset>
             implements TemplateMethodModelEx {
@@ -53,6 +55,7 @@ public class ZoneOffsetAdapter extends AbstractAdapter<ZoneOffset> implements Ad
         public ZoneOffsetFormatter(ZoneOffset obj) {
             super(obj);
         }
+
 
         @Override
         public Object exec(List list) throws TemplateModelException {
