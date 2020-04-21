@@ -18,6 +18,8 @@ jobs:
           java-version: 1.8
       - name: Maven verify
         run: mvn -B verify
+      - name: Maven Javadoc
+        run: mvn javadoc:javadoc
   build-jdk11:
     runs-on: ubuntu-latest
     name: Build with Java 11
