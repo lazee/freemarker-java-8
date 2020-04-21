@@ -1,5 +1,3 @@
-**NOTE: Just released 2.0.0 (2020-04-20). Should be available in the Maven repository tomorrow**
-
 # java.time support for FreeMarker
 ![](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
