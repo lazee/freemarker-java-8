@@ -17,7 +17,7 @@ Basically this library allows you to format java.time types within your template
 # Table of content
 * [Installation](#installation)
 * [Setup](#setup)
-* [Upgrade from 1.3 to 2.0](#upgrade)
+* [Upgrade from 1.3 to 2.0](#upgrade-from-13-to-20)
 * [Usage](#usage)
     + [Formatting](#formatting)
       - [java.time.Clock](#user-content-ballot_box_with_check-javatimeclock)
