@@ -100,6 +100,17 @@ public class FreemarkerConfig implements BeanPostProcessor {
 
 *Thanks to Desson Ariawan for the [example](https://www.dariawan.com/tutorials/spring/java-8-datetime-freemarker/)*
 
+You can also configure it via Spring boot properties like this:
+
+```
+spring.freemarker.settings.object_wrapper=no.api.freemarker.java8.Java8ObjectWrapper(Configuration.VERSION_2_3_31)
+```
+
+This takes advantage of Freemarker Configuration [object builder expressions](https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#fm_obe)
+
+*Thanks to [hercsoft](https://github.com/hercsoft) for letting us know*
+
+
 # Upgrade from 1.3 to 2.0
 
 The 2.0 release addresses two major issues reported by users ([#18](https://github.com/lazee/freemarker-java-8/issues/18)/[#16](https://github.com/lazee/freemarker-java-8/issues/16)). It also introduces a new feature for manipulating time ([\#28](https://github.com/lazee/freemarker-java-8/pull/28)).  
