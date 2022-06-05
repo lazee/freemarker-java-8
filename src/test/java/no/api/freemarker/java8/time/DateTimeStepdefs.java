@@ -1,44 +1,26 @@
 package no.api.freemarker.java8.time;
 
-import cucumber.api.java.After;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import no.api.freemarker.java8.Java8ObjectWrapper;
-import no.api.freemarker.java8.zone.EnvironmentZonedDateTimeStrategy;
-import no.api.freemarker.java8.zone.KeepingZonedDateTimeStrategy;
-import no.api.freemarker.java8.zone.StaticZonedDateTimeStrategy;
-import no.api.freemarker.java8.zone.SystemZonedDateTimeStrategy;
-import no.api.freemarker.java8.zone.ZonedDateTimeStrategy;
+import no.api.freemarker.java8.zone.*;
+import org.junit.After;
 import org.junit.Assert;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.MonthDay;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.Period;
-import java.time.Year;
-import java.time.YearMonth;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import static freemarker.template.Configuration.*;
+import static freemarker.template.Configuration.VERSION_2_3_23;
 
 public class DateTimeStepdefs {
 
@@ -48,7 +30,7 @@ public class DateTimeStepdefs {
 
     private Object obj2;
 
-    private Configuration configuration;
+    private final Configuration configuration;
 
     private Java8ObjectWrapper objectWrapper;
 
@@ -134,18 +116,20 @@ public class DateTimeStepdefs {
 
     @Then("^expect the template to return \"([^\"]*)\"$")
     public void expect_the_template_to_return(String res) throws Throwable {
-        Writer out = process(res);
-        if (!res.equals(out.toString())) {
-            Assert.fail("Expected '" + res + "', but got '" + out.toString() + "'");
+        try (Writer out = process(res)) {
+            if (!res.equals(out.toString())) {
+                Assert.fail("Expected '" + res + "', but got '" + out + "'");
+            }
         }
     }
 
 
     @Then("^expect the template to return \"([^\"]*)\" or \"([^\"]*)\"$")
     public void expect_the_template_to_return(String res, String res2) throws Throwable {
-        Writer out = process(res);
-        if (!res.equals(out.toString()) && !res2.equals(out.toString())) {
-            Assert.fail("Expected '" + res + "' or '" + res2 + "', but got '" + out.toString() + "'");
+        try (Writer out = process(res)) {
+            if (!res.equals(out.toString()) && !res2.equals(out.toString())) {
+                Assert.fail("Expected '" + res + "' or '" + res2 + "', but got '" + out + "'");
+            }
         }
     }
 
@@ -153,27 +137,30 @@ public class DateTimeStepdefs {
     @Then("^expect the template to return the current year$")
     public void expect_the_template_to_return_the_current_year() throws Throwable {
         String res = Year.now().toString();
-        Writer out = process(res);
-        if (!res.equals(out.toString())) {
-            Assert.fail("Expected '" + res + "', but got '" + out.toString() + "'");
+        try (Writer out = process(res)) {
+            if (!res.equals(out.toString())) {
+                Assert.fail("Expected '" + res + "', but got '" + out + "'");
+            }
         }
     }
 
 
     @Then("^expect the template to return true$")
     public void expect_the_template_to_true() throws Throwable {
-        Writer out = process("true");
-        if (!"true".equals(out.toString())) {
-            Assert.fail("Expected 'true', but got '" + out.toString() + "'");
+        try (Writer out = process("true")) {
+            if (!"true".equals(out.toString())) {
+                Assert.fail("Expected 'true', but got '" + out + "'");
+            }
         }
     }
 
 
     @Then("^expect the template to return false$")
     public void expect_the_template_to_false() throws Throwable {
-        Writer out = process("false");
-        if (!"false".equals(out.toString())) {
-            Assert.fail("Expected 'false', but got '" + out.toString() + "'");
+        try (Writer out = process("false")) {
+            if (!"false".equals(out.toString())) {
+                Assert.fail("Expected 'false', but got '" + out + "'");
+            }
         }
     }
 
