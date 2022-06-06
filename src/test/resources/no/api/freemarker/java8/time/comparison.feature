@@ -149,3 +149,10 @@ Feature: Test the implemented comparison functions (isEqual, isBefore and isAfte
         And LocalTime object for "23:54"
         And LocalTime object2 for "23:45"
         Then expect the template to return false
+
+    Scenario: Test that instant is printed correctly with Freemarker 2_3_31
+        Given an freemarker environment with locale set to "no-NO"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.format('yyyy-MM-dd HH: mm : ss Z', 'Europe/Oslo')}"
+        And Instant object for "2022-06-01T16:17:45Z"
+        Then expect the template to return "2022-06-01 18: 17 : 45 +0200"

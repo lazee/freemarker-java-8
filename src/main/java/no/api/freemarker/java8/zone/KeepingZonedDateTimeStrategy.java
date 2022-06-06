@@ -1,14 +1,8 @@
 package no.api.freemarker.java8.zone;
 
-import java.time.ZoneId;
-
 /**
- * {@link ZonedDateTimeStrategy} that will never transform the {@link ZoneId} returning always the {@code input}.
+ * @deprecated Use {@link KeepingZoneStrategy} instead.
  */
-public class KeepingZonedDateTimeStrategy implements ZonedDateTimeStrategy {
-
-    @Override
-    public ZoneId getZoneId(ZoneId input) {
-        return input;
-    }
+@Deprecated
+public class KeepingZonedDateTimeStrategy extends KeepingZoneStrategy {
 }

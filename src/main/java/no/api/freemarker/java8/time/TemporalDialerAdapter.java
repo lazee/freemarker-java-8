@@ -1,20 +1,19 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
-public class TemporalDialerAdapter extends AbstractAdapter<Temporal> implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
+public class TemporalDialerAdapter extends AbstractAdapter<Temporal> implements AdapterTemplateModel,
+      TemplateScalarModel, TemplateHashModel {
 
     private final TemplateHashModel delegate;
-    public TemporalDialerAdapter(Temporal obj, BeansWrapper wrapper, TemplateHashModel delegate) {
-        super(obj, wrapper);
+
+    public TemporalDialerAdapter(Temporal obj, BeansWrapper wrapper, TemplateHashModel delegate, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
         this.delegate = delegate;
     }
 

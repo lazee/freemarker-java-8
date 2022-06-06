@@ -18,35 +18,29 @@ package no.api.freemarker.java8.time;
 
 import freemarker.core.Environment;
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.ZoneId;
 import java.time.format.TextStyle;
-import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.*;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 
 /**
  * ZoneIdAdapter adds basic format support for {@link ZoneId} too FreeMarker 2.3.23 and above.
  */
 public class ZoneIdAdapter extends AbstractAdapter<ZoneId>
-        implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
+      implements AdapterTemplateModel, TemplateScalarModel, TemplateHashModel {
 
-    public ZoneIdAdapter(ZoneId obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public ZoneIdAdapter(ZoneId obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
-    public String getAsString() throws TemplateModelException {
+    public String getAsString() {
         return getObject().getDisplayName(TextStyle.FULL, Environment.getCurrentEnvironment().getLocale());
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {
@@ -54,20 +48,5 @@ public class ZoneIdAdapter extends AbstractAdapter<ZoneId>
             return new ZoneIdFormatter(getObject());
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
-    }
-
-
-    public class ZoneIdFormatter extends AbstractTextStyleLocaleFormatter<ZoneId> implements TemplateMethodModelEx {
-
-        public ZoneIdFormatter(ZoneId obj) {
-            super(obj);
-        }
-
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return getObject().getDisplayName(findTextStyle(list), findLocale(list));
-        }
-
     }
 }

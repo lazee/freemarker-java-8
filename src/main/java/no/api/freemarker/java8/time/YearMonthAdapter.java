@@ -17,48 +17,30 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.YearMonth;
-import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.*;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 
 /**
  * YearMonthAdapter adds basic format support for {@link YearMonth} too FreeMarker 2.3.23 and above.
  */
 public class YearMonthAdapter extends AbstractAdapter<YearMonth> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+      TemplateScalarModel, TemplateHashModel {
 
-    public YearMonthAdapter(YearMonth obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public YearMonthAdapter(YearMonth obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
-            return new YearMonthFormatter(getObject());
+            return new YearMonthFormatter(getObject(), getStrategy());
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
-
-    public class YearMonthFormatter extends AbstractFormatter<YearMonth> implements TemplateMethodModelEx {
-
-        public YearMonthFormatter(YearMonth obj) {
-            super(obj);
-        }
-
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return getObject().format(createDateTimeFormatter(list, 0, "yyyy-MM"));
-        }
-    }
 }
