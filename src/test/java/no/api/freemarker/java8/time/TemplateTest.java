@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class TemplateTest {
 
-    public static final Version FMV = Configuration.VERSION_2_3_23;
+    public static final Version FMV = Configuration.VERSION_2_3_31;
 
     @Test
     public void testFull() throws IOException {

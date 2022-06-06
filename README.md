@@ -68,7 +68,7 @@ the default object wrapper with the FJ8 implementation in your FreeMarker Config
 
 ```java
 this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
-this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
+this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_31));
 ```
 
 ### Spring setup
@@ -164,8 +164,8 @@ to be converted into your local timezone.
 ##### Examples
 
 ```java
-this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZoneStrategy());
-this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_31, new KeepingZoneStrategy());
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_31, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
 ```
 
 #### :ballot_box_with_check: java.time.Clock
@@ -423,9 +423,9 @@ ${myzoneddatetime.format('yyyy-MM-dd HH mm s Z', 'Asia/Seoul')}
 Example:
 
 ```java
-new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZoneStrategy());
+new Java8ObjectWrapper(VERSION_2_3_31, new EnvironmentZoneStrategy());
 // or
-new Java8ObjectWrapper(VERSION_2_3_23, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
+new Java8ObjectWrapper(VERSION_2_3_31, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
 ```
 
 #### :ballot_box_with_check: java.time.ZonedId

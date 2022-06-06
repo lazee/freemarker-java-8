@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import static freemarker.template.Configuration.VERSION_2_3_23;
+import static freemarker.template.Configuration.VERSION_2_3_31;
 
 public class DateTimeStepdefs {
 
@@ -36,8 +36,8 @@ public class DateTimeStepdefs {
     private Java8ObjectWrapper objectWrapper;
 
     public DateTimeStepdefs() {
-        this.configuration = new Configuration(Configuration.VERSION_2_3_23);
-        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZoneStrategy());
+        this.configuration = new Configuration(VERSION_2_3_31);
+        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_31, new KeepingZoneStrategy());
         this.configuration.setObjectWrapper(objectWrapper);
     }
 
@@ -47,7 +47,7 @@ public class DateTimeStepdefs {
     }
 
     private void setStrategy(ZoneStrategy strategy) {
-        setStrategy(VERSION_2_3_23, strategy);
+        setStrategy(VERSION_2_3_31, strategy);
     }
 
     private void setStrategy(Version freemarkerVersion, ZoneStrategy strategy) {
