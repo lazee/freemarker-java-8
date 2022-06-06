@@ -42,7 +42,7 @@ native support, but it doesn't look promising (<http://freemarker.org/contribute
 
 ## Installation
 
-You need Java 8 or higher. Tested on Freemarker 2.3.23, and should at least work
+You need Java 8 or higher. Tested on Freemarker 2.3.31, and should at least work
 fine for all 2.3.x versions.
 
 ### Maven
@@ -51,19 +51,20 @@ fine for all 2.3.x versions.
 <dependency>
     <groupId>no.api.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```gradle
-implementation 'no.api.freemarker:freemarker-java8:2.0.0'
+implementation 'no.api.freemarker:freemarker-java8:2.1.0'
 ```
 
 ## Setup
 
-FJ8 extends the [DefaultObjectWrapper](https://freemarker.apache.org/docs/api/freemarker/template/DefaultObjectWrapper.html) to add support for the java.time classes. All you need to do is to replace
+FJ8 extends the [DefaultObjectWrapper](https://freemarker.apache.org/docs/api/freemarker/template/DefaultObjectWrapper.html) 
+to add support for the java.time classes. All you need to do is to replace
 the default object wrapper with the FJ8 implementation in your FreeMarker Configuration object.
 
 ```java
@@ -142,6 +143,13 @@ Instead of customizing your own pattern in the format methods, you can use one o
 ${mydate.format('LONG_DATE')}
 ${mydate.format('ISO_OFFSET_DATE_TIME')}
 ${mydate.format('yyyy-MM-dd Z')}
+```
+
+When no pattern are given, each java.time class has a default pattern. This default can be overridden in the static
+`DefaultFormatters` class, where each class has its own setter method:
+
+```java
+no.api.freemarker.java8.time.DefaultFormatters.setClockFormatter(DateTimeFormatter.ofPattern('yyyy MM dd HH:mm:ss'))
 ```
 
 #### About zone
