@@ -18,11 +18,8 @@ package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeanModel;
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.WrappingTemplateModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.util.Objects;
 
@@ -32,33 +29,29 @@ import java.util.Objects;
  * @param <E> The java.time class that this TemplateModel is wrapping.
  */
 public abstract class AbstractAdapter<E>
-        extends WrappingTemplateModel
-        implements AdapterTemplateModel, TemplateHashModel {
+      extends WrappingTemplateModel
+      implements AdapterTemplateModel, TemplateHashModel {
 
-    private E entity;
-
+    private final E entity;
     private final BeanModel fallback;
+    private final ZoneStrategy strategy;
 
-
-    public AbstractAdapter(E entity, BeansWrapper wrapper) {
+    public AbstractAdapter(E entity, BeansWrapper wrapper, ZoneStrategy strategy) {
         this.entity = entity;
+        this.strategy = strategy;
         this.fallback = new BeanModel(entity, Objects.requireNonNull(wrapper, "wrapper"));
     }
 
-
     protected abstract TemplateModel getForType(String key) throws TemplateModelException;
 
-
-    public String getAsString() throws TemplateModelException {
+    public String getAsString() {
         return getObject().toString();
     }
-
 
     @Override
     public Object getAdaptedObject(Class aClass) {
         return entity;
     }
-
 
     @Override
     public final TemplateModel get(final String key) throws TemplateModelException {
@@ -74,15 +67,16 @@ public abstract class AbstractAdapter<E>
         }
     }
 
-
     @Override
-    public boolean isEmpty() throws TemplateModelException {
+    public boolean isEmpty() {
         return false;
     }
-
 
     public E getObject() {
         return entity;
     }
 
+    public ZoneStrategy getStrategy() {
+        return strategy;
+    }
 }

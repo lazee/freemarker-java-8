@@ -3,6 +3,7 @@ package no.api.freemarker.java8.time;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.Version;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import no.api.freemarker.java8.Java8ObjectWrapper;
@@ -20,7 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import static freemarker.template.Configuration.VERSION_2_3_23;
+import static freemarker.template.Configuration.VERSION_2_3_31;
 
 public class DateTimeStepdefs {
 
@@ -34,85 +35,80 @@ public class DateTimeStepdefs {
 
     private Java8ObjectWrapper objectWrapper;
 
-
     public DateTimeStepdefs() {
-        this.configuration = new Configuration(Configuration.VERSION_2_3_23);
-        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZonedDateTimeStrategy());
+        this.configuration = new Configuration(VERSION_2_3_31);
+        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_31, new KeepingZoneStrategy());
         this.configuration.setObjectWrapper(objectWrapper);
     }
-
 
     @After
     public void runAfterHooks() {
-        setStrategy(new KeepingZonedDateTimeStrategy());
+        setStrategy(new KeepingZoneStrategy());
     }
 
+    private void setStrategy(ZoneStrategy strategy) {
+        setStrategy(VERSION_2_3_31, strategy);
+    }
 
-    private void setStrategy(ZonedDateTimeStrategy strategy) {
-        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, strategy);
+    private void setStrategy(Version freemarkerVersion, ZoneStrategy strategy) {
+        this.objectWrapper = new Java8ObjectWrapper(freemarkerVersion, strategy);
         this.configuration.setObjectWrapper(objectWrapper);
     }
-
 
     @Given("^ZonedDateTime object for \"([^\"]*)\"$")
     public void zoneddatetime_object_for_T_Europe_Paris(String arg1) {
         obj = ZonedDateTime.parse(arg1);
     }
 
-
     @Given("^an freemarker environment with locale set to \"([^\"]*)\"$")
     public void an_freemarker_environment_with_locate_set_to(String arg1) {
         configuration.setLocale(Locale.forLanguageTag(arg1));
     }
-
 
     @Given("^timezone set to \"([^\"]*)\"$")
     public void timezone_set_to(String arg1) {
         configuration.setTimeZone(TimeZone.getTimeZone(ZoneId.of(arg1)));
     }
 
-
     @Given("^a template \"([^\"]*)\"$")
     public void a_template_$_zoneid(String template) {
         this.template = template;
     }
-
 
     @Given("^a ZoneId object for '(.*?)'$")
     public void a_ZoneId_object_for_Europe_Oslo(String zone) {
         obj = ZoneId.of(zone);
     }
 
-
     @Given("^timezone strategy set to 'system'$")
     public void timezone_strategy_set_to_system() {
-        setStrategy(new SystemZonedDateTimeStrategy());
+        setStrategy(new SystemZoneStrategy());
     }
-
 
     @Given("^timezone strategy set to 'keeping'$")
     public void timezone_strategy_set_to_keeping() {
-        setStrategy(new KeepingZonedDateTimeStrategy());
+        setStrategy(new KeepingZoneStrategy());
     }
-
 
     @Given("^timezone strategy set to 'environment'$")
     public void timezone_strategy_set_to_environment() {
-        setStrategy(new EnvironmentZonedDateTimeStrategy());
+        setStrategy(new EnvironmentZoneStrategy());
     }
-
 
     @Given("^timezone strategy set to 'static' with timezone \"([^\"]*)\"$")
     public void timezone_strategy_set_to_static_with_timezone(final String arg1) {
-        setStrategy(new StaticZonedDateTimeStrategy(ZoneId.of(arg1)));
+        setStrategy(new StaticZoneStrategy(ZoneId.of(arg1)));
     }
 
+    @Given("^timezone strategy set to 'static' with freemarker version 2_3_31$")
+    public void timezone_strategy_set_to_static_with_version(final String arg1) {
+        setStrategy(Configuration.VERSION_2_3_31, new StaticZoneStrategy(ZoneId.of(arg1)));
+    }
 
     @Given("^system timezone set to \"([^\"]*)\"$")
     public void system_timezone_set_to(final String arg1) {
         TimeZone.setDefault(TimeZone.getTimeZone(arg1));
     }
-
 
     @Then("^expect the template to return \"([^\"]*)\"$")
     public void expect_the_template_to_return(String res) throws Throwable {
@@ -123,7 +119,6 @@ public class DateTimeStepdefs {
         }
     }
 
-
     @Then("^expect the template to return \"([^\"]*)\" or \"([^\"]*)\"$")
     public void expect_the_template_to_return(String res, String res2) throws Throwable {
         try (Writer out = process(res)) {
@@ -132,7 +127,6 @@ public class DateTimeStepdefs {
             }
         }
     }
-
 
     @Then("^expect the template to return the current year$")
     public void expect_the_template_to_return_the_current_year() throws Throwable {
@@ -144,7 +138,6 @@ public class DateTimeStepdefs {
         }
     }
 
-
     @Then("^expect the template to return true$")
     public void expect_the_template_to_true() throws Throwable {
         try (Writer out = process("true")) {
@@ -154,7 +147,6 @@ public class DateTimeStepdefs {
         }
     }
 
-
     @Then("^expect the template to return false$")
     public void expect_the_template_to_false() throws Throwable {
         try (Writer out = process("false")) {
@@ -163,7 +155,6 @@ public class DateTimeStepdefs {
             }
         }
     }
-
 
     private Writer process(String res) throws IOException, TemplateException {
         Map<String, Object> map = new HashMap<>();
@@ -181,102 +172,85 @@ public class DateTimeStepdefs {
         return out;
     }
 
-
     @Given("^YearMonth object for \"([^\"]*)\"$")
     public void yearmonth_object_for(String arg1) {
         obj = YearMonth.parse(arg1);
     }
-
 
     @Given("^Year object for \"([^\"]*)\"$")
     public void year_object_for(String arg1) {
         obj = Year.parse(arg1);
     }
 
-
     @Then("^expect UnsupportedTemporalTypeException$")
     public void expect_UnsupportedTemporalTypeException() {
         obj = Year.now();
     }
-
 
     @Given("^Clock object for \"([^\"]*)\"$")
     public void clock_object_for(String arg1) {
         obj = Clock.fixed(Instant.parse(arg1), configuration.getTimeZone().toZoneId());
     }
 
-
     @Given("^Duration object for \"([^\"]*)\"$")
     public void duration_object_for(String arg1) {
         obj = Duration.parse(arg1);
     }
-
 
     @Given("^Instant object for \"([^\"]*)\"$")
     public void instant_object_for(String arg1) {
         obj = Instant.parse(arg1);
     }
 
-
     @Given("^LocalDate object for \"([^\"]*)\"$")
     public void localdate_object_for(String arg1) {
         obj = LocalDate.parse(arg1);
     }
-
 
     @Given("^LocalDate object2 for \"([^\"]*)\"$")
     public void localdate_object2_for(String arg1) {
         obj2 = LocalDate.parse(arg1);
     }
 
-
     @Given("^LocalDateTime object for \"([^\"]*)\"$")
     public void localdatetime_object_for(String arg1) {
         obj = LocalDateTime.parse(arg1);
     }
-
 
     @Given("^LocalDateTime object2 for \"([^\"]*)\"$")
     public void localdatetime_object2_for(String arg1) {
         obj2 = LocalDateTime.parse(arg1);
     }
 
-
     @Given("^LocalTime object for \"([^\"]*)\"$")
     public void localtime_object_for(String arg1) {
         obj = LocalTime.parse(arg1);
     }
-
 
     @Given("^LocalTime object2 for \"([^\"]*)\"$")
     public void localtime_object2_for(String arg1) {
         obj2 = LocalTime.parse(arg1);
     }
 
-
     @Given("^MonthDay object for \"([^\"]*)\"$")
     public void monthday_object_for(String arg1) {
         obj = MonthDay.parse(arg1);
     }
-
 
     @Given("^OffsetDateTime object for \"([^\"]*)\"$")
     public void offsetdatetime_object_for(String arg1) {
         obj = OffsetDateTime.parse(arg1);
     }
 
-
     @Given("^OffsetTime object for \"([^\"]*)\"$")
     public void offsettime_object_for(String arg1) {
         obj = OffsetTime.parse(arg1);
     }
 
-
     @Given("^Period object for \"([^\"]*)\"$")
     public void period_object_for(String arg1) {
         obj = Period.parse(arg1);
     }
-
 
     @Given("^ZoneOffset object for \"([^\"]*)\"$")
     public void zoneoffset_object_for(Integer arg1) {

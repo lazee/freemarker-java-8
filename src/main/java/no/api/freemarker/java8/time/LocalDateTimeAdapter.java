@@ -17,16 +17,10 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import static no.api.freemarker.java8.time.DateTimeTools.*;
 
@@ -34,67 +28,21 @@ import static no.api.freemarker.java8.time.DateTimeTools.*;
  * LocalDateTimeAdapter adds basic format support for {@link LocalDateTime} too FreeMarker 2.3.23 and above.
  */
 public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+      TemplateScalarModel, TemplateHashModel {
 
-
-    public LocalDateTimeAdapter(LocalDateTime obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public LocalDateTimeAdapter(LocalDateTime obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
-            return new LocalDateTimeFormatter(getObject());
+            return new LocalDateTimeFormatter(getObject(), getStrategy());
+        } else if (METHOD_AS_ZONE_DATETIME.equals(s)) {
+            return new LocalDateTimeToZonedConverter(getObject(), getStrategy());
         } else if (METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
             return new LocalDateTimeChecker(getObject(), s);
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
-    }
-
-
-    public class LocalDateTimeFormatter extends AbstractFormatter<LocalDateTime> implements TemplateMethodModelEx {
-
-        public LocalDateTimeFormatter(LocalDateTime obj) {
-            super(obj);
-        }
-
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return getObject().format(createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        }
-    }
-
-    public class LocalDateTimeChecker extends AbstractChecker<LocalDateTime> implements TemplateMethodModelEx {
-        private String method;
-
-
-        public LocalDateTimeChecker(LocalDateTime obj, String method) {
-            super(obj);
-            this.method = method;
-        }
-
-
-        @SuppressWarnings("Duplicates")
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            AbstractAdapter adapter = (AbstractAdapter) list.get(0);
-            Object object = adapter.getObject();
-            if (object instanceof LocalDateTime) {
-                LocalDateTime other = (LocalDateTime) object;
-                switch (method) {
-                    case METHOD_EQUALS:
-                        return getObject().equals(other);
-                    case METHOD_AFTER:
-                        return getObject().isAfter(other);
-                    case METHOD_BEFORE:
-                        return getObject().isBefore(other);
-                }
-                throw new TemplateModelException("method not implemented");
-            } else {
-                throw new TemplateModelException("Invalid operand type for " + method + ": " + object);
-            }
-        }
     }
 }

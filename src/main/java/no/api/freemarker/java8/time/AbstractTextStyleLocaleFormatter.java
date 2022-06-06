@@ -25,9 +25,8 @@ import java.util.Locale;
 public class AbstractTextStyleLocaleFormatter<E> extends AbstractFormatter<E> {
 
     public AbstractTextStyleLocaleFormatter(E obj) {
-        super(obj);
+        super(obj, null);
     }
-
 
     public TextStyle findTextStyle(List list) {
         if (list.size() > 0) {
@@ -35,7 +34,6 @@ public class AbstractTextStyleLocaleFormatter<E> extends AbstractFormatter<E> {
         }
         return TextStyle.FULL;
     }
-
 
     public Locale findLocale(List list) {
         if (list.size() > 1) {

@@ -17,49 +17,30 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.Instant;
-import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.*;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 
 /**
  * InstantAdapter adds basic format support for {@link Instant} too FreeMarker 2.3.23 and above.
  */
 public class InstantAdapter extends AbstractAdapter<Instant> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+      TemplateScalarModel, TemplateHashModel {
 
-
-    public InstantAdapter(Instant obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public InstantAdapter(Instant obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
-            return new InstantFormatter(getObject());
+            return new InstantFormatter(getObject(), getStrategy());
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
-
-    public class InstantFormatter extends AbstractFormatter<Instant> implements TemplateMethodModelEx {
-
-        public InstantFormatter(Instant obj) {
-            super(obj);
-        }
-
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return getObject().toString();
-        }
-    }
 }

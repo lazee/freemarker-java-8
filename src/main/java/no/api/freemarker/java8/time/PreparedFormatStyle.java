@@ -16,7 +16,6 @@ public enum PreparedFormatStyle implements ExtFormatStyle {
 
     private final DateTimeFormatter formatter;
 
-
     PreparedFormatStyle(final boolean withDate, final boolean withTime, final FormatStyle formatStyle) {
         if (withDate && withTime) {
             this.formatter = DateTimeFormatter.ofLocalizedDateTime(formatStyle);
@@ -26,7 +25,6 @@ public enum PreparedFormatStyle implements ExtFormatStyle {
             this.formatter = DateTimeFormatter.ofLocalizedTime(formatStyle);
         }
     }
-
 
     @Override
     public DateTimeFormatter getFormatter() {

@@ -43,15 +43,14 @@ public final class DateTimeTools {
     public static final String METHOD_YEARS = "years";
     public static final String METHOD_NANO = "nano";
     public static final String METHOD_SECONDS = "seconds";
+    public static final String METHOD_AS_ZONE_DATETIME = "toZonedDateTime";
 
     public static final String METHOD_UNKNOWN_MSG = "Unknown method call: ";
     public static final String ILLEGAL_ZONE_ID_MSG = "Illegal Zone ID";
 
-
     private DateTimeTools() {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Create a DateTimeFormatter from a pattern found in a List on a given index.
@@ -61,8 +60,10 @@ public final class DateTimeTools {
      * @param defaultFormatter A default formatter to be returned if the given list size is lower than the given index.
      * @return A DateTimeFormatter for the given pattern, or the default formatter.
      */
-    public static DateTimeFormatter createDateTimeFormatter(final List list, final int index,
-                                                            final DateTimeFormatter defaultFormatter) {
+    public static DateTimeFormatter createDateTimeFormatter(
+          final List list, final int index,
+          final DateTimeFormatter defaultFormatter
+    ) {
         if (list.size() > 0) {
             final String format = ((SimpleScalar) list.get(index)).getAsString();
             final ExtFormatStyle style = DateTimeTools.getFormatStyle(format);
@@ -70,12 +71,12 @@ public final class DateTimeTools {
             if (style != null) {
                 return style.getFormatter().withLocale(DateTimeTools.getLocale());
             }
+
             final Optional<DateTimeFormatter> builtin = DateTimeTools.getJreBuiltinFormatter(format);
             return builtin.orElseGet(() -> DateTimeFormatter.ofPattern(format, DateTimeTools.getLocale()));
         }
         return defaultFormatter.withLocale(DateTimeTools.getLocale());
     }
-
 
     /**
      * Create a DateTimeFormatter from a pattern found in a List on a given index.
@@ -85,22 +86,24 @@ public final class DateTimeTools {
      * @param defaultPattern The pattern to be used for the formatter if the list size is lower than the given index.
      * @return A DateTimeFormatter for the given pattern, or the default pattern.
      */
-    public static DateTimeFormatter createDateTimeFormatter(List list,
-                                                            int index,
-                                                            final String defaultPattern) {
+    public static DateTimeFormatter createDateTimeFormatter(
+          List list,
+          int index,
+          final String defaultPattern
+    ) {
         return DateTimeFormatter.ofPattern(
-                list.size() > index
-                        ? ((SimpleScalar) list.get(index)).getAsString()
-                        : defaultPattern, getLocale());
+              list.size() > index
+                    ? ((SimpleScalar) list.get(index)).getAsString()
+                    : defaultPattern, getLocale());
     }
-
 
     /**
      * Look up a ZoneId based on a String in a list on a given index.
      *
      * @param list  A list of Strings containing the String representation of the ZoneId.
      * @param index The index on where in the list the ZoneId string is located.
-     * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, then an empty {@link Optional} will be returned.
+     * @return A ZoneId instance for the given ZoneId string. If index is lower than the list size, then an empty
+     * {@link Optional} will be returned.
      * @throws TemplateModelException If Illegal ZoneId string was found in the list.
      */
     public static Optional<ZoneId> zoneIdLookup(final List list, final int index) throws TemplateModelException {
@@ -115,7 +118,6 @@ public final class DateTimeTools {
         return Optional.empty();
     }
 
-
     private static Locale getLocale() {
         if (Environment.getCurrentEnvironment() != null) {
             return Environment.getCurrentEnvironment().getLocale();
@@ -123,7 +125,6 @@ public final class DateTimeTools {
             return Locale.getDefault();
         }
     }
-
 
     private static ExtFormatStyle getFormatStyle(final String format) {
         try {
@@ -133,18 +134,17 @@ public final class DateTimeTools {
         }
     }
 
-
     private static Optional<DateTimeFormatter> getJreBuiltinFormatter(final String name) {
         try {
             final Field dateTimeFormatterField = DateTimeFormatter.class.getField(name);
             if ((dateTimeFormatterField.getModifiers() & Modifier.STATIC) != 0 // Check if field is static
-                    && DateTimeFormatter.class.isAssignableFrom(dateTimeFormatterField.getType())) {
+                  && DateTimeFormatter.class.isAssignableFrom(dateTimeFormatterField.getType())) {
                 return Optional.ofNullable((DateTimeFormatter) dateTimeFormatterField.get(null));
             }
             // Not static, or not of the correct type
             return Optional.empty();
         } catch (final NoSuchFieldException e) {
-            // Seems like name is no built in DateTimeFormatter
+            // Seems like name is no built-in DateTimeFormatter
             return Optional.empty();
         } catch (final IllegalArgumentException e) {
             // As this field is checked to be static, this should never occur
@@ -152,7 +152,7 @@ public final class DateTimeTools {
         } catch (final IllegalAccessException e) {
             // Well, if you use a SecurityManager, we cannot do this
             throw new RuntimeException(
-                    "Not allowed to access Field \"" + name + "\" of class " + DateTimeFormatter.class, e);
+                  "Not allowed to access Field \"" + name + "\" of class " + DateTimeFormatter.class, e);
         }
     }
 

@@ -149,3 +149,4 @@ Feature: Test the implemented comparison functions (isEqual, isBefore and isAfte
         And LocalTime object for "23:54"
         And LocalTime object2 for "23:45"
         Then expect the template to return false
+

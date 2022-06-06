@@ -17,12 +17,8 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.SimpleNumber;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.Period;
 
@@ -33,13 +29,11 @@ import static no.api.freemarker.java8.time.DateTimeTools.*;
  * templates.
  */
 public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+      TemplateScalarModel, TemplateHashModel {
 
-
-    public PeriodAdapter(Period obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public PeriodAdapter(Period obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {
