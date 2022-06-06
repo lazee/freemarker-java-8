@@ -7,7 +7,6 @@ import no.api.freemarker.java8.zone.ZoneStrategy;
 import java.time.Clock;
 import java.util.List;
 
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter;
 
 public class ClockFormatter extends AbstractFormatter<Clock> implements TemplateMethodModelEx {
@@ -18,7 +17,7 @@ public class ClockFormatter extends AbstractFormatter<Clock> implements Template
 
     @Override
     public Object exec(List list) throws TemplateModelException {
-        return createDateTimeFormatter(list, 0, ISO_LOCAL_DATE_TIME)
+        return createDateTimeFormatter(list, 0, DefaultFormatters.getClockFormatter())
               .withZone(getTargetZoneId(list, null))
               .format(getObject().instant());
     }

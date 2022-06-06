@@ -16,6 +16,6 @@ public class YearMonthFormatter extends AbstractFormatter<YearMonth> implements 
 
     @Override
     public Object exec(List list) {
-        return getObject().format(createDateTimeFormatter(list, 0, "yyyy-MM"));
+        return getObject().format(createDateTimeFormatter(list, 0, DefaultFormatters.getYearMonthFormatter()));
     }
 }
