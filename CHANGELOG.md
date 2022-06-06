@@ -1,4 +1,12 @@
 # Change Log
+## [freemarker-java8-2.1.0](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-2.1.0) (2022-06-08)
+
+* Upgraded dependencies for FreeMarker and Cucumber tests
+* Deprecated old ZonedDateTimeStrategy interface and implementations. Introduced ZoneStrategy interface and implementations instead. New interface supports more than just ZonedDateTime.
+* Introduced real format support for `Instant`, `Clock` and `OffsetDateTime` [\#33](https://github.com/lazee/freemarker-java-8/pull/33) [\#32](https://github.com/lazee/freemarker-java-8/pull/32)
+* Introduced `asZoneDateTime` method for `LocalDateTime`
+* Introduced support for overriding default formatters for all java.time objects [\#30](https://github.com/lazee/freemarker-java-8/pull/30)
+
 
 ## [freemarker-java8-2.0.0](https://github.com/amedia/freemarker-java-8/tree/freemarker-java8-2.0.0) (2020-03-10)
 

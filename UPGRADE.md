@@ -1,5 +1,9 @@
 # Upgrade guide
 
+## Upgrade from 2.0 to 2.1
+
+Replace old deprecated `ZonedDateTimeStrategy` instances with the equivalent `ZoneStrategy` objects in the same package.
+
 ## Upgrade from 1.3 to 2.0
 
 The 2.0 release addresses two major issues reported by users ([#18](https://github.com/lazee/freemarker-java-8/issues/18)/[#16](https://github.com/lazee/freemarker-java-8/issues/16)). It also introduces a new feature for manipulating time ([\#28](https://github.com/lazee/freemarker-java-8/pull/28)).  
