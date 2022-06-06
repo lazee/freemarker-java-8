@@ -43,11 +43,6 @@ public class ClockAdapter extends AbstractAdapter<Clock> implements AdapterTempl
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
     }
 
-    /**
-     * This is a quit silly implementation. Normally you would like to convert to an Instant when printing the clock.
-     *
-     * @return String representation of the clock.
-     */
     @Override
     public String getAsString() {
         return getObject().toString();

@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import static java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME;
+import static no.api.freemarker.java8.time.DateTimeTools.createDateTimeFormatter;
 
 public class ZonedDateTimeFormatter extends AbstractFormatter<ZonedDateTime> implements TemplateMethodModelEx {
 
@@ -18,13 +19,14 @@ public class ZonedDateTimeFormatter extends AbstractFormatter<ZonedDateTime> imp
 
     @Override
     public Object exec(final List list) throws TemplateModelException {
-        final ZoneId targetZoneId = getTargetZoneId(list);
+
+        final ZoneId targetZoneId = getTargetZoneId(list, getObject().getZone());
+
         if (isDifferentTimeZoneRequested(targetZoneId)) {
-            return getObject().withZoneSameInstant(targetZoneId).format(DateTimeTools
-                  .createDateTimeFormatter(list, 0, ISO_ZONED_DATE_TIME));
+            return getObject().withZoneSameInstant(targetZoneId).format(createDateTimeFormatter(list, 0, ISO_ZONED_DATE_TIME));
         } else {
             return getObject()
-                  .format(DateTimeTools.createDateTimeFormatter(list, 0, ISO_ZONED_DATE_TIME));
+                  .format(createDateTimeFormatter(list, 0, ISO_ZONED_DATE_TIME));
         }
     }
 

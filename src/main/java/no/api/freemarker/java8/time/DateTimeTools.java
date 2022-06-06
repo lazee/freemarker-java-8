@@ -43,6 +43,7 @@ public final class DateTimeTools {
     public static final String METHOD_YEARS = "years";
     public static final String METHOD_NANO = "nano";
     public static final String METHOD_SECONDS = "seconds";
+    public static final String METHOD_AS_ZONE_DATETIME = "toZonedDateTime";
 
     public static final String METHOD_UNKNOWN_MSG = "Unknown method call: ";
     public static final String ILLEGAL_ZONE_ID_MSG = "Illegal Zone ID";
@@ -70,6 +71,7 @@ public final class DateTimeTools {
             if (style != null) {
                 return style.getFormatter().withLocale(DateTimeTools.getLocale());
             }
+
             final Optional<DateTimeFormatter> builtin = DateTimeTools.getJreBuiltinFormatter(format);
             return builtin.orElseGet(() -> DateTimeFormatter.ofPattern(format, DateTimeTools.getLocale()));
         }

@@ -38,6 +38,8 @@ public class LocalDateTimeAdapter extends AbstractAdapter<LocalDateTime> impleme
     public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
             return new LocalDateTimeFormatter(getObject(), getStrategy());
+        } else if (METHOD_AS_ZONE_DATETIME.equals(s)) {
+            return new LocalDateTimeToZonedConverter(getObject(), getStrategy());
         } else if (METHOD_EQUALS.equals(s) || METHOD_AFTER.equals(s) || METHOD_BEFORE.equals(s)) {
             return new LocalDateTimeChecker(getObject(), s);
         }

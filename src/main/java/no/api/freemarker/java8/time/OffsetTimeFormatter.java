@@ -5,7 +5,6 @@ import freemarker.template.TemplateModelException;
 import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.OffsetTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.time.format.DateTimeFormatter.ISO_OFFSET_TIME;
@@ -19,6 +18,6 @@ public class OffsetTimeFormatter extends AbstractFormatter<OffsetTime> implement
 
     @Override
     public Object exec(List list) throws TemplateModelException {
-        return getObject().format(createDateTimeFormatter(list, 0, ISO_OFFSET_TIME).withZone(getTargetZoneId(list)));
+        return getObject().format(createDateTimeFormatter(list, 0, ISO_OFFSET_TIME));
     }
 }

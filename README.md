@@ -2,17 +2,14 @@
 
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
-FJ8 (freemarker-java-8) is a Java library that adds java.time api support to FreeMarker. It is easy to add to your codebase, and very easy to use.
+FJ8 (freemarker-java-8) is a Java library that adds support for the `java.time` api FreeMarker. It is easy to add to your codebase, and very easy to use.
 
 Basically this library allows you to format and print values from `java.time` classes within FreeMarker templates.
-As a bonus you also get some comparison functions.
+As a bonus you also get some nice comparison and conversion methods.
 
-It is not a perfect solution as FreeMarker
+It is not a perfect implementation as FreeMarker
 doesn’t support custom built-ins. Hopefully future versions of FreeMarker will add
 native support, but it doesn't look promising (<http://freemarker.org/contribute.html>).
-
-Basically this library allows you to format java.time types within your templates, using the new
-[java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
 
 ## Table of content
 
@@ -21,6 +18,8 @@ Basically this library allows you to format java.time types within your template
 - [Upgrade guides](#upgrade-guides)
 - [Usage](#usage)
   - [Formatting](#formatting)
+    - [About pattern](#about-pattern)
+    - [About zone](#about-zone)
     - [java.time.Clock](#user-content-ballot_box_with_check-javatimeclock)
     - [java.time.Duration](#user-content-ballot_box_with_check-javatimeduration)
     - [java.time.Instant](#user-content-ballot_box_with_check-javatimeinstant)
@@ -43,7 +42,7 @@ Basically this library allows you to format java.time types within your template
 
 ## Installation
 
-You need Java 8 or higher. FJ8 is tested on Freemarker 2.3.23, and should at least work
+You need Java 8 or higher. Tested on Freemarker 2.3.23, and should at least work
 fine for all 2.3.x versions.
 
 ### Maven
@@ -100,8 +99,6 @@ public class FreemarkerConfig implements BeanPostProcessor {
 }
 ```
 
-*Thanks to Desson Ariawan for the [example](https://www.dariawan.com/tutorials/spring/java-8-datetime-freemarker/)*
-
 You can also configure it via Spring boot properties like this:
 
 ```java
@@ -110,11 +107,9 @@ spring.freemarker.settings.object_wrapper=no.api.freemarker.java8.Java8ObjectWra
 
 This takes advantage of Freemarker Configuration [object builder expressions](https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#fm_obe)
 
-*Thanks to [hercsoft](https://github.com/hercsoft) for letting us know*
-
 ## Upgrade guides
 
-Upgrade information has moved to [UPGRADE.md](upgrade.md)
+Upgrade information has moved to [UPGRADE.md](UPGRADE.md). Also look at [CHANGELOG.md](CHANGELOG.md) for changes in new versions.
 
 ## Usage
 
@@ -124,9 +119,58 @@ All format methods uses the
 [java.time.format.DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)
 for formatting.
 
+#### About pattern
+
+Instead of customizing your own pattern in the format methods, you can use one of the predefined styles from:
+
+- [`java.text.format.DateFormat`](https://docs.oracle.com/javase/tutorial/i18n/format/dateFormat.html) (DEFAULT, SHORT, MEDIUM, LONG, FULL)
+- [`java.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html) (Eg: ISO_OFFSET_DATE_TIME, follow link for more)
+- Custom styles shipped with this library
+  - LONG_DATE
+  - LONG_DATETIME
+  - LONG_TIME
+  - MEDIUM_DATE
+  - MEDIUM_DATETIME
+  - MEDIUM_TIME
+  - SHORT_DATE
+  - SHORT_DATETIME
+  - SHORT_TIME
+
+##### Examples
+
+```freemarker
+${mydate.format('LONG_DATE')}
+${mydate.format('ISO_OFFSET_DATE_TIME')}
+${mydate.format('yyyy-MM-dd Z')}
+```
+
+#### About zone
+
+When a method takes `zone` as argument, it must be a valid [Java `ZoneId`](https://docs.oracle.com/javase/8/docs/api/java/time/ZoneId.html), like `Europe/Oslo` or `-07:00`.
+
+The `zone` argument is only supported for the `java.time` classes where it makes sense.
+When a zone is *not* explicitly given as argument, the formatter will by default use the zone found in the object itself, if it exists. If not, it will pick one based on the active zone strategy.
+
+Th default behaviour can be changed if you like. Sometimes you might want all dates and times
+to be converted into your local timezone.
+
+`Java8ObjectMapper`now a second argument where you can choose one of four strategies for the time zone used when formatting a ZonedDateTime:
+
+- **KeepingZoneStrategy** - (DEFAULT) Will use the zone from the objects themself. For objects without zone information, ZoneId.systemDefault() is used.
+- **EnviromentZoneStrategy** - Will use the same time zone as Freemarker itself.
+- **SystemZoneStrategy** - Will convert the time zone into ZoneId.systemDefault().
+- **StaticZoneStrategy** - Allows you to explicitly set a ZoneId.
+
+##### Examples
+
+```java
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new KeepingZoneStrategy());
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_23, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
+```
+
 #### :ballot_box_with_check: java.time.Clock
 
-This is a simple implementation where format just prints the toString() value of the object.
+Methods for formatting `java.time.Clock`.
 
 ##### Methods
 
@@ -134,24 +178,26 @@ This is a simple implementation where format just prints the toString() value of
 - format(pattern)
 - format(pattern, zone)
 
-##### Example
+When no *pattern* is specified, `ISO_LOCAL_DATE_TIME` is used.
+
+##### Examples
 
 ```freemarker
 ${myclock.format()}
-${myclock.format('yyyy-MM-dd Z')}
+${myclock.format('yyyy-MM-dd')}
 ${myclock.format('yyyy-MM-dd Z', 'Asia/Seoul')}
 ```
 
 #### java.time.Duration
 
-Gives access to the Duration values.
+Provided access to a `java.time.Duration` object values.
 
 ##### Methods
 
 - nano()
 - seconds()
 
-##### Example
+##### Examples
 
 ```freemarker
 ${myduration.seconds}
@@ -160,7 +206,7 @@ ${myduration.nano}
 
 #### :ballot_box_with_check: java.time.Instant
 
-This is a simple implementation where format just prints the toString() value of the object.
+Methods for formatting `java.time.Instant`.
 
 ##### Methods
 
@@ -168,92 +214,101 @@ This is a simple implementation where format just prints the toString() value of
 - format(pattern)
 - format(pattern, zone)
 
-##### Example
+When no *pattern* is specified, `ISO_LOCAL_DATE_TIME` is used.
+
+##### Examples
 
 ```freemarker
 ${myinstant.format()}
-${myzoneddatetime.format('yyyy-MM-dd Z')}
+${myzoneddatetime.format('yyyy-MM-dd')}
 ${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}
 ```
 
 #### :ballot_box_with_check: java.time.LocalDate
 
-Allows you to print a LocalDate on a default pattern, by providing a custom pattern or a builtin format style.
+Methods for formatting `java.time.LocalDate`.
 
 ##### Methods
 
 - format()
 - format(pattern)
-- format(pattern, zone)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${mylocaldate.format()}
 ${mylocaldate.format('yyyy MM dd')}
 ${mylocaldate.format('FULL_DATE')}
-${mylocaldate.format('yyyy MM dd', 'Asia/Seoul')}
 ```
 
 #### :ballot_box_with_check: java.time.LocalDateTime
 
-Allows you to print a LocalDateTime on a default pattern, by providing a custom pattern or a builtin format style.
+Methods for formatting `java.time.LocalDateTime`. We also have methods for converting
+a `LocalDateTime` into a `ZoneDateTime`.
 
 ##### Methods
 
 - format()
 - format(pattern)
-- format(pattern, zone)
+- format(pattern)
+- toZonedDateTime()
+- toZonedDateTime(zone)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${mylocaldatetime.format()}
 ${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss')}
 ${mylocaldatetime.format('MEDIUM_DATETIME')}
-${mylocaldatetime.format('yyyy-MM-dd HH : mm : ss', 'Asia/Seoul')}
+${mylocaldatetime.toZonedDateTime()}
+${mylocaldatetime.toZonedDateTime('Asia/Seoul')}
+${mylocaldatetime.toZonedDateTime('Asia/Seoul')}.format('yyyy-MM-dd HH : mm : ss Z')}
 ```
+
+When no *pattern* is specified, `ISO_LOCAL_DATE_TIME` is used.
+
+When no `zone` are given to `toZoneDateTime`, the ZoneStrategy are used to pick one for you.
 
 #### :ballot_box_with_check: java.time.LocalTime
 
-Allows you to print a LocalTime on a default pattern, by providing a custom pattern or a builtin format style.
+Methods for formatting `java.time.LocalTime`.
 
 ##### Methods
 
 - format()
 - format(pattern)
-- format(pattern, zone)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${mylocaltime.format()}
 ${mylocaltime.format('HH : mm : ss')}
 ${mylocaltime.format('SHORT_TIME')}
-${mylocaltime.format('HH : mm : ss', 'Asia/Seoul')}
 ```
+
+When no *pattern* is specified, `ISO_LOCAL_TIME` is used.
 
 #### :ballot_box_with_check: java.time.MonthDay
 
-Allows you to print a MonthDay on a default pattern or by providing a custom pattern.
+Methods for formatting `java.time.MonthDay`.
 
 ##### Methods
 
 - format()
 - format(pattern)
-- format(pattern, zone)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${mymonthday.format()}
 ${mymonthday.format('MM dd')}
-${mymonthday.format('MM dd', 'Asia/Seoul')}
 ```
+
+When no *pattern* is specified, `MM:dd` is used.
 
 #### :ballot_box_with_check: java.time.OffsetDateTime
 
-Allows you to print a OffsetDateTime on a default pattern, by providing a custom pattern or a builtin format style.
+Methods for formatting `java.time.OffsetDateTime`.
 
 ##### Methods
 
@@ -261,33 +316,37 @@ Allows you to print a OffsetDateTime on a default pattern, by providing a custom
 - format(pattern)
 - format(pattern, zone)
 
-##### Example
+When no *pattern* is specified, `ISO_OFFSET_DATE_TIME` is used.
+
+*Uses the normalized ZoneId from the Offset `myOffsetDateTime.getOffset().normalized()`*
+
+##### Examples
 
 ```freemarker
 ${myoffsetdatetime.format()}
 ${myoffsetdatetime.format('yyyy MM dd HH mm ss')}
 ${myoffsetdatetime.format('FULL_DATETIME')}
-${myoffsetdatetime.format('yyyy MM dd HH mm ss', 'Asia/Seoul')}
+${myoffsetdatetime.format('yyyy MM dd HH mm ss Z', 'Asia/Seoul')}
 ```
 
 #### :ballot_box_with_check: java.time.OffsetTime
 
-Allows you to print a OffsetTime on a default pattern, by providing a custom pattern or a builtin format style.
+Methods for formatting `java.time.OffsetTime`.
 
 ##### Methods
 
 - format()
 - format(pattern)
-- format(pattern, zone)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${myoffsettime.format()}
 ${myoffsettime.format('HH mm ss')}
 ${myoffsettime.format('MEDIUM_TIME')}
-${myoffsettime.format('HH mm ss', 'Asia/Seoul')}
 ```
+
+When no *pattern* is specified, `ISO_OFFSET_TIME` is used.
 
 #### :ballot_box_with_check: java.time.Period
 
@@ -299,7 +358,7 @@ Provides access to the values of the a Period object within your template.
 - months()
 - years()
 
-##### Example
+##### Examples
 
 ```freemarker
 ${myperiod.days}
@@ -309,39 +368,43 @@ ${myperiod.years}
 
 #### :ballot_box_with_check: java.time.Year
 
-Allows you to print a Year on a default pattern or by providing a custom pattern.
+Methods for formatting `java.time.Year`.
 
 ##### Methods
 
 - format()
 - format(pattern)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${myyear.format()}
 ${myyear.format('yyyy')}
 ```
 
+When no *pattern* is specified, `yyyy` is used.
+
 #### :ballot_box_with_check: java.time.YearMonth
 
-Allows you to print a YearMonth on a default pattern or by providing a custom pattern.
+Methods for formatting `java.time.YearMonth`.
 
 ##### Methods
 
 - format()
 - format(pattern)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${myyear.format()}
 ${myyear.format('yyyy MM')}
 ```
 
+When no *pattern* is specified, `yyyy-MM` is used.
+
 #### :ballot_box_with_check: java.time.ZonedDateTime
 
-Allows you to print a YearMonth on a default pattern/timezone or by providing a custom pattern.
+Methods for formatting `java.time.ZonedDateTime`.
 
 ##### Methods
 
@@ -349,36 +412,36 @@ Allows you to print a YearMonth on a default pattern/timezone or by providing a 
 - format(pattern)
 - format(pattern, zone)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${myzoneddatetime.format()}
-${myzoneddatetime.format('yyyy-MM-dd Z')}
-${myzoneddatetime.format('yyyy-MM-dd Z', 'Asia/Seoul')}
+${myzoneddatetime.format('yyyy-MM-dd HH mm s Z')}
+${myzoneddatetime.format('yyyy-MM-dd HH mm s Z', 'Asia/Seoul')}
 ```
-
-##### Notice
-
-When a zone is *not* set, the formatter will use the zone found in the ZonedDateTime object itself. This behaviour can be changed if you want to. Scenarious where that might come in handy could be when you always wants to convert the timezone into your local timezone.
-
-`Java8ObjectMapper`now takes a second argument where you can choose one of four strategies for the time zone used when formatting a ZonedDateTime:
-
-- **EnviromentZonedDateTimeStrategy** - Will convert the time zone into the one currently set within Freemarker.
-- **KeepingZonedDateTimeStrategy** - Will use the zone from the ZonedDateTime object itself (DEFAULT)
-- **SystemZonedDateTimeStrategy** - Will convert the time zone into ZoneId.systemDefault().
-- **StaticSystemZoneDateTimeStrategy** - Will use the time zone set when creating this strategy.
 
 Example:
 
 ```java
-new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZonedDateTimeStrategy());
+new Java8ObjectWrapper(VERSION_2_3_23, new EnvironmentZoneStrategy());
 // or
-new Java8ObjectWrapper(VERSION_2_3_23, new StaticZonedDateTimeStrategy(ZoneId.of("Europe/Oslo")));
+new Java8ObjectWrapper(VERSION_2_3_23, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
 ```
 
 #### :ballot_box_with_check: java.time.ZonedId
 
-Prints the ZoneId display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.
+Methods for formatting ZoneId display name.
+
+You can override the textstyle with one of these values:
+
+- FULL
+- FULL_STANDALONE
+- SHORT
+- SHORT_STANDALONE
+- NARROW
+- NARROW_STANDALONE
+
+You can also override the locale, but Java only seems to have locale support for a few languages.
 
 ##### Methods
 
@@ -396,14 +459,23 @@ ${myzoneid.format('short', 'no-NO')}
 
 #### :ballot_box_with_check: java.time.ZonedOffset
 
-Prints the ZoneOffset display name. You can override the textstyle with one of these values [FULL, FULL_STANDALONE, SHORT, SHORT_STANDALONE, NARROW and NARROW_STANDALONE]. You can also override the locale, but Java only seems to have locale support for a few languages.</p></td>
+Methods for formatting the ZoneOffset display name. You can override the textstyle with one of these values:
+
+- FULL
+- FULL_STANDALONE
+- SHORT
+- SHORT_STANDALONE
+- NARROW
+- NARROW_STANDALONE
+ 
+ You can also override the locale, but Java only seems to have locale support for a few languages.
 
 ##### Methods
 
 - format()
 - format(textStyle)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${myzoneoffset.format()}
@@ -422,7 +494,7 @@ Can compare two LocalDate objects for equality.
 - isAfter(localDate)
 - isBefore(localDate)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${localDate.isEqual(anotherlocalDate)}
@@ -440,7 +512,7 @@ Can compare two LocalDateTime objects for equality.
 - isAfter(localDateTime)
 - isBefore(localDateTime)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${localDateTime.isEqual(anotherlocalDateTime)}
@@ -458,7 +530,7 @@ Can compare two LocalTime objects for equality.
 - isAfter(localDateTime)
 - isBefore(localDateTime)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${localTime.isEqual(anotherlocalTime)}
@@ -493,7 +565,7 @@ java.time.ZonedDateTime
 - plusMonths(long)
 - plusYears(lone)
 
-##### Example
+##### Examples
 
 ```freemarker
 ${localDateTime.plusMonths(1).plus.Hours(-2).plusMinutes(5).plusSeconds(30).format()}

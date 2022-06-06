@@ -12,7 +12,12 @@ public class TemporalDialerAdapter extends AbstractAdapter<Temporal> implements 
 
     private final TemplateHashModel delegate;
 
-    public TemporalDialerAdapter(Temporal obj, BeansWrapper wrapper, TemplateHashModel delegate, ZoneStrategy strategy) {
+    public TemporalDialerAdapter(
+          Temporal obj,
+          BeansWrapper wrapper,
+          TemplateHashModel delegate,
+          ZoneStrategy strategy
+    ) {
         super(obj, wrapper, strategy);
         this.delegate = delegate;
     }

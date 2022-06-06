@@ -17,6 +17,6 @@ public class MonthDayFormatter extends AbstractFormatter<MonthDay> implements Te
 
     @Override
     public Object exec(List list) throws TemplateModelException {
-        return getObject().format(createDateTimeFormatter(list, 0, "MM:dd").withZone(getTargetZoneId(list)));
+        return getObject().format(createDateTimeFormatter(list, 0, "MM:dd"));
     }
 }

@@ -36,7 +36,6 @@ public abstract class AbstractAdapter<E>
     private final BeanModel fallback;
     private final ZoneStrategy strategy;
 
-
     public AbstractAdapter(E entity, BeansWrapper wrapper, ZoneStrategy strategy) {
         this.entity = entity;
         this.strategy = strategy;

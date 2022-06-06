@@ -19,6 +19,6 @@ public class LocalDateFormatter extends AbstractFormatter<LocalDate> implements 
     @Override
     public Object exec(List list) throws TemplateModelException {
         return getObject()
-              .format(createDateTimeFormatter(list, 0, ISO_LOCAL_DATE).withZone(getTargetZoneId(list)));
+              .format(createDateTimeFormatter(list, 0, ISO_LOCAL_DATE));
     }
 }

@@ -18,6 +18,6 @@ public class LocalTimeFormatter extends AbstractFormatter<LocalTime> implements 
 
     @Override
     public Object exec(List list) throws TemplateModelException {
-        return getObject().format(createDateTimeFormatter(list, 0, ISO_LOCAL_TIME).withZone(getTargetZoneId(list)));
+        return getObject().format(createDateTimeFormatter(list, 0, ISO_LOCAL_TIME));
     }
 }

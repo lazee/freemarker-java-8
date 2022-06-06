@@ -44,6 +44,7 @@ public abstract class AbstractFormatter<E> {
 
     /**
      * Get the <code>java.time</code> object that should be formated.
+     *
      * @return Some <code>java.time</code> object.
      */
     public E getObject() {
@@ -59,7 +60,10 @@ public abstract class AbstractFormatter<E> {
         return strategy;
     }
 
-    public ZoneId getTargetZoneId(final List argumentList) throws TemplateModelException {
-        return zoneIdLookup(argumentList, 1).orElse(getStrategy().getZoneId());
+    public ZoneId getTargetZoneId(final List argumentList, ZoneId zoneId) throws TemplateModelException {
+        if (zoneId == null) {
+            return zoneIdLookup(argumentList, 1).orElse(getStrategy().getZoneId());
+        }
+        return zoneIdLookup(argumentList, 1).orElse(getStrategy().getZoneId(zoneId));
     }
 }

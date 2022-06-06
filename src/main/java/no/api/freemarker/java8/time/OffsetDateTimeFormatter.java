@@ -18,6 +18,9 @@ public class OffsetDateTimeFormatter extends AbstractFormatter<OffsetDateTime> i
 
     @Override
     public Object exec(List list) throws TemplateModelException {
-        return getObject().format(createDateTimeFormatter(list, 0, ISO_OFFSET_DATE_TIME).withZone(getTargetZoneId(list)));
+        return getObject().format(
+              createDateTimeFormatter(list, 0, ISO_OFFSET_DATE_TIME)
+                    .withZone(getTargetZoneId(list, getObject().getOffset().normalized()))
+        );
     }
 }
