@@ -16,6 +16,6 @@ public class YearFormatter extends AbstractFormatter<Year> implements TemplateMe
 
     @Override
     public Object exec(List list) {
-        return getObject().format(createDateTimeFormatter(list, 0, "yyyy"));
+        return getObject().format(createDateTimeFormatter(list, 0, DefaultFormatters.getYearFormatter()));
     }
 }
