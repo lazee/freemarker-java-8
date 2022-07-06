@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2015 Amedia Utvikling AS.
+ * Copyright (c) 2015-2022 Jakob Vad Nielsen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,8 @@ import java.util.Locale;
 public class AbstractTextStyleLocaleFormatter<E> extends AbstractFormatter<E> {
 
     public AbstractTextStyleLocaleFormatter(E obj) {
-        super(obj);
+        super(obj, null);
     }
-
 
     public TextStyle findTextStyle(List list) {
         if (list.size() > 0) {
@@ -35,7 +34,6 @@ public class AbstractTextStyleLocaleFormatter<E> extends AbstractFormatter<E> {
         }
         return TextStyle.FULL;
     }
-
 
     public Locale findLocale(List list) {
         if (list.size() > 1) {

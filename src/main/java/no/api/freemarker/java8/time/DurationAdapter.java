@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2015 Amedia Utvikling AS.
+ * Copyright (c) 2015-2022 Jakob Vad Nielsen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,8 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.SimpleNumber;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.Duration;
 
@@ -32,12 +28,11 @@ import static no.api.freemarker.java8.time.DateTimeTools.*;
  * DurationAdapter adds basic format support for {@link Duration} too FreeMarker 2.3.23 and above.
  */
 public class DurationAdapter extends AbstractAdapter<Duration> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+      TemplateScalarModel, TemplateHashModel {
 
-    public DurationAdapter(Duration obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public DurationAdapter(Duration obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {

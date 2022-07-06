@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2015 Amedia Utvikling AS.
+ * Copyright (c) 2015-2022 Jakob Vad Nielsen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,49 +17,29 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
-import static no.api.freemarker.java8.time.DateTimeTools.*;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_FORMAT;
+import static no.api.freemarker.java8.time.DateTimeTools.METHOD_UNKNOWN_MSG;
 
 /**
  * OffsetDateTimeAdapter adds basic format support for {@link OffsetDateTime} too FreeMarker 2.3.23 and above.
  */
 public class OffsetDateTimeAdapter extends AbstractAdapter<OffsetDateTime> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+      TemplateScalarModel, TemplateHashModel {
 
-    public OffsetDateTimeAdapter(OffsetDateTime obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public OffsetDateTimeAdapter(OffsetDateTime obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {
         if (METHOD_FORMAT.equals(s)) {
-            return new OffsetDateTimeFormatter(getObject());
+            return new OffsetDateTimeFormatter(getObject(), getStrategy());
         }
         throw new TemplateModelException(METHOD_UNKNOWN_MSG + s);
-    }
-
-
-    public class OffsetDateTimeFormatter extends AbstractFormatter<OffsetDateTime> implements TemplateMethodModelEx {
-
-        public OffsetDateTimeFormatter(OffsetDateTime obj) {
-            super(obj);
-        }
-
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return getObject().format(createDateTimeFormatter(list, 0, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        }
     }
 }

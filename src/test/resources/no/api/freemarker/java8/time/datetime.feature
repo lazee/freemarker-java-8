@@ -52,6 +52,12 @@ Feature: Test the date time functionality
         And Instant object for "2007-12-03T10:15:30.00Z"
         Then expect the template to return "1196676930000"
 
+    Scenario: Test that instant is printed correctly with Freemarker 2_3_31
+        Given an freemarker environment with locale set to "no-NO"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.format('yyyy-MM-dd HH: mm : ss Z', 'Europe/Oslo')}"
+        And Instant object for "2022-06-01T16:17:45Z"
+        Then expect the template to return "2022-06-01 18: 17 : 45 +0200"
 
     ### LocalDate ###
     Scenario: Test basic LocalDate use in template
@@ -136,6 +142,21 @@ Feature: Test the date time functionality
         And a template "${obj.format('EEEE d MMMM yyyy HH:mm:ss')}"
         And LocalDateTime object for "2007-12-03T10:15:30"
         Then expect the template to return "mandag 3 desember 2007 10:15:30"
+
+    Scenario: Test LocalDateTime use with conversion to ZoneDateTime with configured zone
+        Given an freemarker environment with locale set to "no-No"
+        And timezone strategy set to 'static' with timezone "Europe/Oslo"
+        And timezone set to "Europe/Oslo"
+        And a template "${obj.toZonedDateTime().format('EEEE d MMMM yyyy HH:mm:ss Z')}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "mandag 3 desember 2007 10:15:30 +0100"
+
+    Scenario: Test LocalDateTime use with conversion to ZoneDateTime with custom zone
+        Given an freemarker environment with locale set to "no-No"
+        And timezone strategy set to 'static' with timezone "Europe/Oslo"
+        And a template "${obj.toZonedDateTime('Asia/Seoul').format('EEEE d MMMM yyyy HH:mm:ss Z', 'Asia/Seoul')}"
+        And LocalDateTime object for "2007-12-03T10:15:30"
+        Then expect the template to return "mandag 3 desember 2007 18:15:30 +0900"
 
     Scenario: Test basic LocalDateTime use in template with LONG_DATE
         Given an freemarker environment with locale set to "no-No"

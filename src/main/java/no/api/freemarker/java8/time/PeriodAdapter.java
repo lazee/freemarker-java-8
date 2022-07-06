@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2015 Amedia Utvikling AS.
+ * Copyright (c) 2015-2022 Jakob Vad Nielsen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,8 @@
 package no.api.freemarker.java8.time;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.AdapterTemplateModel;
-import freemarker.template.SimpleNumber;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
+import freemarker.template.*;
+import no.api.freemarker.java8.zone.ZoneStrategy;
 
 import java.time.Period;
 
@@ -33,13 +29,11 @@ import static no.api.freemarker.java8.time.DateTimeTools.*;
  * templates.
  */
 public class PeriodAdapter extends AbstractAdapter<Period> implements AdapterTemplateModel,
-        TemplateScalarModel, TemplateHashModel {
+      TemplateScalarModel, TemplateHashModel {
 
-
-    public PeriodAdapter(Period obj, BeansWrapper wrapper) {
-        super(obj, wrapper);
+    public PeriodAdapter(Period obj, BeansWrapper wrapper, ZoneStrategy strategy) {
+        super(obj, wrapper, strategy);
     }
-
 
     @Override
     public TemplateModel getForType(String s) throws TemplateModelException {
