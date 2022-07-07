@@ -44,6 +44,7 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
 
     /**
      * @deprecated Use {@link Java8ObjectWrapper#setZoneStrategy(ZoneStrategy)} instead.
+     * @param strategy The strategy to be used.
      */
     @Deprecated
     public void setZonedDateTimeStrategy(ZonedDateTimeStrategy strategy) {
