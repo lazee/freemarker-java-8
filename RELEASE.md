@@ -9,7 +9,7 @@ Release package:
 * mvn release:perform
 * Go to https://oss.sonatype.org/ and log in.
 * Click on staging repositories and find your release.
-* Click on the release and hit the close button, then the release button.
+* Click on the release and hit the close button, then the release button (when ready. Might take a while).
 
 The release will be available in the Central Repo within a day.
 
