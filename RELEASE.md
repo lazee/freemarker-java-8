@@ -16,3 +16,8 @@ The release will be available in the Central Repo within a day.
 More info:
 
 http://central.sonatype.org/pages/releasing-the-deployment.html
+
+## About GPG Signing
+
+* You must have gpg installed on the PC where you deploy. On mac `brew install gpg`
+* Make sure to generate a signing key `gpg --gen-key`
