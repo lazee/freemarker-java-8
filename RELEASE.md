@@ -21,3 +21,7 @@ http://central.sonatype.org/pages/releasing-the-deployment.html
 
 * You must have gpg installed on the PC where you deploy. On mac `brew install gpg`
 * Make sure to generate a signing key `gpg --gen-key`
+
+Remember to upload your new gpg key to a key server:
+
+https://keys.openpgp.org/about/usage
