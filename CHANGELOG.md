@@ -1,5 +1,5 @@
 # Change Log
-## [freemarker-java8-2.1.0](https://github.com/lazee/freemarker-java-8/tree/freemarker-java8-2.1.0) (2022-06-08)
+## [freemarker-java8-2.1.0](https://github.com/lazee/freemarker-java-8/tree/freemarker-java8-2.1.0) (2022-07-07)
 
 * Upgraded dependencies for FreeMarker and Cucumber tests
 * Deprecated old ZonedDateTimeStrategy interface and implementations. Introduced ZoneStrategy interface and implementations instead. New interface supports more than just ZonedDateTime.
