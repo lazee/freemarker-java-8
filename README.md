@@ -2,7 +2,7 @@
 
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
-FJ8 (freemarker-java-8) is a Java library that adds support for the `java.time` api FreeMarker. It is easy to add to your codebase, and very easy to use.
+FJ8 (freemarker-java-8) is a Java library that adds support for the `java.time` api to FreeMarker. It is easy to add to your codebase, and very easy to use.
 
 Basically this library allows you to format and print values from `java.time` classes within FreeMarker templates.
 As a bonus you also get some nice comparison and conversion methods.
