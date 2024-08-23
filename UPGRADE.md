@@ -24,7 +24,7 @@ Given that we were forced to change the package name, and therefore also a new m
 * `StaticZoneDateTimeStrategy` is removed. Use `StaticZoneStrategy` instead.
 * `KeepingZonedDateTimeStrategy` is removed. Use `KeepingZoneStrategy` instead.
 * `EnvironmentZonedDateTimeStrategy` is removed. Use `EnvironmentZoneStrategy` instead.
-* 
+
 ## Upgrade from 2.0 to 2.1
 
 Replace old deprecated `ZonedDateTimeStrategy` instances with the equivalent `ZoneStrategy` objects in the same package.
