@@ -1,15 +1,19 @@
-# java.time support for FreeMarker
+# java.time support in FreeMarker
 
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
-FJ8 (freemarker-java-8) is a Java library that adds support for the `java.time` api to FreeMarker. It is easy to add to your codebase, and very easy to use.
+**freemarker-java-8** is a Java library that extends FreeMarker by adding support for the `java.time` API.
+It’s straightforward to integrate into your codebase and easy to use.
 
-Basically this library allows you to format and print values from `java.time` classes within FreeMarker templates.
-As a bonus you also get some nice comparison and conversion methods.
+While the library is rarely updated, it’s still maintained and supported. If you have any questions or issues,
+please don’t hesitate to open an issue. We also test on new versions and distributions of Java, regularly.
 
-It is not a perfect implementation as FreeMarker
-doesn’t support custom built-ins. Hopefully future versions of FreeMarker will add
-native support, but it doesn't look promising (<http://freemarker.org/contribute.html>).
+This library enables you to format and display values from `java.time` classes directly within FreeMarker 
+templates. Additionally, it offers useful comparison and conversion methods to enhance your template logic.
+
+While it provides valuable functionality, it isn't a perfect solution due to FreeMarker's lack of support 
+for custom built-ins. Hopefully, future versions of FreeMarker will include native support, but according to 
+their [contribution guidelines](http://freemarker.org/contribute.html), this seems unlikely.
 
 ## Table of content
 
@@ -42,7 +46,7 @@ native support, but it doesn't look promising (<http://freemarker.org/contribute
 
 ## Installation
 
-You need Java 8 or higher. Tested on Freemarker 2.3.31, and should at least work
+You need Java 8 or higher. Tested on Freemarker 2.3.33, and should at least work
 fine for all 2.3.x versions.
 
 ### Maven
@@ -51,14 +55,14 @@ fine for all 2.3.x versions.
 <dependency>
     <groupId>no.api.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```gradle
-implementation 'no.api.freemarker:freemarker-java8:2.1.0'
+implementation 'no.api.freemarker:freemarker-java8:2.2.0'
 ```
 
 ## Setup
@@ -69,7 +73,7 @@ the default object wrapper with the FJ8 implementation in your FreeMarker Config
 
 ```java
 this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
-this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_31));
+this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_33));
 ```
 
 ### Spring setup
@@ -103,7 +107,7 @@ public class FreemarkerConfig implements BeanPostProcessor {
 You can also configure it via Spring boot properties like this:
 
 ```java
-spring.freemarker.settings.object_wrapper=no.api.freemarker.java8.Java8ObjectWrapper(Configuration.VERSION_2_3_31)
+spring.freemarker.settings.object_wrapper=no.api.freemarker.java8.Java8ObjectWrapper(Configuration.VERSION_2_3_33)
 ```
 
 This takes advantage of Freemarker Configuration [object builder expressions](https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#fm_obe)
@@ -172,8 +176,8 @@ to be converted into your local timezone.
 ##### Examples
 
 ```java
-this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_31, new KeepingZoneStrategy());
-this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_31, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_33, new KeepingZoneStrategy());
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_33, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
 ```
 
 #### :ballot_box_with_check: java.time.Clock
@@ -431,9 +435,9 @@ ${myzoneddatetime.format('yyyy-MM-dd HH mm s Z', 'Asia/Seoul')}
 Example:
 
 ```java
-new Java8ObjectWrapper(VERSION_2_3_31, new EnvironmentZoneStrategy());
+new Java8ObjectWrapper(VERSION_2_3_33, new EnvironmentZoneStrategy());
 // or
-new Java8ObjectWrapper(VERSION_2_3_31, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
+new Java8ObjectWrapper(VERSION_2_3_33, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
 ```
 
 #### :ballot_box_with_check: java.time.ZonedId

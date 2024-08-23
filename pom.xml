@@ -22,10 +22,10 @@
     <packaging>jar</packaging>
     <groupId>no.api.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>2.1.1-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <name>freemarker-java8</name>
     <description>This is a tiny Java library that adds basic format support for the new Java 8 date/time api in FreeMarker.</description>
-    <url>http://github.com/lazee/freemarker-java-8</url>
+    <url>https://github.com/lazee/freemarker-java-8</url>
 
     <developers>
         <developer>
@@ -37,7 +37,7 @@
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
 
@@ -52,9 +52,9 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <freemarker.version>2.3.31</freemarker.version>
-        <cucumber.version>7.3.4</cucumber.version>
-        <junit.version>4.13.2</junit.version>
+        <freemarker.version>2.3.33</freemarker.version>
+        <cucumber.version>7.18.1</cucumber.version>
+        <junit.version>5.11.0</junit.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -65,7 +65,7 @@
     </issueManagement>
 
     <prerequisites>
-        <maven>3.0.4</maven>
+        <maven>3.9.8</maven>
     </prerequisites>
 
     <dependencies>
@@ -93,8 +93,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -108,7 +108,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>3.2.5</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -136,12 +136,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>3.2.5</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
+                    <version>3.1.1</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <useReleaseProfile>true</useReleaseProfile>
@@ -152,7 +152,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.3.1</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
@@ -165,7 +165,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.4</version>
+                    <version>3.8.0</version>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>

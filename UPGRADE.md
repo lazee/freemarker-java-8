@@ -1,5 +1,11 @@
 # Upgrade guide
 
+## Upgrade from 2.1 to 2.2
+
+Internally, we have upgraded from FreeMarker 2.3.31 to 2.3.33, and you should too (optional however).
+
+Replace any occurrences of `VERSION_2_3_31` (or whatever version you are currently using), with `VERSION_2_3_33`. 
+
 ## Upgrade from 2.0 to 2.1
 
 Replace old deprecated `ZonedDateTimeStrategy` instances with the equivalent `ZoneStrategy` objects in the same package.
