@@ -24,13 +24,45 @@
     <artifactId>freemarker-java8</artifactId>
     <version>2.2.0-SNAPSHOT</version>
     <name>freemarker-java8</name>
-    <description>This is a tiny Java library that adds basic format support for the new Java 8 date/time api in FreeMarker.</description>
+    <description>A library that extends FreeMarker with support for the Java Date/Time API</description>
     <url>https://github.com/lazee/freemarker-java-8</url>
 
     <developers>
         <developer>
             <name>Jakob Vad Nielsen</name>
-            <email>jakobvadnielsen@gmail.-com</email>
+            <email>jakobvadnielsen@gmail.com</email>
+            <roles>
+                <role>Lead developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Michael Krog</name>
+            <url>https://github.com/michaelkrog</url>
+            <roles>
+                <role>Contributor</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Tobias Schneider</name>
+            <url>https://github.com/derTobsch</url>
+            <roles>
+                <role>Contributor</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Tifoha</name>
+            <url>https://github.com/tifoha</url>
+            <roles>
+                <role>Contributor</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Maarten Mulders</name>
+            <url>https://github.com/mthmulders</url>
+            <roles>
+                <role>Contributor</role>
+            </roles>
         </developer>
     </developers>
 
