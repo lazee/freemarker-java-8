@@ -3,7 +3,7 @@
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
 > [!IMPORTANT]  
-> The group id has changed from `no.api.freemarker` to `no.gemino.freemarker`. Please update your dependencies,
+> The group id has changed from `no.api.freemarker` to `no.gemino.freemarker` in version 3.0.0. Please update your dependencies,
 > and read the [upgrade guide](UPGRADE.md) for more information.**
 
 **freemarker-java-8** is a Java library that extends FreeMarker by adding support for the `java.time` API.
