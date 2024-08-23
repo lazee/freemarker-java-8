@@ -20,9 +20,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>jar</packaging>
-    <groupId>no.api.freemarker</groupId>
+    <groupId>no.gemino.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>2.2.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>freemarker-java8</name>
     <description>A library that extends FreeMarker with support for the Java Date/Time API</description>
     <url>https://github.com/lazee/freemarker-java-8</url>

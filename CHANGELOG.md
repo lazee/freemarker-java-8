@@ -1,4 +1,10 @@
 # Change Log
+## [freemarker-java8-3.0.0](https://github.com/lazee/freemarker-java-8/tree/freemarker-java8-3.0.0) (2024-08-24)
+
+* Changed package group id to `no.gemino.freemarker` as the old `no.api.freemarker` no longer can be used without domain verification at Sonatype.
+* Upgraded FreeMarker to 2.3.33
+* Removed deprecated classes and methods
+
 ## [freemarker-java8-2.1.0](https://github.com/lazee/freemarker-java-8/tree/freemarker-java8-2.1.0) (2022-07-07)
 
 * Upgraded dependencies for FreeMarker and Cucumber tests

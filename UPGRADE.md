@@ -1,11 +1,30 @@
 # Upgrade guide
 
-## Upgrade from 2.1 to 2.2
+## Upgrade from 2.1 to 3.0
 
-Internally, we have upgraded from FreeMarker 2.3.31 to 2.3.33, and you should too (optional however).
+### Changed package name
+Sonatype are now requiring domain verification for the old group id `no.api.freemarker`. 
+As this is no longer under my control, I (Jakob) have decided to move the project to a new group id, for a domain that I own.
+
+That means that you have to search and replace all occurrences of `no.api.freemarker` with `no.gemino.freemarker` in your project.
+And also bump the version of freemarker-java-8 to 3.0.0. Sorry for the inconvenience.
+
+### Upgraded FreeMarker
+
+Internally, we have upgraded from FreeMarker 2.3.31 to 2.3.33, and you should consider doing so too (optional however).
 
 Replace any occurrences of `VERSION_2_3_31` (or whatever version you are currently using), with `VERSION_2_3_33`. 
 
+### Removed deprecated classes and methods
+
+Given that we were forced to change the package name, and therefore also a new major version, we have taken the opportunity to remove some deprecated classes and methods.
+
+* `ZonedDateTimeStrategy` interface and implementations are removed. Use `ZoneStrategy` instead.
+* `SystemZoneDateTimeStrategy` is removed. Use `SystemZoneStrategy` instead.
+* `StaticZoneDateTimeStrategy` is removed. Use `StaticZoneStrategy` instead.
+* `KeepingZonedDateTimeStrategy` is removed. Use `KeepingZoneStrategy` instead.
+* `EnvironmentZonedDateTimeStrategy` is removed. Use `EnvironmentZoneStrategy` instead.
+* 
 ## Upgrade from 2.0 to 2.1
 
 Replace old deprecated `ZonedDateTimeStrategy` instances with the equivalent `ZoneStrategy` objects in the same package.

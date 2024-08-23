@@ -2,6 +2,10 @@
 
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
+> [!IMPORTANT]  
+> The group id has changed from `no.api.freemarker` to `no.gemino.freemarker`. Please update your dependencies,
+> and read the [upgrade guide](UPGRADE.md) for more information.**
+
 **freemarker-java-8** is a Java library that extends FreeMarker by adding support for the `java.time` API.
 It’s straightforward to integrate into your codebase and easy to use.
 
@@ -53,16 +57,16 @@ fine for all 2.3.x versions.
 
 ```xml
 <dependency>
-    <groupId>no.api.freemarker</groupId>
+    <groupId>no.gemino.freemarker</groupId>
     <artifactId>freemarker-java8</artifactId>
-    <version>2.2.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```gradle
-implementation 'no.api.freemarker:freemarker-java8:2.2.0'
+implementation 'no.gemino.freemarker:freemarker-java8:3.0.0'
 ```
 
 ## Setup
@@ -83,7 +87,7 @@ This is how you can add FJ8 to your FreeMarker configuration in Spring / Spring 
 ```java
 package com.example.demo;
 
-import no.api.freemarker.java8.Java8ObjectWrapper;
+import no.gemino.freemarker.java8.Java8ObjectWrapper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Configuration;
@@ -107,7 +111,7 @@ public class FreemarkerConfig implements BeanPostProcessor {
 You can also configure it via Spring boot properties like this:
 
 ```java
-spring.freemarker.settings.object_wrapper=no.api.freemarker.java8.Java8ObjectWrapper(Configuration.VERSION_2_3_33)
+spring.freemarker.settings.object_wrapper=no.gemino.freemarker.java8.Java8ObjectWrapper(Configuration.VERSION_2_3_33)
 ```
 
 This takes advantage of Freemarker Configuration [object builder expressions](https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#fm_obe)
@@ -153,7 +157,7 @@ When no pattern are given, each java.time class has a default pattern. This defa
 `DefaultFormatters` class, where each class has its own setter method:
 
 ```java
-no.api.freemarker.java8.time.DefaultFormatters.setClockFormatter(DateTimeFormatter.ofPattern('yyyy MM dd HH:mm:ss'))
+no.gemino.freemarker.java8.time.DefaultFormatters.setClockFormatter(DateTimeFormatter.ofPattern('yyyy MM dd HH:mm:ss'))
 ```
 
 #### About zone
