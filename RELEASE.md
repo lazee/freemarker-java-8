@@ -25,3 +25,8 @@ http://central.sonatype.org/pages/releasing-the-deployment.html
 Remember to upload your new gpg key to a key server:
 
 https://keys.openpgp.org/about/usage
+
+For example: 
+
+* gpg --list-secret-keys --keyid-format LONG
+* gpg --keyserver hkp://keyserver.ubuntu.com --send-keys <name of your key>
