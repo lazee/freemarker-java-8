@@ -2,6 +2,8 @@
 
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
+**NOTICE : Version 3.0.0 has been release today (24th of August, 2024). It might take up to 24 hours before it is available in Maven Repository.**
+
 **freemarker-java-8** is a Java library that extends FreeMarker by adding support for the `java.time` API.
 It’s straightforward to integrate into your codebase and easy to use.
 
