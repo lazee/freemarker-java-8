@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2022 Jakob Vad Nielsen
+ * Copyright (c) 2015-2024 Jakob Vad Nielsen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import freemarker.template.*;
 import no.api.freemarker.java8.time.*;
 import no.api.freemarker.java8.zone.KeepingZoneStrategy;
 import no.api.freemarker.java8.zone.ZoneStrategy;
-import no.api.freemarker.java8.zone.ZonedDateTimeStrategy;
 
 import java.time.*;
 import java.time.temporal.Temporal;
@@ -39,15 +38,6 @@ public class Java8ObjectWrapper extends DefaultObjectWrapper {
 
     public Java8ObjectWrapper(Version incompatibleImprovements, ZoneStrategy strategy) {
         super(incompatibleImprovements);
-        this.strategy = strategy;
-    }
-
-    /**
-     * @deprecated Use {@link Java8ObjectWrapper#setZoneStrategy(ZoneStrategy)} instead.
-     * @param strategy The strategy to be used.
-     */
-    @Deprecated
-    public void setZonedDateTimeStrategy(ZonedDateTimeStrategy strategy) {
         this.strategy = strategy;
     }
 
