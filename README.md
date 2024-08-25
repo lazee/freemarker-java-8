@@ -2,7 +2,7 @@
 
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
-**freemarker-java-8** is a Java library that extends FreeMarker by adding support for the `java.time` API.
+**freemarker-java8** is a Java library that extends FreeMarker by adding support for the `java.time` API.
 It’s straightforward to integrate into your codebase and easy to use.
 
 Despite the name, the library is compatible with Java 8 and all newer versions.
@@ -69,9 +69,9 @@ implementation 'no.api.freemarker:freemarker-java8:3.0.0'
 
 ## Setup
 
-FJ8 extends the [DefaultObjectWrapper](https://freemarker.apache.org/docs/api/freemarker/template/DefaultObjectWrapper.html) 
+*freemarker-java8* extends the [DefaultObjectWrapper](https://freemarker.apache.org/docs/api/freemarker/template/DefaultObjectWrapper.html) 
 to add support for the java.time classes. All you need to do is to replace
-the default object wrapper with the FJ8 implementation in your FreeMarker Configuration object.
+the default object wrapper with the *freemarker-java8* implementation in your FreeMarker Configuration object.
 
 ```java
 this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
@@ -80,7 +80,7 @@ this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION
 
 ### Spring setup
 
-This is how you can add FJ8 to your FreeMarker configuration in Spring / Spring Boot.
+This is how you can add *freemarker-java8* to your FreeMarker configuration in Spring / Spring Boot.
 
 ```java
 package com.example.demo;
