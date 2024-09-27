@@ -98,6 +98,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <freemarker.version>2.3.33</freemarker.version>
+        <freemarker.java8.module.name>freemarker.java8</freemarker.java8.module.name>
         <cucumber.version>7.18.1</cucumber.version>
         <junit.version>5.11.0</junit.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -219,6 +220,18 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Automatic-Module-Name>${freemarker.java8.module.name}</Automatic-Module-Name>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
