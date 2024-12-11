@@ -5,6 +5,7 @@
 - Tobias Schneider - https://github.com/derTobsch
 - Tifoha - https://github.com/tifoha
 - Maarten Mulders - https://github.com/mthmulders
+- Vladyslav Baidak - https://github.com/vbaidak
 
 ## Documentation
 
