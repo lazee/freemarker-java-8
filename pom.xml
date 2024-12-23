@@ -97,7 +97,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <freemarker.version>2.3.33</freemarker.version>
+        <freemarker.version>2.3.34</freemarker.version>
         <freemarker.java8.module.name>freemarker.java8</freemarker.java8.module.name>
         <cucumber.version>7.20.1</cucumber.version>
         <junit.version>5.11.3</junit.version>
