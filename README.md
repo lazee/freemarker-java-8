@@ -48,7 +48,7 @@ their [contribution guidelines](http://freemarker.org/contribute.html), this see
 
 ## Installation
 
-You need Java 8 or higher. Tested on Freemarker 2.3.33, and should at least work
+You need Java 8 or higher. Tested on Freemarker 2.3.34, and should at least work
 fine for all 2.3.x versions.
 
 ### Maven
@@ -75,7 +75,7 @@ the default object wrapper with the *freemarker-java8* implementation in your Fr
 
 ```java
 this.configuration = new Configuration(); // Or get the configuration from your framework like DropWizard or Spring Boot.
-this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_33));
+this.configuration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_34));
 ```
 
 ### Spring setup
@@ -109,7 +109,7 @@ public class FreemarkerConfig implements BeanPostProcessor {
 You can also configure it via Spring boot properties like this:
 
 ```java
-spring.freemarker.settings.object_wrapper=no.api.freemarker.java8.Java8ObjectWrapper(Configuration.VERSION_2_3_33)
+spring.freemarker.settings.object_wrapper=no.api.freemarker.java8.Java8ObjectWrapper(Configuration.VERSION_2_3_34)
 ```
 
 This takes advantage of Freemarker Configuration [object builder expressions](https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#fm_obe)
@@ -178,8 +178,8 @@ to be converted into your local timezone.
 ##### Examples
 
 ```java
-this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_33, new KeepingZoneStrategy());
-this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_33, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_34, new KeepingZoneStrategy());
+this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_34, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
 ```
 
 #### :ballot_box_with_check: java.time.Clock
@@ -437,9 +437,9 @@ ${myzoneddatetime.format('yyyy-MM-dd HH mm s Z', 'Asia/Seoul')}
 Example:
 
 ```java
-new Java8ObjectWrapper(VERSION_2_3_33, new EnvironmentZoneStrategy());
+new Java8ObjectWrapper(VERSION_2_3_34, new EnvironmentZoneStrategy());
 // or
-new Java8ObjectWrapper(VERSION_2_3_33, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
+new Java8ObjectWrapper(VERSION_2_3_34, new StaticZoneStrategy(ZoneId.of("Europe/Oslo")));
 ```
 
 #### :ballot_box_with_check: java.time.ZonedId
