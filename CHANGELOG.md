@@ -1,5 +1,9 @@
 # Change Log
 
+## [freemarker-java8-3.0.2](https://github.com/lazee/freemarker-java-8/tree/freemarker-java8-3.0.2) (2025-01-02)
+
+* Upgraded FreeMarker to 2.3.34
+
 ## [freemarker-java8-3.0.1](https://github.com/lazee/freemarker-java-8/tree/freemarker-java8-3.0.1) (2024-12-11)
 
 * Add Automatic-Module-Name to JAR Manifest [\#43](https://github.com/lazee/freemarker-java-8/pull/43)

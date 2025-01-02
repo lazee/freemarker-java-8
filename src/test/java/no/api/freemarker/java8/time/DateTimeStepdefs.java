@@ -37,7 +37,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import static freemarker.template.Configuration.VERSION_2_3_33;
+import static freemarker.template.Configuration.VERSION_2_3_34;
 
 public class DateTimeStepdefs {
 
@@ -52,8 +52,8 @@ public class DateTimeStepdefs {
     private Java8ObjectWrapper objectWrapper;
 
     public DateTimeStepdefs() {
-        this.configuration = new Configuration(VERSION_2_3_33);
-        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_33, new KeepingZoneStrategy());
+        this.configuration = new Configuration(VERSION_2_3_34);
+        this.objectWrapper = new Java8ObjectWrapper(VERSION_2_3_34, new KeepingZoneStrategy());
         this.configuration.setObjectWrapper(objectWrapper);
     }
 
@@ -63,7 +63,7 @@ public class DateTimeStepdefs {
     }
 
     private void setStrategy(ZoneStrategy strategy) {
-        setStrategy(VERSION_2_3_33, strategy);
+        setStrategy(VERSION_2_3_34, strategy);
     }
 
     private void setStrategy(Version freemarkerVersion, ZoneStrategy strategy) {
@@ -116,9 +116,9 @@ public class DateTimeStepdefs {
         setStrategy(new StaticZoneStrategy(ZoneId.of(arg1)));
     }
 
-    @Given("^timezone strategy set to 'static' with freemarker version 2_3_33$")
+    @Given("^timezone strategy set to 'static' with freemarker version 2_3_34$")
     public void timezone_strategy_set_to_static_with_version(final String arg1) {
-        setStrategy(Configuration.VERSION_2_3_33, new StaticZoneStrategy(ZoneId.of(arg1)));
+        setStrategy(Configuration.VERSION_2_3_34, new StaticZoneStrategy(ZoneId.of(arg1)));
     }
 
     @Given("^system timezone set to \"([^\"]*)\"$")
