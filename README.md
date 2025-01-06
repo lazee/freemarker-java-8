@@ -1,5 +1,7 @@
 # Extending FreeMarker with Java Date and Time API Support
 
+** NOTE: For some reason the lateste 3.0.2 release is not available in the Maven repositories. Not sure why. I will release 3.0.3 to see if that goes through.**
+
 ![build status](https://github.com/lazee/freemarker-java-8/workflows/Build%20project/badge.svg)
 
 **freemarker-java8** is a Java library that extends FreeMarker by adding support for the `java.time` API.
