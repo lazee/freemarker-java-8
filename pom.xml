@@ -100,7 +100,7 @@
         <freemarker.version>2.3.34</freemarker.version>
         <freemarker.java8.module.name>freemarker.java8</freemarker.java8.module.name>
         <cucumber.version>7.21.1</cucumber.version>
-        <junit.version>5.11.4</junit.version>
+        <junit.version>5.12.1</junit.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
