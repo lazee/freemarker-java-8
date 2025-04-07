@@ -99,7 +99,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <freemarker.version>2.3.34</freemarker.version>
         <freemarker.java8.module.name>freemarker.java8</freemarker.java8.module.name>
-        <cucumber.version>7.21.1</cucumber.version>
+        <cucumber.version>7.22.0</cucumber.version>
         <junit.version>5.11.4</junit.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
